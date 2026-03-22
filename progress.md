@@ -1,0 +1,113 @@
+Original prompt: Build a production-quality 4-player trivia party game as a polished modern web app in React, Tailwind CSS, and Framer Motion. The app must be fully client-side, persist active sessions in LocalStorage, support exactly 4 players with names and uploaded photos, implement deterministic turn rotation and steal rules, follow the provided Trivia Game Assets design direction, and be branded as "The Brown Family Trivia Super Game."
+
+2026-03-21
+- Chosen implementation target: in-place rewrite of the existing `vocabvault` Vite workspace.
+- Asset references inspected: `~/Desktop/Trivia game assets /DESIGN.md`, `code.html`, and `screen.png`.
+- Parallel work split:
+  - Core engine/session modules under `src/game` and `src/hooks`
+  - UI/components/screens under `src/components`, `src/screens`, `src/index.css`
+  - Main integration, config updates, cleanup, build, and QA in primary branch
+- Key architectural decisions:
+  - Single phase-driven app, no router
+  - Reducer-driven game engine with persisted deterministic state
+  - Round plan precomputed at new game start to prevent repeats and preserve refresh stability
+  - Web Audio placeholder sound architecture with mute persistence
+- Brown family customization:
+  - Added preset player identities and portraits for Edwin, Dayanna, Ethan, and Valentino
+  - Added Enzo as a non-player mascot in the top app chrome
+  - Bundled the family portraits into `public/family/` so the build is self-contained
+- Question bank integration:
+  - Vendored the local `Trivia Questions Bank` JSON into `src/game/trivia_bank_300.json`
+  - Switched the app from the temporary sample questions to the 300-question bank
+  - Preserved the same typed schema and now surface question explanations on answer reveal
+- Validation results:
+  - `npm --workspaces=false test` passed
+  - `npm --workspaces=false run build` passed
+  - Browser smoke script `scripts/qa_smoke.mjs` passed against the local app on `127.0.0.1:3002`
+  - Smoke run covered welcome, setup, a forced steal sequence, all three rounds, and the winner screen
+  - Smoke run was repeated after the 300-question bank was integrated
+
+2026-03-21 (arcade UI revision)
+- New reference pack inspected from `~/Desktop/NEW UI `:
+  - `active_question_screen`
+  - `answer_reveal_screen`
+  - `final_podium_screen`
+- Design direction updated to match the new UI reference more closely:
+  - Simpler arcade layout with a fixed left score rail
+  - Big top timer track
+  - Oversized question bubble and colorful answer pills
+  - Cleaner podium with block placements and lighter confetti
+- UX/system changes implemented:
+  - Original timer increased to `40s`
+  - Steal timer increased to `30s`
+  - Added `turnStart` and `answerSelect` sound events
+  - Added a persistent header reset button for active sessions
+  - Enlarged Enzo in the top chrome and removed the visible text label
+- QA harness updates:
+  - `scripts/qa_smoke.mjs` now accepts `QA_BASE_URL`
+  - Removed the stale text assertion for `Enzo Brown`
+  - Added a reset-button assertion on setup
+- Validation results after redesign:
+  - `npm --workspaces=false test` passed
+  - `npm --workspaces=false run build` passed
+  - `QA_BASE_URL='http://127.0.0.1:3003' npm --workspaces=false exec -- node ./scripts/qa_smoke.mjs` passed
+  - Reviewed updated screenshots in `tmp-qa/` for setup, gameplay, and winner flows
+
+2026-03-21 (question randomization fix)
+- Root causes confirmed:
+  - The imported 300-question bank always placed the correct answer at index `0`
+  - The bank contains only `5` questions tagged `hard`, which made final rounds feel repetitive across sessions
+- Question engine updates:
+  - `QuestionPlanItem` now persists a per-session `choiceOrder`
+  - Answer order is shuffled once when the plan is built, then restored deterministically from LocalStorage
+  - Session seeding now uses `crypto.getRandomValues` when available instead of relying on `Date.now()` alone
+  - Final round now guarantees `2` hard questions and fills remaining slots from unused medium/hard questions to improve variety
+- Persistence update:
+  - Session storage bumped from `session:v1` to `session:v2` to invalidate old plans that did not store randomized answer order
+- Validation results after randomization fix:
+  - `npm --workspaces=false test` passed
+  - `npm --workspaces=false run build` passed
+  - `QA_BASE_URL='http://127.0.0.1:3003' npm --workspaces=false exec -- node ./scripts/qa_smoke.mjs` passed
+  - Manual browser check confirmed fresh sessions now produce different question IDs
+  - Direct session inspection confirmed correct answers no longer always land in slot `1`
+
+2026-03-21 (desktop distractor workbook)
+- Inspected `~/Desktop/NEW  with distractors Trivia Questions and Answers.xlsx`:
+  - `300` rows
+  - clean authored schema with `Correct Answer` plus `Wrong Answer 1-3`
+  - no blank cells, no duplicate questions, and no duplicate choices within a row
+- Updated `scripts/merge_question_bank.py` so the importer now:
+  - detects authored distractor columns automatically
+  - normalizes Excel numeric cells like `1989.0` into clean strings
+  - updates matching questions in place instead of preserving placeholder distractors
+- Re-imported the workbook into `src/game/trivia_bank_300.json`:
+  - bank size stayed `587`
+  - `300` existing questions were refreshed with the authored distractors
+  - `0` new questions were added because the workbook questions were already present
+- Validation results after the bank refresh:
+  - JSON integrity check passed (`587` questions, `0` invalid entries, `0` float-style answers)
+  - `npm --workspaces=false test` passed
+  - `npm --workspaces=false run build` passed
+
+2026-03-21 (variable player counts and clearer outcome audio)
+- Reworked the game flow from fixed four-player sessions to selectable `1-4` player sessions:
+  - added `playerCount` to reducer state and persistence
+  - setup now exposes a count selector and only validates/renders the active seats
+  - gameplay, steals, rankings, winner snapshot, and round staging now operate on the selected player subset only
+- Session persistence bumped from `session:v3`:
+  - older fixed-seat sessions are invalidated automatically
+  - active player count now restores with the session
+- UI copy updates:
+  - welcome and setup screens now describe the game as `1 to 4 players`
+  - winner standings heading now scales to the actual player count
+  - podium layout now adapts cleanly for one- and two-player finishes
+- Audio cue tuning:
+  - `correctAnswer` now plays a brighter layered fanfare
+  - `wrongAnswer` now plays a clearer descending negative sting
+  - synth engine now supports per-cue note spacing so celebratory and negative cues feel more distinct
+- Validation results after the flexible-seat update:
+  - `npm --workspaces=false test` passed (`10` tests)
+  - `npm --workspaces=false run build` passed
+  - `QA_BASE_URL='http://127.0.0.1:3003' npm --workspaces=false exec -- node ./scripts/qa_smoke.mjs` passed
+  - additional Playwright browser check passed for a `2`-player setup and gameplay flow
+  - visually reviewed `tmp-qa/06-two-player-setup.png` and `tmp-qa/07-two-player-gameplay.png`
