@@ -213,6 +213,48 @@ export function createSoundController(): SoundController {
         });
       };
 
+      const playStealActivation = () => {
+        const alertNotes = [440, 554, 698];
+
+        alertNotes.forEach((frequency, index) => {
+          const noteStart = startAt + index * 0.08;
+          const noteEnd = noteStart + 0.17;
+          scheduleTone({
+            frequency,
+            frequencyEnd: frequency * 1.09,
+            type: 'sawtooth',
+            noteStart,
+            noteEnd,
+            volume: peakVolume * 0.82,
+          });
+          scheduleTone({
+            frequency: frequency / 2,
+            type: 'square',
+            noteStart,
+            noteEnd,
+            volume: peakVolume * 0.32,
+          });
+        });
+
+        const handoffStart = startAt + alertNotes.length * 0.082;
+        const handoffEnd = handoffStart + 0.32;
+        scheduleChord({
+          frequencies: [784, 988, 1318],
+          type: 'triangle',
+          noteStart: handoffStart,
+          noteEnd: handoffEnd,
+          volume: peakVolume * 0.7,
+        });
+        scheduleTone({
+          frequency: 196,
+          frequencyEnd: 220,
+          type: 'square',
+          noteStart: handoffStart,
+          noteEnd: handoffEnd,
+          volume: peakVolume * 0.22,
+        });
+      };
+
       if (event === 'correctAnswer') {
         playCorrectFanfare();
         return;
@@ -225,6 +267,11 @@ export function createSoundController(): SoundController {
 
       if (event === 'winnerCelebration') {
         playWinnerCelebration();
+        return;
+      }
+
+      if (event === 'stealActivation') {
+        playStealActivation();
         return;
       }
 

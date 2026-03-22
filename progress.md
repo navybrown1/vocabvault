@@ -179,3 +179,12 @@ Original prompt: Build a production-quality 4-player trivia party game as a poli
   - `npm --workspaces=false run build` passed
   - `QA_BASE_URL='http://127.0.0.1:3003' npm --workspaces=false exec -- node ./scripts/qa_smoke.mjs` passed
   - visually reviewed `tmp-qa/05-winner.png` to confirm the lower section no longer repeats the winner
+
+2026-03-22 (distinct steal handoff sound)
+- Made the steal cue stand on its own instead of stacking on top of the normal turn-start sound:
+  - original turns still play the regular `turnStart` cue
+  - steals now play only `stealActivation`
+- Retuned the steal sound into a sharper alert-plus-handoff stinger so it is easier to recognize when the turn passes after a miss or timeout.
+- Validation results after the steal-audio update:
+  - `npm --workspaces=false test` passed
+  - `npm --workspaces=false run build` passed

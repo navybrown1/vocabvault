@@ -104,9 +104,10 @@ export function useGameSession() {
     }
 
     if (currentQuestion.turnToken !== lastTurnTokenRef.current) {
-      soundControllerRef.current.play('turnStart', state.soundEnabled);
       if (currentQuestion.turnKind === 'steal' && currentQuestion.failedPlayerIds.length > 0) {
         soundControllerRef.current.play('stealActivation', state.soundEnabled);
+      } else {
+        soundControllerRef.current.play('turnStart', state.soundEnabled);
       }
       lastTurnTokenRef.current = currentQuestion.turnToken;
     }
