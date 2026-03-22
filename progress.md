@@ -111,3 +111,22 @@ Original prompt: Build a production-quality 4-player trivia party game as a poli
   - `QA_BASE_URL='http://127.0.0.1:3003' npm --workspaces=false exec -- node ./scripts/qa_smoke.mjs` passed
   - additional Playwright browser check passed for a `2`-player setup and gameplay flow
   - visually reviewed `tmp-qa/06-two-player-setup.png` and `tmp-qa/07-two-player-gameplay.png`
+
+2026-03-22 (third question bank merge)
+- Inspected `~/Desktop/third questions bank .json`:
+  - `300` questions
+  - full JSON schema with `choices`, `correctAnswer`, and `explanation`
+  - no bad rows, duplicate choices, or missing correct answers
+- Compared against the live `587`-question bank:
+  - `16` overlaps by normalized question text
+  - `284` new unique questions
+- Updated `scripts/merge_question_bank.py` so it can import both spreadsheet and JSON source banks while preserving authored explanations.
+- Merged the third bank into `src/game/trivia_bank_300.json`:
+  - bank size increased from `587` to `871`
+  - `16` overlapping rows were refreshed in place
+  - `284` new rows were added
+- Refreshed the desktop export at `~/Desktop/Brown Family Trivia Bank.json`.
+- Validation results after the merge:
+  - integrity check passed (`871` questions, `0` invalid rows)
+  - `npm --workspaces=false test` passed
+  - `npm --workspaces=false run build` passed

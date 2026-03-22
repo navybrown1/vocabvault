@@ -101,6 +101,7 @@ class ImportedQuestion:
     question: str
     correct_answer: str
     direct_choices: tuple[str, str, str, str] | None
+    explanation: str | None
     domains: frozenset[str]
 
 
@@ -383,7 +384,7 @@ def load_existing_entries(rows: list[dict]) -> list[Entry]:
     ]
 
 
-def load_imported_questions(workbook_path: pathlib.Path) -> list[ImportedQuestion]:
+def load_imported_questions_from_workbook(workbook_path: pathlib.Path) -> list[ImportedQuestion]:
     workbook = load_workbook(workbook_path, read_only=True, data_only=True)
     sheet = workbook[workbook.sheetnames[0]]
     entries: list[ImportedQuestion] = []
@@ -413,6 +414,7 @@ def load_imported_questions(workbook_path: pathlib.Path) -> list[ImportedQuestio
                 question=clean(question),
                 correct_answer=clean(answer),
                 direct_choices=direct_choices,
+                explanation=None,
                 domains=new_domains(clean(category), clean(question)),
             )
         )
@@ -420,10 +422,66 @@ def load_imported_questions(workbook_path: pathlib.Path) -> list[ImportedQuestio
     return entries
 
 
-def merge_bank(workbook_path: pathlib.Path, target_json: pathlib.Path) -> tuple[int, int, int, int]:
+def load_imported_questions_from_json(source_path: pathlib.Path) -> list[ImportedQuestion]:
+    payload = json.loads(source_path.read_text())
+    if not isinstance(payload, list):
+        raise RuntimeError('JSON source must contain a top-level array of questions.')
+
+    entries: list[ImportedQuestion] = []
+    seen_questions: set[str] = set()
+
+    for item in payload:
+        if not isinstance(item, dict):
+            continue
+
+        question = item.get('question')
+        answer = item.get('correctAnswer')
+        choices = item.get('choices')
+        if not question or not answer:
+            continue
+
+        normalized_question = norm(question)
+        if normalized_question in seen_questions:
+            continue
+        seen_questions.add(normalized_question)
+
+        direct_choices: tuple[str, str, str, str] | None = None
+        if isinstance(choices, list) and len(choices) == 4:
+            cleaned_choices = tuple(clean(choice) for choice in choices)
+            if len({norm(choice) for choice in cleaned_choices}) != 4:
+                raise RuntimeError(f'Duplicate authored choices for: {clean(question)}')
+            if norm(clean(answer)) not in {norm(choice) for choice in cleaned_choices}:
+                raise RuntimeError(f'Correct answer missing from choices for: {clean(question)}')
+            direct_choices = cleaned_choices
+
+        entries.append(
+            ImportedQuestion(
+                category=clean(item.get('category')),
+                difficulty=normalize_difficulty(item.get('difficulty')),
+                question=clean(question),
+                correct_answer=clean(answer),
+                direct_choices=direct_choices,
+                explanation=clean(item.get('explanation')) or None,
+                domains=new_domains(clean(item.get('category')), clean(question)),
+            )
+        )
+
+    return entries
+
+
+def load_imported_questions(source_path: pathlib.Path) -> list[ImportedQuestion]:
+    suffix = source_path.suffix.lower()
+    if suffix == '.json':
+        return load_imported_questions_from_json(source_path)
+    if suffix in {'.xlsx', '.xlsm'}:
+        return load_imported_questions_from_workbook(source_path)
+    raise RuntimeError(f'Unsupported source file type: {source_path.suffix}')
+
+
+def merge_bank(source_path: pathlib.Path, target_json: pathlib.Path) -> tuple[int, int, int, int]:
     existing_rows = json.loads(target_json.read_text())
     existing_entries = load_existing_entries(existing_rows)
-    imported_questions = load_imported_questions(workbook_path)
+    imported_questions = load_imported_questions(source_path)
     existing_by_question = {norm(row['question']): row for row in existing_rows}
     new_entries = [
         Entry(
@@ -452,6 +510,7 @@ def merge_bank(workbook_path: pathlib.Path, target_json: pathlib.Path) -> tuple[
         existing_row['difficulty'] = item.difficulty
         existing_row['correctAnswer'] = item.correct_answer
         existing_row['choices'] = list(item.direct_choices)
+        existing_row['explanation'] = item.explanation
         updated_count += 1
 
     imported_new_questions = [item for item in imported_questions if norm(item.question) not in existing_by_question]
@@ -476,7 +535,7 @@ def merge_bank(workbook_path: pathlib.Path, target_json: pathlib.Path) -> tuple[
                 'question': entry.question,
                 'choices': [entry.correct_answer, *distractors],
                 'correctAnswer': entry.correct_answer,
-                'explanation': None,
+                'explanation': imported_question.explanation,
             }
         )
         next_numeric_id += 1
@@ -488,13 +547,13 @@ def merge_bank(workbook_path: pathlib.Path, target_json: pathlib.Path) -> tuple[
 
 def main() -> int:
     if len(sys.argv) != 3:
-        print('Usage: merge_question_bank.py <source.xlsx> <target.json>')
+        print('Usage: merge_question_bank.py <source.(xlsx|json)> <target.json>')
         return 1
 
-    workbook_path = pathlib.Path(sys.argv[1]).expanduser()
+    source_path = pathlib.Path(sys.argv[1]).expanduser()
     target_json = pathlib.Path(sys.argv[2]).expanduser()
 
-    before_count, after_count, updated_count, added_count = merge_bank(workbook_path, target_json)
+    before_count, after_count, updated_count, added_count = merge_bank(source_path, target_json)
     print(
         f'Merged question bank: {before_count} -> {after_count} '
         f'(updated {updated_count}, added {added_count})'

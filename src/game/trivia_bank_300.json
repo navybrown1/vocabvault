@@ -1009,17 +1009,17 @@
   },
   {
     "id": 73,
-    "category": "Biology & Human Body",
-    "difficulty": "hard",
+    "category": "General Knowledge",
+    "difficulty": "medium",
     "question": "What is the smallest bone in the human body?",
     "choices": [
       "Stapes",
-      "Ulna",
-      "Fibula",
-      "Patella"
+      "Phalanx",
+      "Patella",
+      "Coccyx"
     ],
     "correctAnswer": "Stapes",
-    "explanation": "The stapes is a tiny bone in the middle ear."
+    "explanation": "The stapes in the middle ear is the smallest bone in the human body."
   },
   {
     "id": 74,
@@ -3984,10 +3984,10 @@
       "9",
       "8",
       "7",
-      "6"
+      "10"
     ],
     "correctAnswer": "9",
-    "explanation": "9 \u00d7 9 = 81."
+    "explanation": "9 times 9 equals 81."
   },
   {
     "id": 286,
@@ -4594,16 +4594,16 @@
   {
     "id": 329,
     "category": "Sports",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "question": "In what year were the first modern Olympic Games held?",
     "choices": [
       "1896",
       "1900",
-      "1904",
-      "1892"
+      "1888",
+      "1912"
     ],
     "correctAnswer": "1896",
-    "explanation": null
+    "explanation": "The first modern Olympics were held in Athens in 1896."
   },
   {
     "id": 330,
@@ -4754,10 +4754,10 @@
       "Badminton",
       "Tennis",
       "Squash",
-      "Table Tennis"
+      "Table tennis"
     ],
     "correctAnswer": "Badminton",
-    "explanation": null
+    "explanation": "Badminton is played with a shuttlecock and rackets."
   },
   {
     "id": 341,
@@ -4803,17 +4803,17 @@
   },
   {
     "id": 344,
-    "category": "General Knowledge",
+    "category": "Math & Logic",
     "difficulty": "easy",
     "question": "How many sides does a hexagon have?",
     "choices": [
-      "Six",
-      "Five",
-      "Seven",
-      "Eight"
+      "6",
+      "5",
+      "7",
+      "8"
     ],
-    "correctAnswer": "Six",
-    "explanation": null
+    "correctAnswer": "6",
+    "explanation": "A hexagon has six sides."
   },
   {
     "id": 345,
@@ -4929,17 +4929,17 @@
   },
   {
     "id": 353,
-    "category": "Food",
-    "difficulty": "medium",
+    "category": "Food & Drink",
+    "difficulty": "easy",
     "question": "What is the main ingredient in guacamole?",
     "choices": [
       "Avocado",
       "Tomato",
-      "Onion",
-      "Jalapeno"
+      "Lime",
+      "Onion"
     ],
     "correctAnswer": "Avocado",
-    "explanation": null
+    "explanation": "Guacamole is primarily made from mashed avocados."
   },
   {
     "id": 354,
@@ -4985,8 +4985,8 @@
   },
   {
     "id": 357,
-    "category": "Science",
-    "difficulty": "hard",
+    "category": "Biology & Human Body",
+    "difficulty": "medium",
     "question": "What part of the brain controls balance and coordination?",
     "choices": [
       "Cerebellum",
@@ -4995,7 +4995,7 @@
       "Hypothalamus"
     ],
     "correctAnswer": "Cerebellum",
-    "explanation": null
+    "explanation": "The cerebellum is responsible for balance and fine motor control."
   },
   {
     "id": 358,
@@ -5251,17 +5251,17 @@
   },
   {
     "id": 376,
-    "category": "Nature",
-    "difficulty": "easy",
+    "category": "General Knowledge",
+    "difficulty": "medium",
     "question": "What is the fastest land animal?",
     "choices": [
       "Cheetah",
+      "Pronghorn",
       "Lion",
-      "Gazelle",
-      "Leopard"
+      "Horse"
     ],
     "correctAnswer": "Cheetah",
-    "explanation": null
+    "explanation": "The cheetah can reach speeds of about 70 mph."
   },
   {
     "id": 377,
@@ -5573,7 +5573,7 @@
   },
   {
     "id": 399,
-    "category": "Geography",
+    "category": "General Knowledge",
     "difficulty": "easy",
     "question": "What is the largest ocean on Earth?",
     "choices": [
@@ -5583,21 +5583,21 @@
       "Arctic Ocean"
     ],
     "correctAnswer": "Pacific Ocean",
-    "explanation": null
+    "explanation": "The Pacific Ocean is the largest and deepest ocean."
   },
   {
     "id": 400,
-    "category": "Science",
+    "category": "General Knowledge",
     "difficulty": "easy",
     "question": "What is the freezing point of water in Fahrenheit?",
     "choices": [
-      "32 degrees",
-      "0 degrees",
-      "100 degrees",
-      "-32 degrees"
+      "32\u00b0F",
+      "0\u00b0F",
+      "50\u00b0F",
+      "40\u00b0F"
     ],
-    "correctAnswer": "32 degrees",
-    "explanation": null
+    "correctAnswer": "32\u00b0F",
+    "explanation": "Water freezes at 32 degrees Fahrenheit."
   },
   {
     "id": 401,
@@ -5965,17 +5965,17 @@
   },
   {
     "id": 427,
-    "category": "Art",
-    "difficulty": "hard",
+    "category": "Art & Music",
+    "difficulty": "easy",
     "question": "Who painted the ceiling of the Sistine Chapel?",
     "choices": [
       "Michelangelo",
-      "Raphael",
       "Leonardo da Vinci",
+      "Raphael",
       "Donatello"
     ],
     "correctAnswer": "Michelangelo",
-    "explanation": null
+    "explanation": "Michelangelo painted the Sistine Chapel ceiling between 1508 and 1512."
   },
   {
     "id": 428,
@@ -6049,17 +6049,17 @@
   },
   {
     "id": 433,
-    "category": "Nature",
-    "difficulty": "hard",
+    "category": "General Knowledge",
+    "difficulty": "medium",
     "question": "What is the largest species of bear?",
     "choices": [
       "Polar bear",
-      "Grizzly bear",
       "Kodiak bear",
-      "Black bear"
+      "Grizzly bear",
+      "Sun bear"
     ],
     "correctAnswer": "Polar bear",
-    "explanation": null
+    "explanation": "The polar bear is the largest living bear species."
   },
   {
     "id": 434,
@@ -6413,17 +6413,17 @@
   },
   {
     "id": 459,
-    "category": "History",
-    "difficulty": "hard",
+    "category": "World History",
+    "difficulty": "medium",
     "question": "Who was the leader of the Soviet Union during World War II?",
     "choices": [
       "Joseph Stalin",
       "Vladimir Lenin",
-      "Nikita Khrushchev",
-      "Leon Trotsky"
+      "Leon Trotsky",
+      "Nikita Khrushchev"
     ],
     "correctAnswer": "Joseph Stalin",
-    "explanation": null
+    "explanation": "Joseph Stalin led the Soviet Union during World War II."
   },
   {
     "id": 460,
@@ -7155,17 +7155,17 @@
   },
   {
     "id": 512,
-    "category": "Geography",
-    "difficulty": "medium",
+    "category": "Earth & Nature",
+    "difficulty": "easy",
     "question": "What is the longest river in the world?",
     "choices": [
-      "The Nile",
-      "The Amazon",
-      "The Yangtze",
-      "The Mississippi"
+      "Nile",
+      "Amazon",
+      "Yangtze",
+      "Mississippi"
     ],
-    "correctAnswer": "The Nile",
-    "explanation": null
+    "correctAnswer": "Nile",
+    "explanation": "The Nile is generally considered the longest river at about 6,650 km."
   },
   {
     "id": 513,
@@ -7463,17 +7463,17 @@
   },
   {
     "id": 534,
-    "category": "Nature",
-    "difficulty": "hard",
+    "category": "General Knowledge",
+    "difficulty": "easy",
     "question": "What is the largest species of penguin?",
     "choices": [
       "Emperor penguin",
       "King penguin",
-      "Adelie penguin",
+      "Gentoo penguin",
       "Macaroni penguin"
     ],
     "correctAnswer": "Emperor penguin",
-    "explanation": null
+    "explanation": "The emperor penguin is the tallest and heaviest penguin species."
   },
   {
     "id": 535,
@@ -7627,7 +7627,7 @@
       "367"
     ],
     "correctAnswer": "366",
-    "explanation": null
+    "explanation": "A leap year has 366 days, with an extra day in February."
   },
   {
     "id": 546,
@@ -8216,5 +8216,3981 @@
     ],
     "correctAnswer": "Basketball",
     "explanation": null
+  },
+  {
+    "id": 588,
+    "category": "Astronomy",
+    "difficulty": "easy",
+    "question": "What is the name of the largest volcano on Mars?",
+    "choices": [
+      "Olympus Mons",
+      "Mons Huygens",
+      "Ascraeus Mons",
+      "Pavonis Mons"
+    ],
+    "correctAnswer": "Olympus Mons",
+    "explanation": "Olympus Mons is the tallest and largest volcano on Mars."
+  },
+  {
+    "id": 589,
+    "category": "Astronomy",
+    "difficulty": "easy",
+    "question": "Which planet has the shortest day in our solar system?",
+    "choices": [
+      "Jupiter",
+      "Mars",
+      "Saturn",
+      "Earth"
+    ],
+    "correctAnswer": "Jupiter",
+    "explanation": "Jupiter rotates once roughly every 10 hours, giving it the shortest day."
+  },
+  {
+    "id": 590,
+    "category": "Astronomy",
+    "difficulty": "medium",
+    "question": "What is the name of the largest known asteroid in the asteroid belt?",
+    "choices": [
+      "Ceres",
+      "Vesta",
+      "Pallas",
+      "Hygiea"
+    ],
+    "correctAnswer": "Ceres",
+    "explanation": "Ceres is the largest object in the asteroid belt and is classified as a dwarf planet."
+  },
+  {
+    "id": 591,
+    "category": "Astronomy",
+    "difficulty": "easy",
+    "question": "How many moons does Mars have?",
+    "choices": [
+      "2",
+      "1",
+      "4",
+      "0"
+    ],
+    "correctAnswer": "2",
+    "explanation": "Mars has two small moons named Phobos and Deimos."
+  },
+  {
+    "id": 592,
+    "category": "Astronomy",
+    "difficulty": "medium",
+    "question": "What spacecraft was the first to visit Pluto?",
+    "choices": [
+      "New Horizons",
+      "Voyager 2",
+      "Pioneer 10",
+      "Cassini"
+    ],
+    "correctAnswer": "New Horizons",
+    "explanation": "New Horizons flew past Pluto in 2015, providing the first close-up images."
+  },
+  {
+    "id": 593,
+    "category": "Astronomy",
+    "difficulty": "easy",
+    "question": "What is the name of Earth's galaxy?",
+    "choices": [
+      "Milky Way",
+      "Andromeda",
+      "Triangulum",
+      "Whirlpool"
+    ],
+    "correctAnswer": "Milky Way",
+    "explanation": "Our solar system resides in the Milky Way galaxy."
+  },
+  {
+    "id": 594,
+    "category": "Astronomy",
+    "difficulty": "medium",
+    "question": "What is a pulsar?",
+    "choices": [
+      "A rapidly rotating neutron star",
+      "A dying comet",
+      "A young planet",
+      "A black hole"
+    ],
+    "correctAnswer": "A rapidly rotating neutron star",
+    "explanation": "Pulsars emit beams of radiation as they spin."
+  },
+  {
+    "id": 595,
+    "category": "Astronomy",
+    "difficulty": "easy",
+    "question": "Which planet is known for its Great Dark Spot?",
+    "choices": [
+      "Neptune",
+      "Jupiter",
+      "Saturn",
+      "Uranus"
+    ],
+    "correctAnswer": "Neptune",
+    "explanation": "The Great Dark Spot was a large storm system observed on Neptune."
+  },
+  {
+    "id": 596,
+    "category": "Astronomy",
+    "difficulty": "hard",
+    "question": "What is the approximate age of the universe?",
+    "choices": [
+      "13.8 billion years",
+      "10 billion years",
+      "4.6 billion years",
+      "20 billion years"
+    ],
+    "correctAnswer": "13.8 billion years",
+    "explanation": "Current estimates place the age of the universe at about 13.8 billion years."
+  },
+  {
+    "id": 597,
+    "category": "Astronomy",
+    "difficulty": "easy",
+    "question": "What is the term for a rocky body that enters Earth's atmosphere and survives to reach the ground?",
+    "choices": [
+      "Meteorite",
+      "Meteor",
+      "Meteoroid",
+      "Asteroid"
+    ],
+    "correctAnswer": "Meteorite",
+    "explanation": "A meteorite is a meteoroid that survives passage through the atmosphere."
+  },
+  {
+    "id": 598,
+    "category": "Astronomy",
+    "difficulty": "medium",
+    "question": "What is the name of the point in Earth's orbit when it is farthest from the Sun?",
+    "choices": [
+      "Aphelion",
+      "Perihelion",
+      "Apogee",
+      "Perigee"
+    ],
+    "correctAnswer": "Aphelion",
+    "explanation": "Aphelion is the point where Earth is farthest from the Sun in its orbit."
+  },
+  {
+    "id": 599,
+    "category": "Astronomy",
+    "difficulty": "easy",
+    "question": "Which planet is sometimes called the 'Evening Star' when visible at dusk?",
+    "choices": [
+      "Venus",
+      "Mars",
+      "Mercury",
+      "Jupiter"
+    ],
+    "correctAnswer": "Venus",
+    "explanation": "Venus is bright enough to be seen at dusk and is called the Evening Star."
+  },
+  {
+    "id": 600,
+    "category": "Astronomy",
+    "difficulty": "medium",
+    "question": "What is the name of the dwarf planet discovered in 2005 that triggered Pluto's reclassification?",
+    "choices": [
+      "Eris",
+      "Haumea",
+      "Makemake",
+      "Sedna"
+    ],
+    "correctAnswer": "Eris",
+    "explanation": "Eris was discovered in 2005 and was found to be similar in size to Pluto."
+  },
+  {
+    "id": 601,
+    "category": "Astronomy",
+    "difficulty": "easy",
+    "question": "What is the name of the band of stars visible across the night sky from our galaxy?",
+    "choices": [
+      "Milky Way",
+      "Orion's Belt",
+      "Zodiac",
+      "Aurora"
+    ],
+    "correctAnswer": "Milky Way",
+    "explanation": "The Milky Way appears as a band of light across the sky."
+  },
+  {
+    "id": 602,
+    "category": "Astronomy",
+    "difficulty": "medium",
+    "question": "Which moon of Saturn is known for having a thick atmosphere?",
+    "choices": [
+      "Titan",
+      "Enceladus",
+      "Rhea",
+      "Mimas"
+    ],
+    "correctAnswer": "Titan",
+    "explanation": "Titan has a dense nitrogen-rich atmosphere, unique among moons."
+  },
+  {
+    "id": 603,
+    "category": "Astronomy",
+    "difficulty": "easy",
+    "question": "What natural phenomenon creates colorful lights near Earth's poles?",
+    "choices": [
+      "Aurora",
+      "Comet tail",
+      "Solar flare",
+      "Lunar eclipse"
+    ],
+    "correctAnswer": "Aurora",
+    "explanation": "Auroras are caused by charged particles from the Sun interacting with Earth's magnetic field."
+  },
+  {
+    "id": 604,
+    "category": "Astronomy",
+    "difficulty": "hard",
+    "question": "What is the Chandrasekhar limit?",
+    "choices": [
+      "Maximum mass of a stable white dwarf",
+      "Maximum speed of a rocket",
+      "Minimum temperature for fusion",
+      "Minimum distance between stars"
+    ],
+    "correctAnswer": "Maximum mass of a stable white dwarf",
+    "explanation": "The Chandrasekhar limit is about 1.4 solar masses for white dwarfs."
+  },
+  {
+    "id": 605,
+    "category": "Astronomy",
+    "difficulty": "easy",
+    "question": "What is the name of the rover that landed on Mars in 2021?",
+    "choices": [
+      "Perseverance",
+      "Curiosity",
+      "Opportunity",
+      "Spirit"
+    ],
+    "correctAnswer": "Perseverance",
+    "explanation": "NASA's Perseverance rover landed on Mars in February 2021."
+  },
+  {
+    "id": 606,
+    "category": "Astronomy",
+    "difficulty": "medium",
+    "question": "What is the Kuiper Belt?",
+    "choices": [
+      "A region of icy bodies beyond Neptune",
+      "A ring around Saturn",
+      "The asteroid belt",
+      "A nebula near Orion"
+    ],
+    "correctAnswer": "A region of icy bodies beyond Neptune",
+    "explanation": "The Kuiper Belt contains many small icy objects beyond Neptune's orbit."
+  },
+  {
+    "id": 607,
+    "category": "Astronomy",
+    "difficulty": "easy",
+    "question": "What color is the Sun?",
+    "choices": [
+      "White",
+      "Yellow",
+      "Orange",
+      "Red"
+    ],
+    "correctAnswer": "White",
+    "explanation": "The Sun emits light across all visible wavelengths, appearing white in space."
+  },
+  {
+    "id": 608,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What is the deepest point in the world's oceans?",
+    "choices": [
+      "Challenger Deep",
+      "Puerto Rico Trench",
+      "Java Trench",
+      "Tonga Trench"
+    ],
+    "correctAnswer": "Challenger Deep",
+    "explanation": "Challenger Deep in the Mariana Trench is the deepest known point in the oceans."
+  },
+  {
+    "id": 609,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What type of cloud is associated with thunderstorms?",
+    "choices": [
+      "Cumulonimbus",
+      "Stratus",
+      "Cirrus",
+      "Cumulus"
+    ],
+    "correctAnswer": "Cumulonimbus",
+    "explanation": "Cumulonimbus clouds are tall clouds that produce thunderstorms."
+  },
+  {
+    "id": 610,
+    "category": "Earth & Nature",
+    "difficulty": "medium",
+    "question": "What scale is used to measure the magnitude of earthquakes?",
+    "choices": [
+      "Richter scale",
+      "Beaufort scale",
+      "Kelvin scale",
+      "Mohs scale"
+    ],
+    "correctAnswer": "Richter scale",
+    "explanation": "The Richter scale measures the magnitude of earthquakes."
+  },
+  {
+    "id": 611,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What is the layer of Earth's atmosphere closest to the surface called?",
+    "choices": [
+      "Troposphere",
+      "Stratosphere",
+      "Mesosphere",
+      "Thermosphere"
+    ],
+    "correctAnswer": "Troposphere",
+    "explanation": "The troposphere is the lowest atmospheric layer where weather occurs."
+  },
+  {
+    "id": 612,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What is the term for a large body of salt water smaller than an ocean?",
+    "choices": [
+      "Sea",
+      "Lake",
+      "River",
+      "Fjord"
+    ],
+    "correctAnswer": "Sea",
+    "explanation": "A sea is a large body of salt water that is smaller than an ocean."
+  },
+  {
+    "id": 613,
+    "category": "Earth & Nature",
+    "difficulty": "medium",
+    "question": "What is the name for the boundary between two air masses of different temperatures?",
+    "choices": [
+      "Front",
+      "Jet stream",
+      "Trade wind",
+      "Current"
+    ],
+    "correctAnswer": "Front",
+    "explanation": "A front is the boundary where two different air masses meet."
+  },
+  {
+    "id": 614,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What is the process by which rocks are broken down by wind, water, or ice?",
+    "choices": [
+      "Weathering",
+      "Erosion",
+      "Deposition",
+      "Sedimentation"
+    ],
+    "correctAnswer": "Weathering",
+    "explanation": "Weathering is the breakdown of rocks in place, while erosion involves movement."
+  },
+  {
+    "id": 615,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What is the largest lake in the world by surface area?",
+    "choices": [
+      "Caspian Sea",
+      "Lake Superior",
+      "Lake Victoria",
+      "Lake Huron"
+    ],
+    "correctAnswer": "Caspian Sea",
+    "explanation": "The Caspian Sea is the world's largest enclosed inland body of water."
+  },
+  {
+    "id": 616,
+    "category": "Earth & Nature",
+    "difficulty": "medium",
+    "question": "What is the term for the point on Earth's surface directly above an earthquake's origin?",
+    "choices": [
+      "Epicenter",
+      "Focus",
+      "Fault line",
+      "Hypocenter"
+    ],
+    "correctAnswer": "Epicenter",
+    "explanation": "The epicenter is the surface point directly above where an earthquake begins."
+  },
+  {
+    "id": 617,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What is the name of the thin layer of gas surrounding Earth?",
+    "choices": [
+      "Atmosphere",
+      "Biosphere",
+      "Lithosphere",
+      "Hydrosphere"
+    ],
+    "correctAnswer": "Atmosphere",
+    "explanation": "The atmosphere is the layer of gases surrounding Earth."
+  },
+  {
+    "id": 618,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "Which continent has the most countries?",
+    "choices": [
+      "Africa",
+      "Asia",
+      "Europe",
+      "South America"
+    ],
+    "correctAnswer": "Africa",
+    "explanation": "Africa has 54 recognized countries, the most of any continent."
+  },
+  {
+    "id": 619,
+    "category": "Earth & Nature",
+    "difficulty": "medium",
+    "question": "What is the name for a narrow strip of land connecting two larger landmasses?",
+    "choices": [
+      "Isthmus",
+      "Peninsula",
+      "Archipelago",
+      "Strait"
+    ],
+    "correctAnswer": "Isthmus",
+    "explanation": "An isthmus is a narrow piece of land connecting two larger areas."
+  },
+  {
+    "id": 620,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What is the study of weather called?",
+    "choices": [
+      "Meteorology",
+      "Geology",
+      "Ecology",
+      "Oceanography"
+    ],
+    "correctAnswer": "Meteorology",
+    "explanation": "Meteorology is the scientific study of the atmosphere and weather."
+  },
+  {
+    "id": 621,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What is the water cycle process that moves water from soil into plant roots?",
+    "choices": [
+      "Transpiration",
+      "Infiltration",
+      "Runoff",
+      "Percolation"
+    ],
+    "correctAnswer": "Transpiration",
+    "explanation": "Transpiration is water movement through plants and its evaporation from leaves."
+  },
+  {
+    "id": 622,
+    "category": "Earth & Nature",
+    "difficulty": "medium",
+    "question": "What type of plate boundary occurs when two plates move toward each other?",
+    "choices": [
+      "Convergent",
+      "Divergent",
+      "Transform",
+      "Subduction only"
+    ],
+    "correctAnswer": "Convergent",
+    "explanation": "Convergent boundaries form where tectonic plates collide."
+  },
+  {
+    "id": 623,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What gas in the atmosphere helps protect Earth from ultraviolet radiation?",
+    "choices": [
+      "Ozone",
+      "Carbon dioxide",
+      "Nitrogen",
+      "Methane"
+    ],
+    "correctAnswer": "Ozone",
+    "explanation": "The ozone layer absorbs most of the Sun's harmful UV radiation."
+  },
+  {
+    "id": 624,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What is the term for a period of abnormally low rainfall?",
+    "choices": [
+      "Drought",
+      "Flood",
+      "Monsoon",
+      "Blizzard"
+    ],
+    "correctAnswer": "Drought",
+    "explanation": "A drought is an extended period of deficient rainfall."
+  },
+  {
+    "id": 625,
+    "category": "Earth & Nature",
+    "difficulty": "medium",
+    "question": "What is the name of the supercontinent that existed about 300 million years ago?",
+    "choices": [
+      "Pangaea",
+      "Gondwana",
+      "Laurasia",
+      "Rodinia"
+    ],
+    "correctAnswer": "Pangaea",
+    "explanation": "Pangaea was a supercontinent that existed before breaking apart."
+  },
+  {
+    "id": 626,
+    "category": "Earth & Nature",
+    "difficulty": "easy",
+    "question": "What instrument measures air pressure?",
+    "choices": [
+      "Barometer",
+      "Thermometer",
+      "Anemometer",
+      "Hygrometer"
+    ],
+    "correctAnswer": "Barometer",
+    "explanation": "A barometer measures atmospheric pressure."
+  },
+  {
+    "id": 627,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What is the process by which cells divide to produce two identical daughter cells?",
+    "choices": [
+      "Mitosis",
+      "Meiosis",
+      "Fusion",
+      "Osmosis"
+    ],
+    "correctAnswer": "Mitosis",
+    "explanation": "Mitosis produces two genetically identical daughter cells."
+  },
+  {
+    "id": 628,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What organ is responsible for filtering waste from the blood?",
+    "choices": [
+      "Kidneys",
+      "Heart",
+      "Liver",
+      "Stomach"
+    ],
+    "correctAnswer": "Kidneys",
+    "explanation": "The kidneys filter blood and produce urine to remove waste."
+  },
+  {
+    "id": 629,
+    "category": "Biology & Human Body",
+    "difficulty": "medium",
+    "question": "What is the name of the protein that carries oxygen in red blood cells?",
+    "choices": [
+      "Hemoglobin",
+      "Collagen",
+      "Keratin",
+      "Myosin"
+    ],
+    "correctAnswer": "Hemoglobin",
+    "explanation": "Hemoglobin binds oxygen and gives red blood cells their color."
+  },
+  {
+    "id": 630,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "How many chambers does the human heart have?",
+    "choices": [
+      "4",
+      "2",
+      "3",
+      "6"
+    ],
+    "correctAnswer": "4",
+    "explanation": "The human heart has four chambers: two atria and two ventricles."
+  },
+  {
+    "id": 631,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What is the colored part of the human eye called?",
+    "choices": [
+      "Iris",
+      "Pupil",
+      "Cornea",
+      "Retina"
+    ],
+    "correctAnswer": "Iris",
+    "explanation": "The iris is the colored ring that controls the size of the pupil."
+  },
+  {
+    "id": 632,
+    "category": "Biology & Human Body",
+    "difficulty": "medium",
+    "question": "What is the longest bone in the human arm?",
+    "choices": [
+      "Humerus",
+      "Radius",
+      "Ulna",
+      "Scapula"
+    ],
+    "correctAnswer": "Humerus",
+    "explanation": "The humerus is the long bone in the upper arm."
+  },
+  {
+    "id": 633,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What is the body's largest artery?",
+    "choices": [
+      "Aorta",
+      "Carotid",
+      "Femoral",
+      "Pulmonary"
+    ],
+    "correctAnswer": "Aorta",
+    "explanation": "The aorta is the main artery carrying blood from the heart."
+  },
+  {
+    "id": 634,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What do we call animals that are active at night?",
+    "choices": [
+      "Nocturnal",
+      "Diurnal",
+      "Crepuscular",
+      "Matutinal"
+    ],
+    "correctAnswer": "Nocturnal",
+    "explanation": "Nocturnal animals are primarily active during nighttime."
+  },
+  {
+    "id": 635,
+    "category": "Biology & Human Body",
+    "difficulty": "medium",
+    "question": "What is the function of white blood cells?",
+    "choices": [
+      "Fight infection",
+      "Carry oxygen",
+      "Clot blood",
+      "Transport nutrients"
+    ],
+    "correctAnswer": "Fight infection",
+    "explanation": "White blood cells are part of the immune system and fight pathogens."
+  },
+  {
+    "id": 636,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What is the transparent front part of the eye called?",
+    "choices": [
+      "Cornea",
+      "Lens",
+      "Iris",
+      "Sclera"
+    ],
+    "correctAnswer": "Cornea",
+    "explanation": "The cornea is the clear front surface of the eye that helps focus light."
+  },
+  {
+    "id": 637,
+    "category": "Biology & Human Body",
+    "difficulty": "medium",
+    "question": "What is the name of the process by which a caterpillar becomes a butterfly?",
+    "choices": [
+      "Metamorphosis",
+      "Photosynthesis",
+      "Respiration",
+      "Germination"
+    ],
+    "correctAnswer": "Metamorphosis",
+    "explanation": "Metamorphosis is the biological process of transformation from larva to adult."
+  },
+  {
+    "id": 638,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What is the outermost layer of skin called?",
+    "choices": [
+      "Epidermis",
+      "Dermis",
+      "Hypodermis",
+      "Cuticle"
+    ],
+    "correctAnswer": "Epidermis",
+    "explanation": "The epidermis is the outermost layer of the skin."
+  },
+  {
+    "id": 639,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What organ in the human body is responsible for hearing?",
+    "choices": [
+      "Ear",
+      "Nose",
+      "Eye",
+      "Tongue"
+    ],
+    "correctAnswer": "Ear",
+    "explanation": "The ear detects sound waves and sends signals to the brain."
+  },
+  {
+    "id": 640,
+    "category": "Biology & Human Body",
+    "difficulty": "medium",
+    "question": "What is the name of the tube that carries food from the throat to the stomach?",
+    "choices": [
+      "Esophagus",
+      "Trachea",
+      "Bronchus",
+      "Duodenum"
+    ],
+    "correctAnswer": "Esophagus",
+    "explanation": "The esophagus is the muscular tube connecting the throat to the stomach."
+  },
+  {
+    "id": 641,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What is the term for an organism that makes its own food?",
+    "choices": [
+      "Autotroph",
+      "Heterotroph",
+      "Decomposer",
+      "Parasite"
+    ],
+    "correctAnswer": "Autotroph",
+    "explanation": "Autotrophs produce their own food using sunlight or chemical energy."
+  },
+  {
+    "id": 642,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What is the largest muscle in the human body?",
+    "choices": [
+      "Gluteus maximus",
+      "Quadriceps",
+      "Biceps",
+      "Latissimus dorsi"
+    ],
+    "correctAnswer": "Gluteus maximus",
+    "explanation": "The gluteus maximus is the largest muscle in the human body."
+  },
+  {
+    "id": 643,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What is the process by which organisms produce offspring?",
+    "choices": [
+      "Reproduction",
+      "Digestion",
+      "Respiration",
+      "Circulation"
+    ],
+    "correctAnswer": "Reproduction",
+    "explanation": "Reproduction is the biological process of producing new individuals."
+  },
+  {
+    "id": 644,
+    "category": "Biology & Human Body",
+    "difficulty": "easy",
+    "question": "What is the name for animals that maintain a constant body temperature?",
+    "choices": [
+      "Warm-blooded",
+      "Cold-blooded",
+      "Ectothermic",
+      "Poikilothermic"
+    ],
+    "correctAnswer": "Warm-blooded",
+    "explanation": "Warm-blooded animals, or endotherms, regulate their own body temperature."
+  },
+  {
+    "id": 645,
+    "category": "Biology & Human Body",
+    "difficulty": "medium",
+    "question": "What is the function of platelets in blood?",
+    "choices": [
+      "Help blood clot",
+      "Carry oxygen",
+      "Fight infection",
+      "Transport nutrients"
+    ],
+    "correctAnswer": "Help blood clot",
+    "explanation": "Platelets help form clots to stop bleeding."
+  },
+  {
+    "id": 646,
+    "category": "Chemistry & Physics",
+    "difficulty": "easy",
+    "question": "What is the chemical formula for table sugar?",
+    "choices": [
+      "C12H22O11",
+      "NaCl",
+      "H2O",
+      "C6H12O6"
+    ],
+    "correctAnswer": "C12H22O11",
+    "explanation": "Table sugar, or sucrose, has the formula C12H22O11."
+  },
+  {
+    "id": 647,
+    "category": "Chemistry & Physics",
+    "difficulty": "easy",
+    "question": "What is the chemical symbol for sodium?",
+    "choices": [
+      "Na",
+      "So",
+      "Sd",
+      "Nm"
+    ],
+    "correctAnswer": "Na",
+    "explanation": "The symbol Na comes from the Latin word natrium."
+  },
+  {
+    "id": 648,
+    "category": "Chemistry & Physics",
+    "difficulty": "medium",
+    "question": "What type of bond involves the sharing of electrons between atoms?",
+    "choices": [
+      "Covalent bond",
+      "Ionic bond",
+      "Metallic bond",
+      "Hydrogen bond"
+    ],
+    "correctAnswer": "Covalent bond",
+    "explanation": "Covalent bonds form when atoms share electron pairs."
+  },
+  {
+    "id": 649,
+    "category": "Chemistry & Physics",
+    "difficulty": "easy",
+    "question": "What is the SI unit of temperature?",
+    "choices": [
+      "Kelvin",
+      "Celsius",
+      "Fahrenheit",
+      "Rankine"
+    ],
+    "correctAnswer": "Kelvin",
+    "explanation": "The kelvin is the SI base unit of thermodynamic temperature."
+  },
+  {
+    "id": 650,
+    "category": "Chemistry & Physics",
+    "difficulty": "easy",
+    "question": "What is the term for a substance that cannot be broken down into simpler substances?",
+    "choices": [
+      "Element",
+      "Compound",
+      "Mixture",
+      "Solution"
+    ],
+    "correctAnswer": "Element",
+    "explanation": "An element is a pure substance consisting of only one type of atom."
+  },
+  {
+    "id": 651,
+    "category": "Chemistry & Physics",
+    "difficulty": "medium",
+    "question": "What is the name of the force that opposes motion between two surfaces in contact?",
+    "choices": [
+      "Friction",
+      "Gravity",
+      "Tension",
+      "Elasticity"
+    ],
+    "correctAnswer": "Friction",
+    "explanation": "Friction resists the relative motion of surfaces in contact."
+  },
+  {
+    "id": 652,
+    "category": "Chemistry & Physics",
+    "difficulty": "easy",
+    "question": "What is the chemical symbol for potassium?",
+    "choices": [
+      "K",
+      "P",
+      "Po",
+      "Ka"
+    ],
+    "correctAnswer": "K",
+    "explanation": "The symbol K comes from the Latin word kalium."
+  },
+  {
+    "id": 653,
+    "category": "Chemistry & Physics",
+    "difficulty": "medium",
+    "question": "What is the pH of a neutral solution?",
+    "choices": [
+      "7",
+      "0",
+      "14",
+      "1"
+    ],
+    "correctAnswer": "7",
+    "explanation": "A pH of 7 is neutral, neither acidic nor basic."
+  },
+  {
+    "id": 654,
+    "category": "Chemistry & Physics",
+    "difficulty": "easy",
+    "question": "What is the SI unit of power?",
+    "choices": [
+      "Watt",
+      "Joule",
+      "Newton",
+      "Pascal"
+    ],
+    "correctAnswer": "Watt",
+    "explanation": "Power is measured in watts."
+  },
+  {
+    "id": 655,
+    "category": "Chemistry & Physics",
+    "difficulty": "medium",
+    "question": "What is the name for the amount of matter in an object?",
+    "choices": [
+      "Mass",
+      "Weight",
+      "Volume",
+      "Density"
+    ],
+    "correctAnswer": "Mass",
+    "explanation": "Mass is the measure of the amount of matter in an object."
+  },
+  {
+    "id": 656,
+    "category": "Chemistry & Physics",
+    "difficulty": "easy",
+    "question": "What is the chemical formula for ammonia?",
+    "choices": [
+      "NH3",
+      "NO2",
+      "NH4",
+      "N2O"
+    ],
+    "correctAnswer": "NH3",
+    "explanation": "Ammonia consists of one nitrogen atom and three hydrogen atoms."
+  },
+  {
+    "id": 657,
+    "category": "Chemistry & Physics",
+    "difficulty": "medium",
+    "question": "What is Archimedes' principle about?",
+    "choices": [
+      "Buoyancy",
+      "Gravity",
+      "Electricity",
+      "Magnetism"
+    ],
+    "correctAnswer": "Buoyancy",
+    "explanation": "Archimedes' principle states that a submerged object experiences an upward buoyant force."
+  },
+  {
+    "id": 658,
+    "category": "Chemistry & Physics",
+    "difficulty": "easy",
+    "question": "What is the term for the measure of how much space an object occupies?",
+    "choices": [
+      "Volume",
+      "Mass",
+      "Density",
+      "Weight"
+    ],
+    "correctAnswer": "Volume",
+    "explanation": "Volume measures the amount of three-dimensional space an object occupies."
+  },
+  {
+    "id": 659,
+    "category": "Chemistry & Physics",
+    "difficulty": "medium",
+    "question": "What is the speed of sound in air at room temperature approximately?",
+    "choices": [
+      "343 m/s",
+      "3,000 m/s",
+      "30 m/s",
+      "34,300 m/s"
+    ],
+    "correctAnswer": "343 m/s",
+    "explanation": "Sound travels at about 343 meters per second in air at 20 degrees Celsius."
+  },
+  {
+    "id": 660,
+    "category": "Chemistry & Physics",
+    "difficulty": "easy",
+    "question": "What is the chemical symbol for chlorine?",
+    "choices": [
+      "Cl",
+      "Ch",
+      "Cr",
+      "Cn"
+    ],
+    "correctAnswer": "Cl",
+    "explanation": "Chlorine has the chemical symbol Cl."
+  },
+  {
+    "id": 661,
+    "category": "Chemistry & Physics",
+    "difficulty": "medium",
+    "question": "What is the name of the instrument used to measure electric current?",
+    "choices": [
+      "Ammeter",
+      "Voltmeter",
+      "Barometer",
+      "Galvanometer only"
+    ],
+    "correctAnswer": "Ammeter",
+    "explanation": "An ammeter measures electric current in amperes."
+  },
+  {
+    "id": 662,
+    "category": "Chemistry & Physics",
+    "difficulty": "easy",
+    "question": "What is the term for a material that does not allow electricity to flow through it easily?",
+    "choices": [
+      "Insulator",
+      "Conductor",
+      "Semiconductor",
+      "Resistor"
+    ],
+    "correctAnswer": "Insulator",
+    "explanation": "Insulators resist the flow of electric current."
+  },
+  {
+    "id": 663,
+    "category": "Chemistry & Physics",
+    "difficulty": "medium",
+    "question": "What is the SI unit of frequency?",
+    "choices": [
+      "Hertz",
+      "Watt",
+      "Decibel",
+      "Volt"
+    ],
+    "correctAnswer": "Hertz",
+    "explanation": "Frequency is measured in hertz, which is cycles per second."
+  },
+  {
+    "id": 664,
+    "category": "Chemistry & Physics",
+    "difficulty": "easy",
+    "question": "What are the three states of matter most commonly taught?",
+    "choices": [
+      "Solid, liquid, gas",
+      "Earth, wind, fire",
+      "Metal, wood, plastic",
+      "Hot, warm, cold"
+    ],
+    "correctAnswer": "Solid, liquid, gas",
+    "explanation": "The three common states of matter are solid, liquid, and gas."
+  },
+  {
+    "id": 665,
+    "category": "Chemistry & Physics",
+    "difficulty": "medium",
+    "question": "What is the name for the turning effect of a force about a pivot?",
+    "choices": [
+      "Torque",
+      "Momentum",
+      "Impulse",
+      "Thrust"
+    ],
+    "correctAnswer": "Torque",
+    "explanation": "Torque is the rotational equivalent of force."
+  },
+  {
+    "id": 666,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Germany?",
+    "choices": [
+      "Berlin",
+      "Munich",
+      "Frankfurt",
+      "Hamburg"
+    ],
+    "correctAnswer": "Berlin",
+    "explanation": "Berlin is the capital and largest city of Germany."
+  },
+  {
+    "id": 667,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Mexico?",
+    "choices": [
+      "Mexico City",
+      "Guadalajara",
+      "Monterrey",
+      "Canc\u00fan"
+    ],
+    "correctAnswer": "Mexico City",
+    "explanation": "Mexico City is the capital of Mexico."
+  },
+  {
+    "id": 668,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Russia?",
+    "choices": [
+      "Moscow",
+      "Saint Petersburg",
+      "Kiev",
+      "Novosibirsk"
+    ],
+    "correctAnswer": "Moscow",
+    "explanation": "Moscow is the capital of Russia."
+  },
+  {
+    "id": 669,
+    "category": "Geography",
+    "difficulty": "medium",
+    "question": "What is the capital of South Africa?",
+    "choices": [
+      "Pretoria",
+      "Cape Town",
+      "Johannesburg",
+      "Durban"
+    ],
+    "correctAnswer": "Pretoria",
+    "explanation": "Pretoria is the executive capital of South Africa."
+  },
+  {
+    "id": 670,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of China?",
+    "choices": [
+      "Beijing",
+      "Shanghai",
+      "Hong Kong",
+      "Guangzhou"
+    ],
+    "correctAnswer": "Beijing",
+    "explanation": "Beijing is the capital of China."
+  },
+  {
+    "id": 671,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Turkey?",
+    "choices": [
+      "Ankara",
+      "Istanbul",
+      "Izmir",
+      "Antalya"
+    ],
+    "correctAnswer": "Ankara",
+    "explanation": "Ankara is the capital of Turkey, not Istanbul."
+  },
+  {
+    "id": 672,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Greece?",
+    "choices": [
+      "Athens",
+      "Thessaloniki",
+      "Crete",
+      "Corinth"
+    ],
+    "correctAnswer": "Athens",
+    "explanation": "Athens is the capital and largest city of Greece."
+  },
+  {
+    "id": 673,
+    "category": "Geography",
+    "difficulty": "medium",
+    "question": "What is the capital of Nigeria?",
+    "choices": [
+      "Abuja",
+      "Lagos",
+      "Kano",
+      "Port Harcourt"
+    ],
+    "correctAnswer": "Abuja",
+    "explanation": "Abuja replaced Lagos as Nigeria's capital in 1991."
+  },
+  {
+    "id": 674,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of South Korea?",
+    "choices": [
+      "Seoul",
+      "Busan",
+      "Incheon",
+      "Daegu"
+    ],
+    "correctAnswer": "Seoul",
+    "explanation": "Seoul is the capital of South Korea."
+  },
+  {
+    "id": 675,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Ireland?",
+    "choices": [
+      "Dublin",
+      "Cork",
+      "Belfast",
+      "Galway"
+    ],
+    "correctAnswer": "Dublin",
+    "explanation": "Dublin is the capital of the Republic of Ireland."
+  },
+  {
+    "id": 676,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of the Netherlands?",
+    "choices": [
+      "Amsterdam",
+      "Rotterdam",
+      "The Hague",
+      "Utrecht"
+    ],
+    "correctAnswer": "Amsterdam",
+    "explanation": "Amsterdam is the capital of the Netherlands."
+  },
+  {
+    "id": 677,
+    "category": "Geography",
+    "difficulty": "medium",
+    "question": "What is the capital of Switzerland?",
+    "choices": [
+      "Bern",
+      "Zurich",
+      "Geneva",
+      "Basel"
+    ],
+    "correctAnswer": "Bern",
+    "explanation": "Bern is the de facto capital of Switzerland."
+  },
+  {
+    "id": 678,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Thailand?",
+    "choices": [
+      "Bangkok",
+      "Phuket",
+      "Chiang Mai",
+      "Pattaya"
+    ],
+    "correctAnswer": "Bangkok",
+    "explanation": "Bangkok is the capital and most populous city of Thailand."
+  },
+  {
+    "id": 679,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Poland?",
+    "choices": [
+      "Warsaw",
+      "Krakow",
+      "Gdansk",
+      "Wroclaw"
+    ],
+    "correctAnswer": "Warsaw",
+    "explanation": "Warsaw is the capital and largest city of Poland."
+  },
+  {
+    "id": 680,
+    "category": "Geography",
+    "difficulty": "medium",
+    "question": "What is the capital of Portugal?",
+    "choices": [
+      "Lisbon",
+      "Porto",
+      "Faro",
+      "Braga"
+    ],
+    "correctAnswer": "Lisbon",
+    "explanation": "Lisbon is the capital and largest city of Portugal."
+  },
+  {
+    "id": 681,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Austria?",
+    "choices": [
+      "Vienna",
+      "Salzburg",
+      "Innsbruck",
+      "Graz"
+    ],
+    "correctAnswer": "Vienna",
+    "explanation": "Vienna is the capital and largest city of Austria."
+  },
+  {
+    "id": 682,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Sweden?",
+    "choices": [
+      "Stockholm",
+      "Gothenburg",
+      "Malm\u00f6",
+      "Uppsala"
+    ],
+    "correctAnswer": "Stockholm",
+    "explanation": "Stockholm is the capital and largest city of Sweden."
+  },
+  {
+    "id": 683,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Norway?",
+    "choices": [
+      "Oslo",
+      "Bergen",
+      "Trondheim",
+      "Stavanger"
+    ],
+    "correctAnswer": "Oslo",
+    "explanation": "Oslo is the capital and most populous city of Norway."
+  },
+  {
+    "id": 684,
+    "category": "Geography",
+    "difficulty": "medium",
+    "question": "What is the capital of Finland?",
+    "choices": [
+      "Helsinki",
+      "Tampere",
+      "Turku",
+      "Oulu"
+    ],
+    "correctAnswer": "Helsinki",
+    "explanation": "Helsinki is the capital and largest city of Finland."
+  },
+  {
+    "id": 685,
+    "category": "Geography",
+    "difficulty": "easy",
+    "question": "What is the capital of Denmark?",
+    "choices": [
+      "Copenhagen",
+      "Aarhus",
+      "Odense",
+      "Aalborg"
+    ],
+    "correctAnswer": "Copenhagen",
+    "explanation": "Copenhagen is the capital and largest city of Denmark."
+  },
+  {
+    "id": 686,
+    "category": "World History",
+    "difficulty": "easy",
+    "question": "Who was the first man to orbit the Earth?",
+    "choices": [
+      "Yuri Gagarin",
+      "Neil Armstrong",
+      "John Glenn",
+      "Alan Shepard"
+    ],
+    "correctAnswer": "Yuri Gagarin",
+    "explanation": "Yuri Gagarin orbited Earth in 1961 aboard Vostok 1."
+  },
+  {
+    "id": 687,
+    "category": "World History",
+    "difficulty": "medium",
+    "question": "What was the name of the ship that carried the Pilgrims to America in 1620?",
+    "choices": [
+      "Mayflower",
+      "Santa Maria",
+      "Endeavour",
+      "Golden Hind"
+    ],
+    "correctAnswer": "Mayflower",
+    "explanation": "The Mayflower transported the Pilgrims to Plymouth in 1620."
+  },
+  {
+    "id": 688,
+    "category": "World History",
+    "difficulty": "easy",
+    "question": "What ancient city was buried by the eruption of Mount Vesuvius in AD 79?",
+    "choices": [
+      "Pompeii",
+      "Rome",
+      "Athens",
+      "Carthage"
+    ],
+    "correctAnswer": "Pompeii",
+    "explanation": "Pompeii was buried under volcanic ash when Vesuvius erupted."
+  },
+  {
+    "id": 689,
+    "category": "World History",
+    "difficulty": "easy",
+    "question": "What empire was ruled by Julius Caesar?",
+    "choices": [
+      "Roman Empire",
+      "Greek Empire",
+      "Persian Empire",
+      "Ottoman Empire"
+    ],
+    "correctAnswer": "Roman Empire",
+    "explanation": "Julius Caesar was a leader in the late Roman Republic."
+  },
+  {
+    "id": 690,
+    "category": "World History",
+    "difficulty": "medium",
+    "question": "What treaty ended the Thirty Years' War?",
+    "choices": [
+      "Peace of Westphalia",
+      "Treaty of Versailles",
+      "Treaty of Utrecht",
+      "Congress of Vienna"
+    ],
+    "correctAnswer": "Peace of Westphalia",
+    "explanation": "The Peace of Westphalia in 1648 ended the Thirty Years' War."
+  },
+  {
+    "id": 691,
+    "category": "World History",
+    "difficulty": "easy",
+    "question": "What was the name of the first successful English colony in America?",
+    "choices": [
+      "Jamestown",
+      "Plymouth",
+      "Roanoke",
+      "Boston"
+    ],
+    "correctAnswer": "Jamestown",
+    "explanation": "Jamestown, established in 1607, was the first permanent English settlement."
+  },
+  {
+    "id": 692,
+    "category": "World History",
+    "difficulty": "medium",
+    "question": "Who led the French army to victory at the Siege of Orl\u00e9ans in 1429?",
+    "choices": [
+      "Joan of Arc",
+      "Napoleon Bonaparte",
+      "Charles de Gaulle",
+      "Louis XIV"
+    ],
+    "correctAnswer": "Joan of Arc",
+    "explanation": "Joan of Arc led the French to victory at Orl\u00e9ans during the Hundred Years' War."
+  },
+  {
+    "id": 693,
+    "category": "World History",
+    "difficulty": "easy",
+    "question": "What wall divided Berlin during the Cold War?",
+    "choices": [
+      "Berlin Wall",
+      "Great Wall",
+      "Hadrian's Wall",
+      "Iron Curtain Wall"
+    ],
+    "correctAnswer": "Berlin Wall",
+    "explanation": "The Berlin Wall divided East and West Berlin from 1961 to 1989."
+  },
+  {
+    "id": 694,
+    "category": "World History",
+    "difficulty": "medium",
+    "question": "What dynasty built most of the Great Wall of China as it stands today?",
+    "choices": [
+      "Ming Dynasty",
+      "Han Dynasty",
+      "Tang Dynasty",
+      "Qin Dynasty"
+    ],
+    "correctAnswer": "Ming Dynasty",
+    "explanation": "The Ming Dynasty rebuilt and extended the Great Wall into its current form."
+  },
+  {
+    "id": 695,
+    "category": "World History",
+    "difficulty": "easy",
+    "question": "Who was the first European to reach India by sea?",
+    "choices": [
+      "Vasco da Gama",
+      "Christopher Columbus",
+      "Ferdinand Magellan",
+      "Marco Polo"
+    ],
+    "correctAnswer": "Vasco da Gama",
+    "explanation": "Vasco da Gama reached India by sailing around Africa in 1498."
+  },
+  {
+    "id": 696,
+    "category": "World History",
+    "difficulty": "medium",
+    "question": "What event is often considered the start of the Protestant Reformation?",
+    "choices": [
+      "Martin Luther's 95 Theses",
+      "The Council of Trent",
+      "The Edict of Nantes",
+      "The Diet of Worms only"
+    ],
+    "correctAnswer": "Martin Luther's 95 Theses",
+    "explanation": "Luther posted his 95 Theses in 1517, sparking the Reformation."
+  },
+  {
+    "id": 697,
+    "category": "World History",
+    "difficulty": "easy",
+    "question": "Who was the famous queen of ancient Egypt known for her relationships with Julius Caesar and Mark Antony?",
+    "choices": [
+      "Cleopatra",
+      "Nefertiti",
+      "Hatshepsut",
+      "Isis"
+    ],
+    "correctAnswer": "Cleopatra",
+    "explanation": "Cleopatra VII was the last active ruler of the Ptolemaic Kingdom of Egypt."
+  },
+  {
+    "id": 698,
+    "category": "World History",
+    "difficulty": "medium",
+    "question": "What was the main cause of the Hundred Years' War?",
+    "choices": [
+      "Disputed claims to the French throne",
+      "Religious differences",
+      "Trade routes",
+      "Territorial disputes in America"
+    ],
+    "correctAnswer": "Disputed claims to the French throne",
+    "explanation": "The war was primarily fought over succession to the French crown."
+  },
+  {
+    "id": 699,
+    "category": "World History",
+    "difficulty": "easy",
+    "question": "What ancient civilization built the city of Tenochtitlan?",
+    "choices": [
+      "Aztecs",
+      "Maya",
+      "Inca",
+      "Olmec"
+    ],
+    "correctAnswer": "Aztecs",
+    "explanation": "The Aztecs built Tenochtitlan on an island in Lake Texcoco."
+  },
+  {
+    "id": 700,
+    "category": "World History",
+    "difficulty": "hard",
+    "question": "What was the name of the medieval trade league that dominated commerce in Northern Europe?",
+    "choices": [
+      "Hanseatic League",
+      "East India Company",
+      "Venetian League",
+      "Silk Road Consortium"
+    ],
+    "correctAnswer": "Hanseatic League",
+    "explanation": "The Hanseatic League was a confederation of merchant guilds in Northern Europe."
+  },
+  {
+    "id": 701,
+    "category": "World History",
+    "difficulty": "easy",
+    "question": "What was the name of the pandemic that killed millions in the 14th century?",
+    "choices": [
+      "Black Death",
+      "Spanish Flu",
+      "Cholera Epidemic",
+      "Smallpox Outbreak"
+    ],
+    "correctAnswer": "Black Death",
+    "explanation": "The Black Death was a devastating plague pandemic in the 1300s."
+  },
+  {
+    "id": 702,
+    "category": "World History",
+    "difficulty": "medium",
+    "question": "Who unified Germany in the 19th century?",
+    "choices": [
+      "Otto von Bismarck",
+      "Kaiser Wilhelm II",
+      "Frederick the Great",
+      "Adolf Hitler"
+    ],
+    "correctAnswer": "Otto von Bismarck",
+    "explanation": "Bismarck orchestrated the unification of Germany in 1871."
+  },
+  {
+    "id": 703,
+    "category": "World History",
+    "difficulty": "easy",
+    "question": "What was the ancient Greek city-state known for its powerful military?",
+    "choices": [
+      "Sparta",
+      "Athens",
+      "Corinth",
+      "Thebes"
+    ],
+    "correctAnswer": "Sparta",
+    "explanation": "Sparta was renowned for its military prowess and warrior culture."
+  },
+  {
+    "id": 704,
+    "category": "World History",
+    "difficulty": "medium",
+    "question": "What revolution began in Russia in 1917?",
+    "choices": [
+      "Russian Revolution",
+      "French Revolution",
+      "Industrial Revolution",
+      "Cultural Revolution"
+    ],
+    "correctAnswer": "Russian Revolution",
+    "explanation": "The Russian Revolution of 1917 overthrew the Tsar and established Soviet rule."
+  },
+  {
+    "id": 705,
+    "category": "U.S. History & Government",
+    "difficulty": "easy",
+    "question": "Who is on the U.S. one-dollar bill?",
+    "choices": [
+      "George Washington",
+      "Abraham Lincoln",
+      "Thomas Jefferson",
+      "Benjamin Franklin"
+    ],
+    "correctAnswer": "George Washington",
+    "explanation": "George Washington's portrait appears on the one-dollar bill."
+  },
+  {
+    "id": 706,
+    "category": "U.S. History & Government",
+    "difficulty": "medium",
+    "question": "Which amendment to the Constitution abolished slavery?",
+    "choices": [
+      "13th Amendment",
+      "14th Amendment",
+      "15th Amendment",
+      "12th Amendment"
+    ],
+    "correctAnswer": "13th Amendment",
+    "explanation": "The 13th Amendment abolished slavery in the United States."
+  },
+  {
+    "id": 707,
+    "category": "U.S. History & Government",
+    "difficulty": "easy",
+    "question": "How many stripes are on the American flag?",
+    "choices": [
+      "13",
+      "50",
+      "7",
+      "15"
+    ],
+    "correctAnswer": "13",
+    "explanation": "The 13 stripes represent the original 13 colonies."
+  },
+  {
+    "id": 708,
+    "category": "U.S. History & Government",
+    "difficulty": "medium",
+    "question": "What was the name of the program that sent aid to Europe after World War II?",
+    "choices": [
+      "Marshall Plan",
+      "Lend-Lease",
+      "New Deal",
+      "Truman Doctrine"
+    ],
+    "correctAnswer": "Marshall Plan",
+    "explanation": "The Marshall Plan provided economic aid to rebuild Western Europe."
+  },
+  {
+    "id": 709,
+    "category": "U.S. History & Government",
+    "difficulty": "easy",
+    "question": "What document begins with 'We the People'?",
+    "choices": [
+      "U.S. Constitution",
+      "Declaration of Independence",
+      "Bill of Rights",
+      "Emancipation Proclamation"
+    ],
+    "correctAnswer": "U.S. Constitution",
+    "explanation": "The Preamble to the Constitution begins with 'We the People.'"
+  },
+  {
+    "id": 710,
+    "category": "U.S. History & Government",
+    "difficulty": "medium",
+    "question": "Who was president during the Cuban Missile Crisis?",
+    "choices": [
+      "John F. Kennedy",
+      "Lyndon B. Johnson",
+      "Dwight D. Eisenhower",
+      "Richard Nixon"
+    ],
+    "correctAnswer": "John F. Kennedy",
+    "explanation": "Kennedy managed the Cuban Missile Crisis in 1962."
+  },
+  {
+    "id": 711,
+    "category": "U.S. History & Government",
+    "difficulty": "easy",
+    "question": "What are the first three words of the Constitution?",
+    "choices": [
+      "We the People",
+      "In Congress assembled",
+      "When in the course",
+      "We hold these"
+    ],
+    "correctAnswer": "We the People",
+    "explanation": "The Preamble begins with 'We the People.'"
+  },
+  {
+    "id": 712,
+    "category": "U.S. History & Government",
+    "difficulty": "medium",
+    "question": "What was the name of the Supreme Court case that established judicial review?",
+    "choices": [
+      "Marbury v. Madison",
+      "Brown v. Board",
+      "Roe v. Wade",
+      "Plessy v. Ferguson"
+    ],
+    "correctAnswer": "Marbury v. Madison",
+    "explanation": "Marbury v. Madison established the principle of judicial review in 1803."
+  },
+  {
+    "id": 713,
+    "category": "U.S. History & Government",
+    "difficulty": "easy",
+    "question": "What color are the stars on the American flag?",
+    "choices": [
+      "White",
+      "Red",
+      "Blue",
+      "Gold"
+    ],
+    "correctAnswer": "White",
+    "explanation": "The stars on the American flag are white on a blue background."
+  },
+  {
+    "id": 714,
+    "category": "U.S. History & Government",
+    "difficulty": "medium",
+    "question": "Who wrote the Federalist Papers along with James Madison and John Jay?",
+    "choices": [
+      "Alexander Hamilton",
+      "Thomas Jefferson",
+      "Benjamin Franklin",
+      "George Washington"
+    ],
+    "correctAnswer": "Alexander Hamilton",
+    "explanation": "Hamilton, Madison, and Jay wrote the Federalist Papers to support ratification."
+  },
+  {
+    "id": 715,
+    "category": "U.S. History & Government",
+    "difficulty": "easy",
+    "question": "What holiday commemorates the adoption of the Declaration of Independence?",
+    "choices": [
+      "Independence Day",
+      "Memorial Day",
+      "Veterans Day",
+      "Labor Day"
+    ],
+    "correctAnswer": "Independence Day",
+    "explanation": "Independence Day, or the Fourth of July, celebrates the Declaration's adoption."
+  },
+  {
+    "id": 716,
+    "category": "U.S. History & Government",
+    "difficulty": "medium",
+    "question": "Which president purchased the Louisiana Territory from France?",
+    "choices": [
+      "Thomas Jefferson",
+      "James Madison",
+      "James Monroe",
+      "John Adams"
+    ],
+    "correctAnswer": "Thomas Jefferson",
+    "explanation": "Jefferson negotiated the Louisiana Purchase in 1803."
+  },
+  {
+    "id": 717,
+    "category": "U.S. History & Government",
+    "difficulty": "easy",
+    "question": "What is the term length for a U.S. president?",
+    "choices": [
+      "4 years",
+      "6 years",
+      "2 years",
+      "8 years"
+    ],
+    "correctAnswer": "4 years",
+    "explanation": "A U.S. president serves a four-year term."
+  },
+  {
+    "id": 718,
+    "category": "U.S. History & Government",
+    "difficulty": "medium",
+    "question": "What movement in the 1960s fought for racial equality in the United States?",
+    "choices": [
+      "Civil Rights Movement",
+      "Suffrage Movement",
+      "Labor Movement",
+      "Temperance Movement"
+    ],
+    "correctAnswer": "Civil Rights Movement",
+    "explanation": "The Civil Rights Movement sought to end racial segregation and discrimination."
+  },
+  {
+    "id": 719,
+    "category": "U.S. History & Government",
+    "difficulty": "easy",
+    "question": "What is the name of the U.S. legislative building where Congress meets?",
+    "choices": [
+      "Capitol Building",
+      "White House",
+      "Pentagon",
+      "Supreme Court Building"
+    ],
+    "correctAnswer": "Capitol Building",
+    "explanation": "The Capitol Building houses the U.S. Congress."
+  },
+  {
+    "id": 720,
+    "category": "U.S. History & Government",
+    "difficulty": "medium",
+    "question": "Who was the U.S. president at the end of World War II?",
+    "choices": [
+      "Harry S. Truman",
+      "Franklin D. Roosevelt",
+      "Dwight D. Eisenhower",
+      "Herbert Hoover"
+    ],
+    "correctAnswer": "Harry S. Truman",
+    "explanation": "Truman became president after Roosevelt's death and oversaw the war's end."
+  },
+  {
+    "id": 721,
+    "category": "U.S. History & Government",
+    "difficulty": "easy",
+    "question": "What is the minimum voting age in the United States?",
+    "choices": [
+      "18",
+      "21",
+      "16",
+      "25"
+    ],
+    "correctAnswer": "18",
+    "explanation": "The 26th Amendment set the voting age at 18."
+  },
+  {
+    "id": 722,
+    "category": "U.S. History & Government",
+    "difficulty": "medium",
+    "question": "What was the name of the U.S. policy of avoiding involvement in foreign wars before World War II?",
+    "choices": [
+      "Isolationism",
+      "Interventionism",
+      "Containment",
+      "Expansionism"
+    ],
+    "correctAnswer": "Isolationism",
+    "explanation": "Isolationism was the U.S. foreign policy stance before World War II."
+  },
+  {
+    "id": 723,
+    "category": "U.S. History & Government",
+    "difficulty": "easy",
+    "question": "How many stars are on the American flag?",
+    "choices": [
+      "50",
+      "13",
+      "48",
+      "52"
+    ],
+    "correctAnswer": "50",
+    "explanation": "Each star represents one of the 50 states."
+  },
+  {
+    "id": 724,
+    "category": "U.S. History & Government",
+    "difficulty": "medium",
+    "question": "What amendment established the direct election of U.S. senators?",
+    "choices": [
+      "17th Amendment",
+      "15th Amendment",
+      "19th Amendment",
+      "12th Amendment"
+    ],
+    "correctAnswer": "17th Amendment",
+    "explanation": "The 17th Amendment provided for direct election of senators."
+  },
+  {
+    "id": 725,
+    "category": "Literature & Language",
+    "difficulty": "easy",
+    "question": "Who wrote The Catcher in the Rye?",
+    "choices": [
+      "J.D. Salinger",
+      "F. Scott Fitzgerald",
+      "Ernest Hemingway",
+      "John Steinbeck"
+    ],
+    "correctAnswer": "J.D. Salinger",
+    "explanation": "J.D. Salinger wrote The Catcher in the Rye, published in 1951."
+  },
+  {
+    "id": 726,
+    "category": "Literature & Language",
+    "difficulty": "medium",
+    "question": "Who wrote War and Peace?",
+    "choices": [
+      "Leo Tolstoy",
+      "Fyodor Dostoevsky",
+      "Anton Chekhov",
+      "Ivan Turgenev"
+    ],
+    "correctAnswer": "Leo Tolstoy",
+    "explanation": "War and Peace is a novel by Russian author Leo Tolstoy."
+  },
+  {
+    "id": 727,
+    "category": "Literature & Language",
+    "difficulty": "easy",
+    "question": "Who wrote Frankenstein?",
+    "choices": [
+      "Mary Shelley",
+      "Bram Stoker",
+      "Edgar Allan Poe",
+      "H.G. Wells"
+    ],
+    "correctAnswer": "Mary Shelley",
+    "explanation": "Mary Shelley wrote Frankenstein, published in 1818."
+  },
+  {
+    "id": 728,
+    "category": "Literature & Language",
+    "difficulty": "medium",
+    "question": "Who wrote The Canterbury Tales?",
+    "choices": [
+      "Geoffrey Chaucer",
+      "William Langland",
+      "John Milton",
+      "Edmund Spenser"
+    ],
+    "correctAnswer": "Geoffrey Chaucer",
+    "explanation": "Chaucer wrote The Canterbury Tales in the late 14th century."
+  },
+  {
+    "id": 729,
+    "category": "Literature & Language",
+    "difficulty": "easy",
+    "question": "Who wrote The Lord of the Rings?",
+    "choices": [
+      "J.R.R. Tolkien",
+      "C.S. Lewis",
+      "George R.R. Martin",
+      "Terry Pratchett"
+    ],
+    "correctAnswer": "J.R.R. Tolkien",
+    "explanation": "Tolkien wrote The Lord of the Rings, published in the 1950s."
+  },
+  {
+    "id": 730,
+    "category": "Literature & Language",
+    "difficulty": "medium",
+    "question": "Who wrote Brave New World?",
+    "choices": [
+      "Aldous Huxley",
+      "George Orwell",
+      "Ray Bradbury",
+      "H.G. Wells"
+    ],
+    "correctAnswer": "Aldous Huxley",
+    "explanation": "Aldous Huxley wrote Brave New World, published in 1932."
+  },
+  {
+    "id": 731,
+    "category": "Literature & Language",
+    "difficulty": "easy",
+    "question": "Who wrote Alice's Adventures in Wonderland?",
+    "choices": [
+      "Lewis Carroll",
+      "Charles Dickens",
+      "Oscar Wilde",
+      "Rudyard Kipling"
+    ],
+    "correctAnswer": "Lewis Carroll",
+    "explanation": "Lewis Carroll wrote Alice's Adventures in Wonderland in 1865."
+  },
+  {
+    "id": 732,
+    "category": "Literature & Language",
+    "difficulty": "medium",
+    "question": "Who wrote Crime and Punishment?",
+    "choices": [
+      "Fyodor Dostoevsky",
+      "Leo Tolstoy",
+      "Nikolai Gogol",
+      "Alexander Pushkin"
+    ],
+    "correctAnswer": "Fyodor Dostoevsky",
+    "explanation": "Crime and Punishment was written by Fyodor Dostoevsky."
+  },
+  {
+    "id": 733,
+    "category": "Literature & Language",
+    "difficulty": "easy",
+    "question": "What is the term for a story told through spoken or written words?",
+    "choices": [
+      "Narrative",
+      "Lyric",
+      "Dialogue",
+      "Monologue"
+    ],
+    "correctAnswer": "Narrative",
+    "explanation": "A narrative is a spoken or written account of connected events."
+  },
+  {
+    "id": 734,
+    "category": "Literature & Language",
+    "difficulty": "medium",
+    "question": "What is the term for the use of words that imitate sounds?",
+    "choices": [
+      "Onomatopoeia",
+      "Alliteration",
+      "Hyperbole",
+      "Personification"
+    ],
+    "correctAnswer": "Onomatopoeia",
+    "explanation": "Onomatopoeia refers to words that imitate natural sounds like 'buzz' or 'hiss.'"
+  },
+  {
+    "id": 735,
+    "category": "Literature & Language",
+    "difficulty": "easy",
+    "question": "Who wrote A Tale of Two Cities?",
+    "choices": [
+      "Charles Dickens",
+      "Victor Hugo",
+      "Jane Austen",
+      "Charlotte Bront\u00eb"
+    ],
+    "correctAnswer": "Charles Dickens",
+    "explanation": "Charles Dickens wrote A Tale of Two Cities, set during the French Revolution."
+  },
+  {
+    "id": 736,
+    "category": "Literature & Language",
+    "difficulty": "medium",
+    "question": "What literary term describes giving human qualities to non-human things?",
+    "choices": [
+      "Personification",
+      "Metaphor",
+      "Simile",
+      "Irony"
+    ],
+    "correctAnswer": "Personification",
+    "explanation": "Personification attributes human characteristics to animals, objects, or ideas."
+  },
+  {
+    "id": 737,
+    "category": "Literature & Language",
+    "difficulty": "easy",
+    "question": "Who wrote The Adventures of Tom Sawyer?",
+    "choices": [
+      "Mark Twain",
+      "Jack London",
+      "Nathaniel Hawthorne",
+      "Herman Melville"
+    ],
+    "correctAnswer": "Mark Twain",
+    "explanation": "Mark Twain wrote The Adventures of Tom Sawyer in 1876."
+  },
+  {
+    "id": 738,
+    "category": "Literature & Language",
+    "difficulty": "medium",
+    "question": "What is the term for the main character in a story?",
+    "choices": [
+      "Protagonist",
+      "Antagonist",
+      "Narrator",
+      "Deuteragonist"
+    ],
+    "correctAnswer": "Protagonist",
+    "explanation": "The protagonist is the central character around whom the story revolves."
+  },
+  {
+    "id": 739,
+    "category": "Literature & Language",
+    "difficulty": "easy",
+    "question": "Who wrote Little Women?",
+    "choices": [
+      "Louisa May Alcott",
+      "Jane Austen",
+      "Emily Bront\u00eb",
+      "Harriet Beecher Stowe"
+    ],
+    "correctAnswer": "Louisa May Alcott",
+    "explanation": "Louisa May Alcott wrote Little Women, published in 1868."
+  },
+  {
+    "id": 740,
+    "category": "Literature & Language",
+    "difficulty": "medium",
+    "question": "What is a 14-line poem with a specific rhyme scheme called?",
+    "choices": [
+      "Sonnet",
+      "Haiku",
+      "Limerick",
+      "Ballad"
+    ],
+    "correctAnswer": "Sonnet",
+    "explanation": "A sonnet is a 14-line poem, often with iambic pentameter."
+  },
+  {
+    "id": 741,
+    "category": "Literature & Language",
+    "difficulty": "easy",
+    "question": "Who wrote The Hobbit?",
+    "choices": [
+      "J.R.R. Tolkien",
+      "C.S. Lewis",
+      "Roald Dahl",
+      "Lewis Carroll"
+    ],
+    "correctAnswer": "J.R.R. Tolkien",
+    "explanation": "The Hobbit was written by J.R.R. Tolkien and published in 1937."
+  },
+  {
+    "id": 742,
+    "category": "Literature & Language",
+    "difficulty": "medium",
+    "question": "What is the term for an exaggerated statement not meant to be taken literally?",
+    "choices": [
+      "Hyperbole",
+      "Understatement",
+      "Litotes",
+      "Euphemism"
+    ],
+    "correctAnswer": "Hyperbole",
+    "explanation": "Hyperbole is deliberate exaggeration for emphasis or effect."
+  },
+  {
+    "id": 743,
+    "category": "Literature & Language",
+    "difficulty": "easy",
+    "question": "Who wrote Oliver Twist?",
+    "choices": [
+      "Charles Dickens",
+      "William Shakespeare",
+      "Robert Louis Stevenson",
+      "Daniel Defoe"
+    ],
+    "correctAnswer": "Charles Dickens",
+    "explanation": "Charles Dickens wrote Oliver Twist, published in 1838."
+  },
+  {
+    "id": 744,
+    "category": "Literature & Language",
+    "difficulty": "hard",
+    "question": "What is the plural of 'cactus'?",
+    "choices": [
+      "Cacti",
+      "Cactuses",
+      "Cactus",
+      "Cactae"
+    ],
+    "correctAnswer": "Cacti",
+    "explanation": "The standard plural of cactus is cacti, though cactuses is also accepted."
+  },
+  {
+    "id": 745,
+    "category": "Art & Music",
+    "difficulty": "medium",
+    "question": "Who composed the opera 'The Magic Flute'?",
+    "choices": [
+      "Wolfgang Amadeus Mozart",
+      "Ludwig van Beethoven",
+      "Giuseppe Verdi",
+      "Richard Wagner"
+    ],
+    "correctAnswer": "Wolfgang Amadeus Mozart",
+    "explanation": "Mozart composed The Magic Flute, first performed in 1791."
+  },
+  {
+    "id": 746,
+    "category": "Art & Music",
+    "difficulty": "easy",
+    "question": "What art movement is Salvador Dal\u00ed associated with?",
+    "choices": [
+      "Surrealism",
+      "Impressionism",
+      "Cubism",
+      "Realism"
+    ],
+    "correctAnswer": "Surrealism",
+    "explanation": "Dal\u00ed is one of the most famous Surrealist artists."
+  },
+  {
+    "id": 747,
+    "category": "Art & Music",
+    "difficulty": "easy",
+    "question": "Who composed the 'Moonlight Sonata'?",
+    "choices": [
+      "Ludwig van Beethoven",
+      "Fr\u00e9d\u00e9ric Chopin",
+      "Franz Liszt",
+      "Johannes Brahms"
+    ],
+    "correctAnswer": "Ludwig van Beethoven",
+    "explanation": "Beethoven composed the Piano Sonata No. 14, known as the Moonlight Sonata."
+  },
+  {
+    "id": 748,
+    "category": "Art & Music",
+    "difficulty": "medium",
+    "question": "What is the term for a painting done on wet plaster?",
+    "choices": [
+      "Fresco",
+      "Mosaic",
+      "Watercolor",
+      "Gouache"
+    ],
+    "correctAnswer": "Fresco",
+    "explanation": "A fresco is painted on freshly applied wet lime plaster."
+  },
+  {
+    "id": 749,
+    "category": "Art & Music",
+    "difficulty": "easy",
+    "question": "Who painted Girl with a Pearl Earring?",
+    "choices": [
+      "Johannes Vermeer",
+      "Rembrandt",
+      "Rubens",
+      "Frans Hals"
+    ],
+    "correctAnswer": "Johannes Vermeer",
+    "explanation": "Girl with a Pearl Earring is a painting by Dutch artist Vermeer."
+  },
+  {
+    "id": 750,
+    "category": "Art & Music",
+    "difficulty": "medium",
+    "question": "Who composed 'Rhapsody in Blue'?",
+    "choices": [
+      "George Gershwin",
+      "Aaron Copland",
+      "Leonard Bernstein",
+      "Duke Ellington"
+    ],
+    "correctAnswer": "George Gershwin",
+    "explanation": "George Gershwin composed Rhapsody in Blue in 1924."
+  },
+  {
+    "id": 751,
+    "category": "Art & Music",
+    "difficulty": "easy",
+    "question": "What instrument family does the trumpet belong to?",
+    "choices": [
+      "Brass",
+      "Woodwind",
+      "String",
+      "Percussion"
+    ],
+    "correctAnswer": "Brass",
+    "explanation": "The trumpet is a brass instrument."
+  },
+  {
+    "id": 752,
+    "category": "Art & Music",
+    "difficulty": "medium",
+    "question": "Who painted The Birth of Venus?",
+    "choices": [
+      "Sandro Botticelli",
+      "Leonardo da Vinci",
+      "Raphael",
+      "Titian"
+    ],
+    "correctAnswer": "Sandro Botticelli",
+    "explanation": "The Birth of Venus was painted by Botticelli in the 1480s."
+  },
+  {
+    "id": 753,
+    "category": "Art & Music",
+    "difficulty": "easy",
+    "question": "What is the musical term for gradually getting louder?",
+    "choices": [
+      "Crescendo",
+      "Decrescendo",
+      "Staccato",
+      "Legato"
+    ],
+    "correctAnswer": "Crescendo",
+    "explanation": "Crescendo means to gradually increase in volume."
+  },
+  {
+    "id": 754,
+    "category": "Art & Music",
+    "difficulty": "medium",
+    "question": "Who composed The Planets suite?",
+    "choices": [
+      "Gustav Holst",
+      "Richard Strauss",
+      "Claude Debussy",
+      "Igor Stravinsky"
+    ],
+    "correctAnswer": "Gustav Holst",
+    "explanation": "Gustav Holst composed The Planets orchestral suite."
+  },
+  {
+    "id": 755,
+    "category": "Art & Music",
+    "difficulty": "easy",
+    "question": "What is the term for a repeating musical pattern in a composition?",
+    "choices": [
+      "Motif",
+      "Chorus",
+      "Bridge",
+      "Refrain"
+    ],
+    "correctAnswer": "Motif",
+    "explanation": "A motif is a short recurring musical idea."
+  },
+  {
+    "id": 756,
+    "category": "Art & Music",
+    "difficulty": "easy",
+    "question": "Who painted Whistler's Mother?",
+    "choices": [
+      "James McNeill Whistler",
+      "\u00c9douard Manet",
+      "Claude Monet",
+      "Pierre-Auguste Renoir"
+    ],
+    "correctAnswer": "James McNeill Whistler",
+    "explanation": "Whistler's Mother was painted by James McNeill Whistler in 1871."
+  },
+  {
+    "id": 757,
+    "category": "Art & Music",
+    "difficulty": "medium",
+    "question": "What is the term for two or more melodic lines played simultaneously?",
+    "choices": [
+      "Polyphony",
+      "Monophony",
+      "Homophony",
+      "Unison"
+    ],
+    "correctAnswer": "Polyphony",
+    "explanation": "Polyphony combines multiple independent melodic lines."
+  },
+  {
+    "id": 758,
+    "category": "Art & Music",
+    "difficulty": "easy",
+    "question": "Who sculpted The Thinker?",
+    "choices": [
+      "Auguste Rodin",
+      "Michelangelo",
+      "Donatello",
+      "Gian Lorenzo Bernini"
+    ],
+    "correctAnswer": "Auguste Rodin",
+    "explanation": "The Thinker was sculpted by French artist Auguste Rodin."
+  },
+  {
+    "id": 759,
+    "category": "Art & Music",
+    "difficulty": "medium",
+    "question": "What musical term means to play smoothly and connected?",
+    "choices": [
+      "Legato",
+      "Staccato",
+      "Pizzicato",
+      "Marcato"
+    ],
+    "correctAnswer": "Legato",
+    "explanation": "Legato indicates notes should be played smoothly without breaks."
+  },
+  {
+    "id": 760,
+    "category": "Art & Music",
+    "difficulty": "easy",
+    "question": "What instrument family does the flute belong to?",
+    "choices": [
+      "Woodwind",
+      "Brass",
+      "String",
+      "Percussion"
+    ],
+    "correctAnswer": "Woodwind",
+    "explanation": "The flute is classified as a woodwind instrument."
+  },
+  {
+    "id": 761,
+    "category": "Art & Music",
+    "difficulty": "medium",
+    "question": "Who composed Swan Lake?",
+    "choices": [
+      "Pyotr Ilyich Tchaikovsky",
+      "Sergei Prokofiev",
+      "Igor Stravinsky",
+      "Dmitri Shostakovich"
+    ],
+    "correctAnswer": "Pyotr Ilyich Tchaikovsky",
+    "explanation": "Tchaikovsky composed the ballet Swan Lake."
+  },
+  {
+    "id": 762,
+    "category": "Art & Music",
+    "difficulty": "easy",
+    "question": "What art movement focused on capturing light and everyday scenes?",
+    "choices": [
+      "Impressionism",
+      "Baroque",
+      "Romanticism",
+      "Gothic"
+    ],
+    "correctAnswer": "Impressionism",
+    "explanation": "Impressionism emphasized light, color, and ordinary subjects."
+  },
+  {
+    "id": 763,
+    "category": "Art & Music",
+    "difficulty": "easy",
+    "question": "What is the musical term for playing short, detached notes?",
+    "choices": [
+      "Staccato",
+      "Legato",
+      "Forte",
+      "Piano"
+    ],
+    "correctAnswer": "Staccato",
+    "explanation": "Staccato means to play notes in a short, detached manner."
+  },
+  {
+    "id": 764,
+    "category": "Math & Logic",
+    "difficulty": "easy",
+    "question": "How many sides does a pentagon have?",
+    "choices": [
+      "5",
+      "6",
+      "7",
+      "4"
+    ],
+    "correctAnswer": "5",
+    "explanation": "A pentagon is a polygon with five sides."
+  },
+  {
+    "id": 765,
+    "category": "Math & Logic",
+    "difficulty": "medium",
+    "question": "What is the value of the mathematical constant e approximately?",
+    "choices": [
+      "2.718",
+      "3.142",
+      "1.618",
+      "1.414"
+    ],
+    "correctAnswer": "2.718",
+    "explanation": "Euler's number e is approximately 2.718."
+  },
+  {
+    "id": 766,
+    "category": "Math & Logic",
+    "difficulty": "easy",
+    "question": "What is the sum of the angles in a triangle?",
+    "choices": [
+      "180 degrees",
+      "360 degrees",
+      "90 degrees",
+      "270 degrees"
+    ],
+    "correctAnswer": "180 degrees",
+    "explanation": "The interior angles of any triangle sum to 180 degrees."
+  },
+  {
+    "id": 767,
+    "category": "Math & Logic",
+    "difficulty": "medium",
+    "question": "What is the name for a polygon with eight sides?",
+    "choices": [
+      "Octagon",
+      "Nonagon",
+      "Heptagon",
+      "Decagon"
+    ],
+    "correctAnswer": "Octagon",
+    "explanation": "An octagon has eight sides."
+  },
+  {
+    "id": 768,
+    "category": "Math & Logic",
+    "difficulty": "easy",
+    "question": "What is 15% of 200?",
+    "choices": [
+      "30",
+      "25",
+      "35",
+      "20"
+    ],
+    "correctAnswer": "30",
+    "explanation": "15% of 200 is 0.15 times 200, which equals 30."
+  },
+  {
+    "id": 769,
+    "category": "Math & Logic",
+    "difficulty": "medium",
+    "question": "What is the formula for the area of a circle?",
+    "choices": [
+      "\u03c0r\u00b2",
+      "2\u03c0r",
+      "\u03c0d",
+      "2\u03c0r\u00b2"
+    ],
+    "correctAnswer": "\u03c0r\u00b2",
+    "explanation": "The area of a circle is pi times the radius squared."
+  },
+  {
+    "id": 770,
+    "category": "Math & Logic",
+    "difficulty": "medium",
+    "question": "What is the Pythagorean theorem?",
+    "choices": [
+      "a\u00b2 + b\u00b2 = c\u00b2",
+      "a + b = c",
+      "a \u00d7 b = c",
+      "a\u00b2 - b\u00b2 = c\u00b2"
+    ],
+    "correctAnswer": "a\u00b2 + b\u00b2 = c\u00b2",
+    "explanation": "In a right triangle, the square of the hypotenuse equals the sum of the squares of the other two sides."
+  },
+  {
+    "id": 771,
+    "category": "Math & Logic",
+    "difficulty": "easy",
+    "question": "What is 7 multiplied by 8?",
+    "choices": [
+      "56",
+      "54",
+      "58",
+      "48"
+    ],
+    "correctAnswer": "56",
+    "explanation": "7 times 8 equals 56."
+  },
+  {
+    "id": 772,
+    "category": "Math & Logic",
+    "difficulty": "medium",
+    "question": "What is the name for a triangle with all sides of equal length?",
+    "choices": [
+      "Equilateral",
+      "Isosceles",
+      "Scalene",
+      "Right"
+    ],
+    "correctAnswer": "Equilateral",
+    "explanation": "An equilateral triangle has three equal sides."
+  },
+  {
+    "id": 773,
+    "category": "Math & Logic",
+    "difficulty": "easy",
+    "question": "What is the perimeter of a square with a side length of 5?",
+    "choices": [
+      "20",
+      "25",
+      "10",
+      "15"
+    ],
+    "correctAnswer": "20",
+    "explanation": "Perimeter is 4 times the side length, so 4 times 5 equals 20."
+  },
+  {
+    "id": 774,
+    "category": "Math & Logic",
+    "difficulty": "medium",
+    "question": "What is the Fibonacci sequence's next number after 1, 1, 2, 3, 5?",
+    "choices": [
+      "8",
+      "7",
+      "6",
+      "10"
+    ],
+    "correctAnswer": "8",
+    "explanation": "In the Fibonacci sequence, each number is the sum of the two preceding ones."
+  },
+  {
+    "id": 775,
+    "category": "Math & Logic",
+    "difficulty": "easy",
+    "question": "What is the name for a four-sided polygon?",
+    "choices": [
+      "Quadrilateral",
+      "Pentagon",
+      "Triangle",
+      "Hexagon"
+    ],
+    "correctAnswer": "Quadrilateral",
+    "explanation": "A quadrilateral is a polygon with four sides."
+  },
+  {
+    "id": 776,
+    "category": "Math & Logic",
+    "difficulty": "medium",
+    "question": "What is the volume formula for a rectangular prism?",
+    "choices": [
+      "length \u00d7 width \u00d7 height",
+      "2lw + 2lh + 2wh",
+      "side\u00b3",
+      "\u03c0r\u00b2h"
+    ],
+    "correctAnswer": "length \u00d7 width \u00d7 height",
+    "explanation": "Volume of a rectangular prism is length times width times height."
+  },
+  {
+    "id": 777,
+    "category": "Math & Logic",
+    "difficulty": "easy",
+    "question": "What is the term for a polygon with ten sides?",
+    "choices": [
+      "Decagon",
+      "Nonagon",
+      "Dodecagon",
+      "Undecagon"
+    ],
+    "correctAnswer": "Decagon",
+    "explanation": "A decagon has ten sides."
+  },
+  {
+    "id": 778,
+    "category": "Math & Logic",
+    "difficulty": "medium",
+    "question": "What is the golden ratio approximately equal to?",
+    "choices": [
+      "1.618",
+      "1.414",
+      "2.718",
+      "3.142"
+    ],
+    "correctAnswer": "1.618",
+    "explanation": "The golden ratio is approximately 1.618."
+  },
+  {
+    "id": 779,
+    "category": "Math & Logic",
+    "difficulty": "easy",
+    "question": "What is 144 divided by 12?",
+    "choices": [
+      "12",
+      "14",
+      "10",
+      "16"
+    ],
+    "correctAnswer": "12",
+    "explanation": "144 divided by 12 equals 12."
+  },
+  {
+    "id": 780,
+    "category": "Math & Logic",
+    "difficulty": "medium",
+    "question": "What is the name for a triangle with one angle greater than 90 degrees?",
+    "choices": [
+      "Obtuse triangle",
+      "Acute triangle",
+      "Right triangle",
+      "Equilateral triangle"
+    ],
+    "correctAnswer": "Obtuse triangle",
+    "explanation": "An obtuse triangle has one angle measuring more than 90 degrees."
+  },
+  {
+    "id": 781,
+    "category": "Math & Logic",
+    "difficulty": "easy",
+    "question": "How many centimeters are in one meter?",
+    "choices": [
+      "100",
+      "10",
+      "1,000",
+      "50"
+    ],
+    "correctAnswer": "100",
+    "explanation": "One meter equals 100 centimeters."
+  },
+  {
+    "id": 782,
+    "category": "Technology",
+    "difficulty": "easy",
+    "question": "What does the acronym 'URL' stand for?",
+    "choices": [
+      "Uniform Resource Locator",
+      "Universal Resource Link",
+      "Unified Reference Locator",
+      "Universal Retrieval Link"
+    ],
+    "correctAnswer": "Uniform Resource Locator",
+    "explanation": "URL stands for Uniform Resource Locator."
+  },
+  {
+    "id": 783,
+    "category": "Technology",
+    "difficulty": "medium",
+    "question": "Who co-founded Microsoft with Bill Gates?",
+    "choices": [
+      "Paul Allen",
+      "Steve Jobs",
+      "Steve Wozniak",
+      "Larry Page"
+    ],
+    "correctAnswer": "Paul Allen",
+    "explanation": "Paul Allen and Bill Gates co-founded Microsoft in 1975."
+  },
+  {
+    "id": 784,
+    "category": "Technology",
+    "difficulty": "easy",
+    "question": "What does 'HTML' stand for?",
+    "choices": [
+      "HyperText Markup Language",
+      "High Transfer Machine Language",
+      "HyperText Machine Learning",
+      "Home Tool Markup Language"
+    ],
+    "correctAnswer": "HyperText Markup Language",
+    "explanation": "HTML stands for HyperText Markup Language."
+  },
+  {
+    "id": 785,
+    "category": "Technology",
+    "difficulty": "medium",
+    "question": "What year was the first iPhone released?",
+    "choices": [
+      "2007",
+      "2005",
+      "2009",
+      "2010"
+    ],
+    "correctAnswer": "2007",
+    "explanation": "Apple released the first iPhone in 2007."
+  },
+  {
+    "id": 786,
+    "category": "Technology",
+    "difficulty": "easy",
+    "question": "What does 'PDF' stand for?",
+    "choices": [
+      "Portable Document Format",
+      "Printed Data File",
+      "Public Document Form",
+      "Personal Data Format"
+    ],
+    "correctAnswer": "Portable Document Format",
+    "explanation": "PDF stands for Portable Document Format."
+  },
+  {
+    "id": 787,
+    "category": "Technology",
+    "difficulty": "medium",
+    "question": "What programming language is primarily used for iOS app development?",
+    "choices": [
+      "Swift",
+      "Java",
+      "Python",
+      "C#"
+    ],
+    "correctAnswer": "Swift",
+    "explanation": "Swift is Apple's primary language for iOS development."
+  },
+  {
+    "id": 788,
+    "category": "Technology",
+    "difficulty": "easy",
+    "question": "What does 'RAM' stand for in computing?",
+    "choices": [
+      "Random Access Memory",
+      "Read Access Memory",
+      "Rapid Access Module",
+      "Remote Access Memory"
+    ],
+    "correctAnswer": "Random Access Memory",
+    "explanation": "RAM stands for Random Access Memory."
+  },
+  {
+    "id": 789,
+    "category": "Technology",
+    "difficulty": "medium",
+    "question": "What company developed the Java programming language?",
+    "choices": [
+      "Sun Microsystems",
+      "Microsoft",
+      "IBM",
+      "Apple"
+    ],
+    "correctAnswer": "Sun Microsystems",
+    "explanation": "Sun Microsystems developed Java in the mid-1990s."
+  },
+  {
+    "id": 790,
+    "category": "Technology",
+    "difficulty": "easy",
+    "question": "What does 'USB' stand for?",
+    "choices": [
+      "Universal Serial Bus",
+      "United System Bus",
+      "Universal System Bridge",
+      "Unified Serial Bridge"
+    ],
+    "correctAnswer": "Universal Serial Bus",
+    "explanation": "USB stands for Universal Serial Bus."
+  },
+  {
+    "id": 791,
+    "category": "Technology",
+    "difficulty": "medium",
+    "question": "What is the name of Google's mobile operating system?",
+    "choices": [
+      "Android",
+      "Chrome OS",
+      "Wear OS",
+      "Fuchsia"
+    ],
+    "correctAnswer": "Android",
+    "explanation": "Android is Google's mobile operating system."
+  },
+  {
+    "id": 792,
+    "category": "Technology",
+    "difficulty": "easy",
+    "question": "What does 'DVD' stand for?",
+    "choices": [
+      "Digital Versatile Disc",
+      "Digital Video Display",
+      "Data Video Disc",
+      "Dynamic Visual Disc"
+    ],
+    "correctAnswer": "Digital Versatile Disc",
+    "explanation": "DVD stands for Digital Versatile Disc."
+  },
+  {
+    "id": 793,
+    "category": "Technology",
+    "difficulty": "medium",
+    "question": "What is the name of the open-source operating system based on Linux?",
+    "choices": [
+      "Ubuntu",
+      "Windows",
+      "macOS",
+      "FreeBSD"
+    ],
+    "correctAnswer": "Ubuntu",
+    "explanation": "Ubuntu is a popular open-source Linux-based operating system."
+  },
+  {
+    "id": 794,
+    "category": "Technology",
+    "difficulty": "easy",
+    "question": "What does 'GPS' stand for?",
+    "choices": [
+      "Global Positioning System",
+      "General Purpose Software",
+      "Geographic Planning System",
+      "Global Processing System"
+    ],
+    "correctAnswer": "Global Positioning System",
+    "explanation": "GPS stands for Global Positioning System."
+  },
+  {
+    "id": 795,
+    "category": "Technology",
+    "difficulty": "medium",
+    "question": "What technology allows devices to communicate over short distances wirelessly?",
+    "choices": [
+      "Bluetooth",
+      "Ethernet",
+      "Fiber optic",
+      "Satellite"
+    ],
+    "correctAnswer": "Bluetooth",
+    "explanation": "Bluetooth enables short-range wireless communication between devices."
+  },
+  {
+    "id": 796,
+    "category": "Technology",
+    "difficulty": "easy",
+    "question": "What does 'SSD' stand for in computing?",
+    "choices": [
+      "Solid State Drive",
+      "Super Speed Disk",
+      "System Storage Device",
+      "Serial Storage Data"
+    ],
+    "correctAnswer": "Solid State Drive",
+    "explanation": "SSD stands for Solid State Drive."
+  },
+  {
+    "id": 797,
+    "category": "Technology",
+    "difficulty": "medium",
+    "question": "Who invented the World Wide Web?",
+    "choices": [
+      "Tim Berners-Lee",
+      "Bill Gates",
+      "Steve Jobs",
+      "Vint Cerf"
+    ],
+    "correctAnswer": "Tim Berners-Lee",
+    "explanation": "Tim Berners-Lee invented the World Wide Web in 1989."
+  },
+  {
+    "id": 798,
+    "category": "Technology",
+    "difficulty": "easy",
+    "question": "What does 'LED' stand for?",
+    "choices": [
+      "Light Emitting Diode",
+      "Low Energy Display",
+      "Laser Emission Device",
+      "Light Electronic Display"
+    ],
+    "correctAnswer": "Light Emitting Diode",
+    "explanation": "LED stands for Light Emitting Diode."
+  },
+  {
+    "id": 799,
+    "category": "Technology",
+    "difficulty": "medium",
+    "question": "What does 'IoT' stand for?",
+    "choices": [
+      "Internet of Things",
+      "Integration of Technology",
+      "Input Output Transfer",
+      "Internal Operating Tool"
+    ],
+    "correctAnswer": "Internet of Things",
+    "explanation": "IoT stands for Internet of Things, referring to connected devices."
+  },
+  {
+    "id": 800,
+    "category": "Technology",
+    "difficulty": "easy",
+    "question": "What is the main function of a computer's operating system?",
+    "choices": [
+      "Manage hardware and software resources",
+      "Store data permanently",
+      "Connect to the internet",
+      "Display graphics"
+    ],
+    "correctAnswer": "Manage hardware and software resources",
+    "explanation": "An operating system manages the computer's hardware and software."
+  },
+  {
+    "id": 801,
+    "category": "Technology",
+    "difficulty": "medium",
+    "question": "What is cloud computing?",
+    "choices": [
+      "Using remote servers over the internet for data storage and processing",
+      "Computing with weather data",
+      "Using only local storage",
+      "A type of quantum computing"
+    ],
+    "correctAnswer": "Using remote servers over the internet for data storage and processing",
+    "explanation": "Cloud computing delivers computing services over the internet."
+  },
+  {
+    "id": 802,
+    "category": "Sports",
+    "difficulty": "easy",
+    "question": "How many players are on a basketball team on the court at one time?",
+    "choices": [
+      "5",
+      "6",
+      "7",
+      "4"
+    ],
+    "correctAnswer": "5",
+    "explanation": "Each basketball team has five players on the court."
+  },
+  {
+    "id": 803,
+    "category": "Sports",
+    "difficulty": "easy",
+    "question": "What sport is played at Wimbledon?",
+    "choices": [
+      "Tennis",
+      "Golf",
+      "Cricket",
+      "Rugby"
+    ],
+    "correctAnswer": "Tennis",
+    "explanation": "Wimbledon is one of the four Grand Slam tennis tournaments."
+  },
+  {
+    "id": 804,
+    "category": "Sports",
+    "difficulty": "medium",
+    "question": "How many points is a touchdown worth in American football?",
+    "choices": [
+      "6",
+      "7",
+      "3",
+      "4"
+    ],
+    "correctAnswer": "6",
+    "explanation": "A touchdown is worth six points."
+  },
+  {
+    "id": 805,
+    "category": "Sports",
+    "difficulty": "easy",
+    "question": "What is the term for a score of zero in tennis?",
+    "choices": [
+      "Love",
+      "Nil",
+      "Duck",
+      "Blank"
+    ],
+    "correctAnswer": "Love",
+    "explanation": "In tennis, a score of zero is called 'love.'"
+  },
+  {
+    "id": 806,
+    "category": "Sports",
+    "difficulty": "medium",
+    "question": "What country hosted the 2016 Summer Olympics?",
+    "choices": [
+      "Brazil",
+      "China",
+      "United Kingdom",
+      "Japan"
+    ],
+    "correctAnswer": "Brazil",
+    "explanation": "The 2016 Summer Olympics were held in Rio de Janeiro, Brazil."
+  },
+  {
+    "id": 807,
+    "category": "Sports",
+    "difficulty": "easy",
+    "question": "What sport is known as 'the beautiful game'?",
+    "choices": [
+      "Soccer",
+      "Tennis",
+      "Golf",
+      "Cricket"
+    ],
+    "correctAnswer": "Soccer",
+    "explanation": "Soccer is often called 'the beautiful game.'"
+  },
+  {
+    "id": 808,
+    "category": "Sports",
+    "difficulty": "medium",
+    "question": "What is the name of the championship game in the NFL?",
+    "choices": [
+      "Super Bowl",
+      "World Series",
+      "Stanley Cup",
+      "NBA Finals"
+    ],
+    "correctAnswer": "Super Bowl",
+    "explanation": "The Super Bowl is the NFL's championship game."
+  },
+  {
+    "id": 809,
+    "category": "Sports",
+    "difficulty": "easy",
+    "question": "How many periods are in a standard ice hockey game?",
+    "choices": [
+      "3",
+      "2",
+      "4",
+      "5"
+    ],
+    "correctAnswer": "3",
+    "explanation": "A standard ice hockey game has three periods."
+  },
+  {
+    "id": 810,
+    "category": "Sports",
+    "difficulty": "medium",
+    "question": "What is the term for three consecutive strikes in bowling?",
+    "choices": [
+      "Turkey",
+      "Hat trick",
+      "Triple",
+      "Trifecta"
+    ],
+    "correctAnswer": "Turkey",
+    "explanation": "Three consecutive strikes in bowling is called a turkey."
+  },
+  {
+    "id": 811,
+    "category": "Sports",
+    "difficulty": "easy",
+    "question": "What color is the center target on an archery target?",
+    "choices": [
+      "Gold",
+      "Red",
+      "Blue",
+      "Black"
+    ],
+    "correctAnswer": "Gold",
+    "explanation": "The innermost ring of an archery target is gold."
+  },
+  {
+    "id": 812,
+    "category": "Sports",
+    "difficulty": "medium",
+    "question": "What is the only Grand Slam tennis tournament played on grass?",
+    "choices": [
+      "Wimbledon",
+      "US Open",
+      "French Open",
+      "Australian Open"
+    ],
+    "correctAnswer": "Wimbledon",
+    "explanation": "Wimbledon is the only Grand Slam played on grass courts."
+  },
+  {
+    "id": 813,
+    "category": "Sports",
+    "difficulty": "easy",
+    "question": "What sport does Tiger Woods play?",
+    "choices": [
+      "Golf",
+      "Tennis",
+      "Baseball",
+      "Boxing"
+    ],
+    "correctAnswer": "Golf",
+    "explanation": "Tiger Woods is one of the most famous professional golfers."
+  },
+  {
+    "id": 814,
+    "category": "Sports",
+    "difficulty": "medium",
+    "question": "What is the distance of an Olympic swimming pool?",
+    "choices": [
+      "50 meters",
+      "25 meters",
+      "100 meters",
+      "75 meters"
+    ],
+    "correctAnswer": "50 meters",
+    "explanation": "Olympic swimming pools are 50 meters long."
+  },
+  {
+    "id": 815,
+    "category": "Sports",
+    "difficulty": "easy",
+    "question": "What is the national sport of Canada?",
+    "choices": [
+      "Lacrosse",
+      "Ice hockey",
+      "Curling",
+      "Baseball"
+    ],
+    "correctAnswer": "Lacrosse",
+    "explanation": "Lacrosse is recognized as Canada's national summer sport."
+  },
+  {
+    "id": 816,
+    "category": "Sports",
+    "difficulty": "medium",
+    "question": "How many innings are in a standard professional baseball game?",
+    "choices": [
+      "9",
+      "7",
+      "10",
+      "12"
+    ],
+    "correctAnswer": "9",
+    "explanation": "A standard professional baseball game has nine innings."
+  },
+  {
+    "id": 817,
+    "category": "Sports",
+    "difficulty": "easy",
+    "question": "What martial art originated in Japan and uses throws and pins?",
+    "choices": [
+      "Judo",
+      "Karate",
+      "Taekwondo",
+      "Kung Fu"
+    ],
+    "correctAnswer": "Judo",
+    "explanation": "Judo was developed in Japan and emphasizes throws and grappling."
+  },
+  {
+    "id": 818,
+    "category": "Sports",
+    "difficulty": "medium",
+    "question": "What is the term for a perfect score of 10.0 in gymnastics?",
+    "choices": [
+      "Perfect 10",
+      "Gold score",
+      "Full marks",
+      "Complete routine"
+    ],
+    "correctAnswer": "Perfect 10",
+    "explanation": "A score of 10.0 in gymnastics is called a perfect 10."
+  },
+  {
+    "id": 819,
+    "category": "Sports",
+    "difficulty": "easy",
+    "question": "What sport involves sliding stones on ice toward a target?",
+    "choices": [
+      "Curling",
+      "Bowling",
+      "Shuffleboard",
+      "Bocce"
+    ],
+    "correctAnswer": "Curling",
+    "explanation": "Curling involves sliding granite stones on ice toward a target area."
+  },
+  {
+    "id": 820,
+    "category": "Food & Drink",
+    "difficulty": "easy",
+    "question": "What grain is used to make traditional Italian pasta?",
+    "choices": [
+      "Wheat",
+      "Rice",
+      "Corn",
+      "Barley"
+    ],
+    "correctAnswer": "Wheat",
+    "explanation": "Traditional Italian pasta is made from durum wheat."
+  },
+  {
+    "id": 821,
+    "category": "Food & Drink",
+    "difficulty": "medium",
+    "question": "What country is the origin of croissants?",
+    "choices": [
+      "France",
+      "Austria",
+      "Italy",
+      "Belgium"
+    ],
+    "correctAnswer": "France",
+    "explanation": "Although influenced by Austrian pastry, the croissant is strongly associated with France."
+  },
+  {
+    "id": 822,
+    "category": "Food & Drink",
+    "difficulty": "easy",
+    "question": "What fruit is a raisin made from?",
+    "choices": [
+      "Grape",
+      "Plum",
+      "Cherry",
+      "Date"
+    ],
+    "correctAnswer": "Grape",
+    "explanation": "A raisin is a dried grape."
+  },
+  {
+    "id": 823,
+    "category": "Food & Drink",
+    "difficulty": "medium",
+    "question": "What spice gives paella its yellow color?",
+    "choices": [
+      "Saffron",
+      "Turmeric",
+      "Paprika",
+      "Curry powder"
+    ],
+    "correctAnswer": "Saffron",
+    "explanation": "Saffron gives traditional paella its distinctive yellow color."
+  },
+  {
+    "id": 824,
+    "category": "Food & Drink",
+    "difficulty": "easy",
+    "question": "What type of food is tofu made from?",
+    "choices": [
+      "Soybeans",
+      "Rice",
+      "Wheat",
+      "Corn"
+    ],
+    "correctAnswer": "Soybeans",
+    "explanation": "Tofu is made from coagulated soy milk."
+  },
+  {
+    "id": 825,
+    "category": "Food & Drink",
+    "difficulty": "medium",
+    "question": "What country is the world's largest producer of tea?",
+    "choices": [
+      "China",
+      "India",
+      "Kenya",
+      "Sri Lanka"
+    ],
+    "correctAnswer": "China",
+    "explanation": "China is the world's largest tea producer."
+  },
+  {
+    "id": 826,
+    "category": "Food & Drink",
+    "difficulty": "medium",
+    "question": "What type of cheese is traditionally used on a Margherita pizza?",
+    "choices": [
+      "Mozzarella",
+      "Cheddar",
+      "Parmesan",
+      "Gouda"
+    ],
+    "correctAnswer": "Mozzarella",
+    "explanation": "Mozzarella is the traditional cheese on a Margherita pizza."
+  },
+  {
+    "id": 827,
+    "category": "Food & Drink",
+    "difficulty": "easy",
+    "question": "What beverage is made from fermented grapes?",
+    "choices": [
+      "Wine",
+      "Beer",
+      "Cider",
+      "Whiskey"
+    ],
+    "correctAnswer": "Wine",
+    "explanation": "Wine is made by fermenting grape juice."
+  },
+  {
+    "id": 828,
+    "category": "Food & Drink",
+    "difficulty": "medium",
+    "question": "What is the primary ingredient in traditional Japanese miso?",
+    "choices": [
+      "Fermented soybeans",
+      "Rice",
+      "Seaweed",
+      "Fish"
+    ],
+    "correctAnswer": "Fermented soybeans",
+    "explanation": "Miso is made from fermented soybeans, often with rice or barley."
+  },
+  {
+    "id": 829,
+    "category": "Food & Drink",
+    "difficulty": "easy",
+    "question": "What nut is used to make marzipan?",
+    "choices": [
+      "Almond",
+      "Cashew",
+      "Hazelnut",
+      "Walnut"
+    ],
+    "correctAnswer": "Almond",
+    "explanation": "Marzipan is made from sugar and ground almonds."
+  },
+  {
+    "id": 830,
+    "category": "Food & Drink",
+    "difficulty": "medium",
+    "question": "What is the national dish of Spain consisting of rice and various ingredients?",
+    "choices": [
+      "Paella",
+      "Tapas",
+      "Gazpacho",
+      "Tortilla espa\u00f1ola"
+    ],
+    "correctAnswer": "Paella",
+    "explanation": "Paella is a rice dish from Valencia, Spain."
+  },
+  {
+    "id": 831,
+    "category": "Food & Drink",
+    "difficulty": "easy",
+    "question": "What vegetable is pickled to make gherkins?",
+    "choices": [
+      "Cucumber",
+      "Zucchini",
+      "Pepper",
+      "Carrot"
+    ],
+    "correctAnswer": "Cucumber",
+    "explanation": "Gherkins are small pickled cucumbers."
+  },
+  {
+    "id": 832,
+    "category": "Food & Drink",
+    "difficulty": "medium",
+    "question": "What type of flour is used to make traditional French bread?",
+    "choices": [
+      "Wheat flour",
+      "Rye flour",
+      "Corn flour",
+      "Rice flour"
+    ],
+    "correctAnswer": "Wheat flour",
+    "explanation": "Traditional French bread like baguettes uses wheat flour."
+  },
+  {
+    "id": 833,
+    "category": "Food & Drink",
+    "difficulty": "easy",
+    "question": "What is the most popular flavor of ice cream worldwide?",
+    "choices": [
+      "Vanilla",
+      "Chocolate",
+      "Strawberry",
+      "Mint"
+    ],
+    "correctAnswer": "Vanilla",
+    "explanation": "Vanilla is the most popular ice cream flavor globally."
+  },
+  {
+    "id": 834,
+    "category": "Food & Drink",
+    "difficulty": "medium",
+    "question": "What country is credited with inventing chocolate as we know it today?",
+    "choices": [
+      "Switzerland",
+      "Belgium",
+      "Mexico",
+      "France"
+    ],
+    "correctAnswer": "Switzerland",
+    "explanation": "Switzerland pioneered modern chocolate-making techniques like conching."
+  },
+  {
+    "id": 835,
+    "category": "Food & Drink",
+    "difficulty": "easy",
+    "question": "What is the main ingredient in hummus?",
+    "choices": [
+      "Chickpeas",
+      "Lentils",
+      "Black beans",
+      "White beans"
+    ],
+    "correctAnswer": "Chickpeas",
+    "explanation": "Hummus is made primarily from mashed chickpeas."
+  },
+  {
+    "id": 836,
+    "category": "Food & Drink",
+    "difficulty": "medium",
+    "question": "What type of alcohol is sake?",
+    "choices": [
+      "Rice wine",
+      "Grape wine",
+      "Beer",
+      "Spirits"
+    ],
+    "correctAnswer": "Rice wine",
+    "explanation": "Sake is a Japanese alcoholic beverage made from fermented rice."
+  },
+  {
+    "id": 837,
+    "category": "Food & Drink",
+    "difficulty": "easy",
+    "question": "What fruit is used to make traditional cider?",
+    "choices": [
+      "Apple",
+      "Grape",
+      "Pear",
+      "Peach"
+    ],
+    "correctAnswer": "Apple",
+    "explanation": "Traditional cider is made from fermented apple juice."
+  },
+  {
+    "id": 838,
+    "category": "Food & Drink",
+    "difficulty": "medium",
+    "question": "What herb is the main ingredient in traditional pesto?",
+    "choices": [
+      "Basil",
+      "Cilantro",
+      "Parsley",
+      "Oregano"
+    ],
+    "correctAnswer": "Basil",
+    "explanation": "Pesto is traditionally made with fresh basil, pine nuts, garlic, and olive oil."
+  },
+  {
+    "id": 839,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the currency of the United Kingdom?",
+    "choices": [
+      "Pound sterling",
+      "Euro",
+      "Dollar",
+      "Franc"
+    ],
+    "correctAnswer": "Pound sterling",
+    "explanation": "The pound sterling is the currency of the United Kingdom."
+  },
+  {
+    "id": 840,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "How many bones does a shark have?",
+    "choices": [
+      "0",
+      "50",
+      "100",
+      "200"
+    ],
+    "correctAnswer": "0",
+    "explanation": "Sharks have skeletons made of cartilage, not bone."
+  },
+  {
+    "id": 841,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the tallest mammal on Earth?",
+    "choices": [
+      "Giraffe",
+      "Elephant",
+      "Horse",
+      "Camel"
+    ],
+    "correctAnswer": "Giraffe",
+    "explanation": "Giraffes are the tallest living terrestrial animals."
+  },
+  {
+    "id": 842,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the most widely spoken language in the world by total number of speakers?",
+    "choices": [
+      "English",
+      "Mandarin Chinese",
+      "Spanish",
+      "Hindi"
+    ],
+    "correctAnswer": "English",
+    "explanation": "English has the most total speakers worldwide when including non-native speakers."
+  },
+  {
+    "id": 843,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "How many strings does a ukulele typically have?",
+    "choices": [
+      "4",
+      "6",
+      "5",
+      "3"
+    ],
+    "correctAnswer": "4",
+    "explanation": "A standard ukulele has four strings."
+  },
+  {
+    "id": 844,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the hardest substance in the human body?",
+    "choices": [
+      "Tooth enamel",
+      "Bone",
+      "Nails",
+      "Cartilage"
+    ],
+    "correctAnswer": "Tooth enamel",
+    "explanation": "Tooth enamel is the hardest substance in the human body."
+  },
+  {
+    "id": 845,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the largest living bird by weight?",
+    "choices": [
+      "Ostrich",
+      "Emu",
+      "Cassowary",
+      "Albatross"
+    ],
+    "correctAnswer": "Ostrich",
+    "explanation": "The ostrich is the heaviest living bird."
+  },
+  {
+    "id": 846,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "How many hearts does an octopus have?",
+    "choices": [
+      "3",
+      "1",
+      "2",
+      "4"
+    ],
+    "correctAnswer": "3",
+    "explanation": "Octopuses have three hearts: two branchial hearts and one systemic heart."
+  },
+  {
+    "id": 847,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What animal is known as the 'King of the Jungle'?",
+    "choices": [
+      "Lion",
+      "Tiger",
+      "Elephant",
+      "Gorilla"
+    ],
+    "correctAnswer": "Lion",
+    "explanation": "The lion is traditionally called the King of the Jungle."
+  },
+  {
+    "id": 848,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the only continent with land in all four hemispheres?",
+    "choices": [
+      "Africa",
+      "Asia",
+      "South America",
+      "Europe"
+    ],
+    "correctAnswer": "Africa",
+    "explanation": "Africa spans both the Northern and Southern hemispheres and both the Eastern and Western hemispheres."
+  },
+  {
+    "id": 849,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the most populous city in the world?",
+    "choices": [
+      "Tokyo",
+      "Shanghai",
+      "Delhi",
+      "Beijing"
+    ],
+    "correctAnswer": "Tokyo",
+    "explanation": "Tokyo has the largest metropolitan population of any city."
+  },
+  {
+    "id": 850,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the tallest tree species in the world?",
+    "choices": [
+      "Coast redwood",
+      "Giant sequoia",
+      "Douglas fir",
+      "Sitka spruce"
+    ],
+    "correctAnswer": "Coast redwood",
+    "explanation": "Coast redwoods are the tallest trees on Earth."
+  },
+  {
+    "id": 851,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the name of the closest star to our solar system?",
+    "choices": [
+      "Proxima Centauri",
+      "Alpha Centauri A",
+      "Sirius",
+      "Barnard's Star"
+    ],
+    "correctAnswer": "Proxima Centauri",
+    "explanation": "Proxima Centauri is the nearest known star to the Sun."
+  },
+  {
+    "id": 852,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What gas do humans exhale?",
+    "choices": [
+      "Carbon dioxide",
+      "Oxygen",
+      "Nitrogen",
+      "Hydrogen"
+    ],
+    "correctAnswer": "Carbon dioxide",
+    "explanation": "Humans exhale carbon dioxide as a waste product of respiration."
+  },
+  {
+    "id": 853,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the largest desert in the world by area?",
+    "choices": [
+      "Antarctic Desert",
+      "Sahara Desert",
+      "Arabian Desert",
+      "Gobi Desert"
+    ],
+    "correctAnswer": "Antarctic Desert",
+    "explanation": "Antarctica is technically the largest desert, as it receives very little precipitation."
+  },
+  {
+    "id": 854,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the boiling point of water in Fahrenheit?",
+    "choices": [
+      "212\u00b0F",
+      "200\u00b0F",
+      "180\u00b0F",
+      "220\u00b0F"
+    ],
+    "correctAnswer": "212\u00b0F",
+    "explanation": "Water boils at 212 degrees Fahrenheit at standard pressure."
+  },
+  {
+    "id": 855,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "How many legs does a lobster have?",
+    "choices": [
+      "10",
+      "8",
+      "6",
+      "12"
+    ],
+    "correctAnswer": "10",
+    "explanation": "Lobsters have 10 legs, five pairs of walking legs."
+  },
+  {
+    "id": 856,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the primary color of a school bus in the United States?",
+    "choices": [
+      "Yellow",
+      "Orange",
+      "Red",
+      "Green"
+    ],
+    "correctAnswer": "Yellow",
+    "explanation": "School buses in the U.S. are painted yellow for visibility."
+  },
+  {
+    "id": 857,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the longest-running animated TV series in the United States?",
+    "choices": [
+      "The Simpsons",
+      "South Park",
+      "Family Guy",
+      "SpongeBob SquarePants"
+    ],
+    "correctAnswer": "The Simpsons",
+    "explanation": "The Simpsons is the longest-running American animated series."
+  },
+  {
+    "id": 858,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the most abundant element in the Earth's crust?",
+    "choices": [
+      "Oxygen",
+      "Silicon",
+      "Aluminum",
+      "Iron"
+    ],
+    "correctAnswer": "Oxygen",
+    "explanation": "Oxygen makes up about 46% of the Earth's crust by weight."
+  },
+  {
+    "id": 859,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the primary language spoken in Brazil?",
+    "choices": [
+      "Portuguese",
+      "Spanish",
+      "English",
+      "French"
+    ],
+    "correctAnswer": "Portuguese",
+    "explanation": "Portuguese is the official language of Brazil."
+  },
+  {
+    "id": 860,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the largest organ inside the human body?",
+    "choices": [
+      "Liver",
+      "Heart",
+      "Brain",
+      "Lungs"
+    ],
+    "correctAnswer": "Liver",
+    "explanation": "The liver is the largest internal organ."
+  },
+  {
+    "id": 861,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What animal is the symbol of the World Wildlife Fund?",
+    "choices": [
+      "Giant panda",
+      "Tiger",
+      "Polar bear",
+      "Elephant"
+    ],
+    "correctAnswer": "Giant panda",
+    "explanation": "The WWF logo features a giant panda."
+  },
+  {
+    "id": 862,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the driest place on Earth?",
+    "choices": [
+      "Atacama Desert",
+      "Sahara Desert",
+      "Death Valley",
+      "McMurdo Dry Valleys"
+    ],
+    "correctAnswer": "Atacama Desert",
+    "explanation": "The Atacama Desert in Chile is considered the driest non-polar desert."
+  },
+  {
+    "id": 863,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the most common surname in the world?",
+    "choices": [
+      "Wang",
+      "Smith",
+      "Garcia",
+      "Li"
+    ],
+    "correctAnswer": "Wang",
+    "explanation": "Wang is the most common surname globally, with over 100 million bearers."
+  },
+  {
+    "id": 864,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the largest cat species in the world?",
+    "choices": [
+      "Tiger",
+      "Lion",
+      "Jaguar",
+      "Leopard"
+    ],
+    "correctAnswer": "Tiger",
+    "explanation": "The tiger is the largest living cat species."
+  },
+  {
+    "id": 865,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "How many teeth does an adult human typically have?",
+    "choices": [
+      "32",
+      "28",
+      "30",
+      "34"
+    ],
+    "correctAnswer": "32",
+    "explanation": "Adults typically have 32 teeth, including wisdom teeth."
+  },
+  {
+    "id": 866,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the tallest waterfall in the world?",
+    "choices": [
+      "Angel Falls",
+      "Niagara Falls",
+      "Victoria Falls",
+      "Iguazu Falls"
+    ],
+    "correctAnswer": "Angel Falls",
+    "explanation": "Angel Falls in Venezuela is the tallest uninterrupted waterfall."
+  },
+  {
+    "id": 867,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the study of weather patterns called?",
+    "choices": [
+      "Meteorology",
+      "Climatology",
+      "Geology",
+      "Astronomy"
+    ],
+    "correctAnswer": "Meteorology",
+    "explanation": "Meteorology is the study of the atmosphere and weather."
+  },
+  {
+    "id": 868,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the largest reptile in the world?",
+    "choices": [
+      "Saltwater crocodile",
+      "Komodo dragon",
+      "Green anaconda",
+      "Leatherback turtle"
+    ],
+    "correctAnswer": "Saltwater crocodile",
+    "explanation": "The saltwater crocodile is the largest living reptile."
+  },
+  {
+    "id": 869,
+    "category": "General Knowledge",
+    "difficulty": "medium",
+    "question": "What is the most spoken language in the world by number of native speakers?",
+    "choices": [
+      "Mandarin Chinese",
+      "Spanish",
+      "English",
+      "Hindi"
+    ],
+    "correctAnswer": "Mandarin Chinese",
+    "explanation": "Mandarin Chinese has the most native speakers of any language."
+  },
+  {
+    "id": 870,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the fastest aquatic animal?",
+    "choices": [
+      "Sailfish",
+      "Dolphin",
+      "Shark",
+      "Tuna"
+    ],
+    "correctAnswer": "Sailfish",
+    "explanation": "Sailfish can reach speeds of up to 68 mph in water."
+  },
+  {
+    "id": 871,
+    "category": "General Knowledge",
+    "difficulty": "easy",
+    "question": "What is the most widely used programming language in the world?",
+    "choices": [
+      "Python",
+      "JavaScript",
+      "Java",
+      "C++"
+    ],
+    "correctAnswer": "Python",
+    "explanation": "Python is one of the most widely used programming languages globally."
   }
 ]
