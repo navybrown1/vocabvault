@@ -128,7 +128,7 @@ export const SOUND_MANIFEST: Record<
   wrongAnswer: { frequencies: [392, 349, 294, 247, 196], duration: 0.17, gap: 0.07, type: 'sawtooth', volume: 0.065 },
   stealActivation: { frequencies: [330, 440, 554], duration: 0.13, gap: 0.045, type: 'square', volume: 0.05 },
   roundTransition: { frequencies: [392, 523, 659, 784], duration: 0.24, gap: 0.055, type: 'triangle', volume: 0.055 },
-  winnerCelebration: { frequencies: [523, 659, 784, 1046, 1175], duration: 0.32, gap: 0.06, type: 'triangle', volume: 0.06 },
+  winnerCelebration: { frequencies: [523, 659, 784, 988, 1175, 1568], duration: 0.34, gap: 0.055, type: 'triangle', volume: 0.095 },
 };
 
 export const REVEAL_COPY = {

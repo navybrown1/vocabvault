@@ -173,6 +173,46 @@ export function createSoundController(): SoundController {
         });
       };
 
+      const playWinnerCelebration = () => {
+        const brassLine = [523, 659, 784, 988, 1175, 1568];
+        brassLine.forEach((frequency, index) => {
+          const noteStart = startAt + index * 0.07;
+          const noteEnd = noteStart + 0.24;
+          scheduleTone({
+            frequency,
+            frequencyEnd: frequency * 1.018,
+            type: 'triangle',
+            noteStart,
+            noteEnd,
+            volume: peakVolume,
+          });
+          scheduleTone({
+            frequency: frequency / 2,
+            type: 'square',
+            noteStart,
+            noteEnd,
+            volume: peakVolume * 0.22,
+          });
+        });
+
+        const finaleStart = startAt + brassLine.length * 0.072;
+        const finaleEnd = finaleStart + 0.72;
+        scheduleChord({
+          frequencies: [523, 659, 784, 1046, 1318],
+          type: 'triangle',
+          noteStart: finaleStart,
+          noteEnd: finaleEnd,
+          volume: peakVolume * 0.78,
+        });
+        scheduleChord({
+          frequencies: [262, 392, 523],
+          type: 'sine',
+          noteStart: finaleStart,
+          noteEnd: finaleEnd,
+          volume: peakVolume * 0.28,
+        });
+      };
+
       if (event === 'correctAnswer') {
         playCorrectFanfare();
         return;
@@ -180,6 +220,11 @@ export function createSoundController(): SoundController {
 
       if (event === 'wrongAnswer') {
         playWrongSting();
+        return;
+      }
+
+      if (event === 'winnerCelebration') {
+        playWinnerCelebration();
         return;
       }
 

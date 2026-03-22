@@ -153,3 +153,18 @@ Original prompt: Build a production-quality 4-player trivia party game as a poli
   - `npm --workspaces=false test` passed (`14` tests)
   - `npm --workspaces=false run build` passed
   - `QA_BASE_URL='http://127.0.0.1:3003' npm --workspaces=false exec -- node ./scripts/qa_smoke.mjs` passed
+
+2026-03-22 (bigger winner finale)
+- Rebuilt the winner screen so the champion is the visual focus before the podium:
+  - added a large champion hero card with oversized portrait, score, and badges
+  - increased the winner celebration layer density and added spotlight/ring pulses
+  - kept the podium and full standings as secondary supporting sections
+- Elevated the podium styling:
+  - first place block is taller and scaled larger
+  - center winner card now has a stronger glow, larger portrait, and bigger crown treatment
+- Retuned the `winnerCelebration` cue into a larger layered fanfare so the ending lands more like a finale than a normal state change
+- Validation results after the winner-finale update:
+  - `npm --workspaces=false test` passed
+  - `npm --workspaces=false run build` passed
+  - `QA_BASE_URL='http://127.0.0.1:3003' npm --workspaces=false exec -- node ./scripts/qa_smoke.mjs` passed
+  - visually reviewed `tmp-qa/05-winner.png` to confirm the winner hero dominates the screen
