@@ -40,12 +40,14 @@ function makeId(prefix: string) {
 }
 
 export function createInitialState(soundEnabled = true): GameState {
+  const players = createEmptyPlayers();
   return {
     version: SESSION_VERSION,
     brand: BRAND_NAME,
     gamePhase: 'welcome',
-    players: createEmptyPlayers(),
+    players,
     playerCount: DEFAULT_PLAYER_COUNT,
+    selectedPlayerIds: [],
     soundEnabled,
     round: 1,
     questionPlan: [],
@@ -74,6 +76,26 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       return {
         ...state,
         playerCount: action.count,
+        selectedPlayerIds: syncSelectedPlayerIds(state.players, state.selectedPlayerIds, action.count),
+      };
+
+    case 'TOGGLE_PLAYER_SELECTION':
+      if (!state.selectedPlayerIds.includes(action.playerId) && state.playerCount === 1) {
+        return {
+          ...state,
+          selectedPlayerIds: [action.playerId],
+        };
+      }
+
+      if (!state.selectedPlayerIds.includes(action.playerId) && state.selectedPlayerIds.length >= state.playerCount) {
+        return state;
+      }
+
+      return {
+        ...state,
+        selectedPlayerIds: state.selectedPlayerIds.includes(action.playerId)
+          ? state.selectedPlayerIds.filter((playerId) => playerId !== action.playerId)
+          : [...state.selectedPlayerIds, action.playerId],
       };
 
     case 'UPDATE_PLAYER_NAME':
@@ -99,7 +121,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       };
 
     case 'START_GAME': {
-      if (!validatePlayersForStart(state.players, state.playerCount)) {
+      if (!validatePlayersForStart(state.players, state.playerCount, state.selectedPlayerIds)) {
         return state;
       }
 
@@ -134,8 +156,40 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       return startQuestionAtCursor(state, state.currentQuestionCursor);
     }
 
-    case 'SUBMIT_ANSWER': {
+    case 'TOGGLE_PAUSE': {
       if (state.gamePhase !== 'gameplay' || !state.currentQuestion || state.currentQuestion.resolution) {
+        return state;
+      }
+
+      if (state.currentQuestion.pausedRemainingMs !== null) {
+        const resumedAt = Date.now();
+        return {
+          ...state,
+          currentQuestion: {
+            ...state.currentQuestion,
+            pausedRemainingMs: null,
+            turnStartedAt: resumedAt,
+            deadlineAt: resumedAt + state.currentQuestion.pausedRemainingMs,
+          },
+        };
+      }
+
+      return {
+        ...state,
+        currentQuestion: {
+          ...state.currentQuestion,
+          pausedRemainingMs: Math.max(state.currentQuestion.deadlineAt - Date.now(), 0),
+        },
+      };
+    }
+
+    case 'SUBMIT_ANSWER': {
+      if (
+        state.gamePhase !== 'gameplay' ||
+        !state.currentQuestion ||
+        state.currentQuestion.resolution ||
+        state.currentQuestion.pausedRemainingMs !== null
+      ) {
         return state;
       }
 
@@ -161,7 +215,12 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     }
 
     case 'TIME_EXPIRED': {
-      if (state.gamePhase !== 'gameplay' || !state.currentQuestion || state.currentQuestion.resolution) {
+      if (
+        state.gamePhase !== 'gameplay' ||
+        !state.currentQuestion ||
+        state.currentQuestion.resolution ||
+        state.currentQuestion.pausedRemainingMs !== null
+      ) {
         return state;
       }
 
@@ -186,7 +245,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
           gamePhase: 'winner',
           currentQuestionCursor: nextCursor,
           currentQuestion: null,
-          winnerSnapshot: buildWinnerSnapshot(getActivePlayers(state.players, state.playerCount)),
+          winnerSnapshot: buildWinnerSnapshot(getActivePlayers(state.players, state.selectedPlayerIds)),
         };
       }
 
@@ -217,6 +276,11 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
     case 'HYDRATE_SESSION':
       return {
         ...action.session,
+        selectedPlayerIds: syncSelectedPlayerIds(
+          action.session.players,
+          action.session.selectedPlayerIds,
+          action.session.playerCount,
+        ),
         fatalError: null,
       };
 
@@ -236,7 +300,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
 export function reconcileExpiredTurns(state: GameState, now = Date.now()): GameState {
   let nextState = state;
-  let safety = state.playerCount + 1;
+  let safety = getActivePlayers(state.players, state.selectedPlayerIds).length + 1;
 
   while (
     safety > 0 &&
@@ -255,12 +319,16 @@ export function reconcileExpiredTurns(state: GameState, now = Date.now()): GameS
   return nextState;
 }
 
-export function validatePlayersForStart(players: Player[], playerCount: PlayerCount) {
+export function validatePlayersForStart(
+  players: Player[],
+  playerCount: PlayerCount,
+  selectedPlayerIds: string[],
+) {
   if (playerCount < 1 || playerCount > PLAYER_COUNT) {
     return false;
   }
 
-  const activePlayers = getActivePlayers(players, playerCount);
+  const activePlayers = getActivePlayers(players, selectedPlayerIds);
   if (activePlayers.length !== playerCount) {
     return false;
   }
@@ -330,6 +398,13 @@ export function createEmptyPlayers(): Player[] {
   }));
 }
 
+function syncSelectedPlayerIds(players: Player[], selectedPlayerIds: string[], playerCount: PlayerCount) {
+  const validIds = new Set(players.map((player) => player.id));
+  return selectedPlayerIds
+    .filter((playerId, index) => validIds.has(playerId) && selectedPlayerIds.indexOf(playerId) === index)
+    .slice(0, playerCount);
+}
+
 function startQuestionAtCursor(state: GameState, cursor: number): GameState {
   const planItem = state.questionPlan[cursor];
   const question = QUESTION_LOOKUP[planItem.questionId];
@@ -353,6 +428,7 @@ function startQuestionAtCursor(state: GameState, cursor: number): GameState {
     turnToken: makeId('turn'),
     turnStartedAt: now,
     deadlineAt: now + ORIGINAL_TURN_MS,
+    pausedRemainingMs: null,
     resolution: null,
     latestFailure: null,
   };
@@ -375,7 +451,7 @@ function resolveCorrectAnswer(state: GameState, question: Question): GameState {
     return state;
   }
 
-  const activePlayers = getActivePlayers(state.players, state.playerCount);
+  const activePlayers = getActivePlayers(state.players, state.selectedPlayerIds);
   const responder = activePlayers[currentQuestion.currentResponderIndex];
   if (!responder) {
     return {
@@ -430,7 +506,7 @@ function resolveFailedAttempt(state: GameState, reason: FailureReason, choice: s
     return state;
   }
 
-  const activePlayers = getActivePlayers(state.players, state.playerCount);
+  const activePlayers = getActivePlayers(state.players, state.selectedPlayerIds);
   const currentPlayer = activePlayers[currentQuestion.currentResponderIndex];
   if (!currentPlayer) {
     return {
@@ -502,6 +578,7 @@ function resolveFailedAttempt(state: GameState, reason: FailureReason, choice: s
       turnToken: makeId('turn'),
       turnStartedAt: now,
       deadlineAt: now + STEAL_TURN_MS,
+      pausedRemainingMs: null,
       latestFailure: {
         playerId: currentPlayer.id,
         reason,
@@ -598,6 +675,7 @@ export function getQuestionFeedbackLabel(state: GameState) {
 export function restorePersistedState(session: PersistedSession) {
   return reconcileExpiredTurns({
     ...session,
+    selectedPlayerIds: syncSelectedPlayerIds(session.players, session.selectedPlayerIds, session.playerCount),
     fatalError: null,
   });
 }

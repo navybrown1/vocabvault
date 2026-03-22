@@ -47,6 +47,7 @@ export function toPersistedSession(state: GameState): PersistedSession {
     gamePhase: state.gamePhase,
     players: state.players,
     playerCount: state.playerCount,
+    selectedPlayerIds: state.selectedPlayerIds,
     soundEnabled: state.soundEnabled,
     round: state.round,
     questionPlan: state.questionPlan,
@@ -73,6 +74,8 @@ function isPersistedSession(value: unknown): value is PersistedSession {
     typeof candidate.playerCount === 'number' &&
     candidate.playerCount >= 1 &&
     candidate.playerCount <= 4 &&
+    Array.isArray(candidate.selectedPlayerIds) &&
+    candidate.selectedPlayerIds.every((playerId) => typeof playerId === 'string') &&
     typeof candidate.gamePhase === 'string' &&
     typeof candidate.soundEnabled === 'boolean' &&
     Array.isArray(candidate.questionPlan) &&

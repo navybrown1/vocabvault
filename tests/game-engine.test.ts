@@ -22,6 +22,10 @@ function createReadyState(playerCount: 1 | 2 | 3 | 4 = 4) {
     });
   });
 
+  state.players.slice(0, playerCount).forEach((player) => {
+    state = gameReducer(state, { type: 'TOGGLE_PLAYER_SELECTION', playerId: player.id });
+  });
+
   return state;
 }
 
@@ -51,6 +55,14 @@ describe('game engine', () => {
   it('rotates starters only across the selected player count', () => {
     const plan = buildQuestionPlan(11, 3);
     expect(plan.map((item) => item.starterIndex)).toEqual([0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2]);
+  });
+
+  it('does not auto-select family members when the player count changes', () => {
+    let state = createInitialState(true);
+    state = gameReducer(state, { type: 'GO_TO_SETUP' });
+    state = gameReducer(state, { type: 'SET_PLAYER_COUNT', count: 2 });
+
+    expect(state.selectedPlayerIds).toEqual([]);
   });
 
   it('awards full points for a correct original answer', () => {
@@ -96,6 +108,8 @@ describe('game engine', () => {
 
   it('uses only the selected players during steal rotation', () => {
     let state = createReadyState(2);
+    state = gameReducer(state, { type: 'TOGGLE_PLAYER_SELECTION', playerId: 'player-2' });
+    state = gameReducer(state, { type: 'TOGGLE_PLAYER_SELECTION', playerId: 'player-3' });
     state = gameReducer(state, { type: 'START_GAME', seed: 6 });
     state = gameReducer(state, { type: 'BEGIN_ROUND' });
 
@@ -109,7 +123,26 @@ describe('game engine', () => {
 
     state = gameReducer(state, { type: 'SUBMIT_ANSWER', choice: wrongChoice });
     expect(state.currentQuestion?.resolution?.outcome).toBe('allFailed');
-    expect(state.currentQuestion?.failedPlayerIds).toEqual(['player-1', 'player-2']);
+    expect(state.currentQuestion?.failedPlayerIds).toEqual(['player-1', 'player-3']);
+  });
+
+  it('lets a one-player lineup swap directly to a different family member', () => {
+    let state = createReadyState(1);
+
+    state = gameReducer(state, { type: 'TOGGLE_PLAYER_SELECTION', playerId: 'player-3' });
+
+    expect(state.selectedPlayerIds).toEqual(['player-3']);
+    state = gameReducer(state, { type: 'START_GAME', seed: 12 });
+    state = gameReducer(state, { type: 'BEGIN_ROUND' });
+    expect(state.currentQuestion?.currentResponderIndex).toBe(0);
+  });
+
+  it('prevents selecting more players than the requested lineup size', () => {
+    let state = createReadyState(3);
+
+    state = gameReducer(state, { type: 'TOGGLE_PLAYER_SELECTION', playerId: 'player-4' });
+
+    expect(state.selectedPlayerIds).toEqual(['player-1', 'player-2', 'player-3']);
   });
 
   it('treats a solo wrong answer as an immediate all-fail resolution', () => {
@@ -148,6 +181,28 @@ describe('game engine', () => {
     state = gameReducer(state, { type: 'TIME_EXPIRED', turnToken: 'stale-token' });
     expect(state.currentQuestion?.turnToken).toBe(originalToken);
     expect(state.currentQuestion?.failedPlayerIds).toEqual([]);
+  });
+
+  it('pauses and resumes the active timer without changing the turn owner', () => {
+    let state = createReadyState();
+    state = gameReducer(state, { type: 'START_GAME', seed: 3 });
+    state = gameReducer(state, { type: 'BEGIN_ROUND' });
+
+    const originalResponderIndex = state.currentQuestion!.currentResponderIndex;
+    state = gameReducer(state, { type: 'TOGGLE_PAUSE' });
+
+    expect(state.currentQuestion?.pausedRemainingMs).not.toBeNull();
+
+    const pausedState = gameReducer(state, {
+      type: 'TIME_EXPIRED',
+      turnToken: state.currentQuestion!.turnToken,
+    });
+    expect(pausedState.currentQuestion?.currentResponderIndex).toBe(originalResponderIndex);
+    expect(pausedState.currentQuestion?.failedPlayerIds).toEqual([]);
+
+    const resumedState = gameReducer(state, { type: 'TOGGLE_PAUSE' });
+    expect(resumedState.currentQuestion?.pausedRemainingMs).toBeNull();
+    expect(resumedState.currentQuestion?.currentResponderIndex).toBe(originalResponderIndex);
   });
 
   it('reconciles expired turns after refresh and advances to the next responder', () => {

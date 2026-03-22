@@ -1,3 +1,4 @@
+import { Pause, Play } from 'lucide-react';
 import type { FailureReason, Player, Question, QuestionResolution, TurnKind } from '@/game/types';
 import { GameShell } from '@/components/GameShell';
 import { GlassPanel } from '@/components/GlassPanel';
@@ -12,6 +13,8 @@ export interface GameplayScreenProps {
   soundEnabled: boolean;
   onToggleSound: () => void;
   onReset?: () => void;
+  isPaused: boolean;
+  onTogglePause: () => void;
   roundLabel: string;
   scoreLabel: string;
   questionIndexLabel: string;
@@ -39,6 +42,8 @@ export function GameplayScreen({
   soundEnabled,
   onToggleSound,
   onReset,
+  isPaused,
+  onTogglePause,
   roundLabel,
   scoreLabel,
   questionIndexLabel,
@@ -64,10 +69,26 @@ export function GameplayScreen({
       onToggleSound={onToggleSound}
       onReset={onReset}
       title="Brown Family Arcade Night"
-      subtitle={`${activePlayer.name} has the active turn`}
+      subtitle={isPaused ? 'Game paused' : `${activePlayer.name} has the active turn`}
       roundLabel={roundLabel}
       scoreLabel={scoreLabel}
-      rightSlot={<RoundBadge label={questionIndexLabel} tone="neutral" />}
+      rightSlot={
+        <>
+          <RoundBadge label={questionIndexLabel} tone="neutral" />
+          <button
+            type="button"
+            onClick={onTogglePause}
+            disabled={Boolean(resolution)}
+            className={[
+              'arcade-button inline-flex gap-2 px-4 py-3 text-[0.72rem]',
+              resolution ? 'cursor-default bg-white/8 text-on-surface-variant' : 'arcade-button--neutral text-on-surface',
+            ].join(' ')}
+          >
+            {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+            {isPaused ? 'Resume' : 'Pause'}
+          </button>
+        </>
+      }
     >
       <div className="grid gap-6 xl:grid-cols-[290px_minmax(0,1fr)]">
         <GlassPanel tone="base" accent={activePlayer.color} className="h-full p-5 xl:min-h-[760px]">
@@ -81,7 +102,7 @@ export function GameplayScreen({
         </GlassPanel>
 
         <div className="space-y-5">
-          <TimerBar {...timer} turnKind={turnKind} />
+          <TimerBar {...timer} isPaused={isPaused} turnKind={turnKind} />
 
           <QuestionCard
             question={question}
@@ -104,7 +125,7 @@ export function GameplayScreen({
             lockedChoice={lockedChoice}
             latestFailureChoice={latestFailureChoice}
             resolution={resolution}
-            disabled={Boolean(resolution)}
+            disabled={Boolean(resolution) || isPaused}
             onSelect={onAnswer}
           />
 
@@ -144,7 +165,9 @@ export function GameplayScreen({
                   {activePlayer.name}
                 </h3>
                 <p className="mt-3 text-sm leading-6 text-on-surface-variant">
-                  {turnKind === 'original'
+                  {isPaused
+                    ? 'Clock is frozen. Resume whenever everyone is ready to jump back in.'
+                    : turnKind === 'original'
                     ? 'Original turn for full-value points. Take the full clock and lock it in.'
                     : 'Steal chance is live. Quick hit, reduced points, same pressure.'}
                 </p>

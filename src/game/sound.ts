@@ -47,12 +47,14 @@ export function createSoundController(): SoundController {
 
       const scheduleTone = ({
         frequency,
+        frequencyEnd,
         type,
         noteStart,
         noteEnd,
         volume,
       }: {
         frequency: number;
+        frequencyEnd?: number;
         type: OscillatorType;
         noteStart: number;
         noteEnd: number;
@@ -62,6 +64,9 @@ export function createSoundController(): SoundController {
         const gain = audioContext.createGain();
         oscillator.type = type;
         oscillator.frequency.setValueAtTime(frequency, noteStart);
+        if (typeof frequencyEnd === 'number' && frequencyEnd !== frequency) {
+          oscillator.frequency.exponentialRampToValueAtTime(Math.max(frequencyEnd, 1), noteEnd);
+        }
         gain.gain.setValueAtTime(0.001, noteStart);
         gain.gain.exponentialRampToValueAtTime(volume, noteStart + 0.012);
         gain.gain.exponentialRampToValueAtTime(0.001, noteEnd);
@@ -73,6 +78,111 @@ export function createSoundController(): SoundController {
         oscillator.stop(noteEnd);
       };
 
+      const scheduleChord = ({
+        frequencies,
+        type,
+        noteStart,
+        noteEnd,
+        volume,
+      }: {
+        frequencies: number[];
+        type: OscillatorType;
+        noteStart: number;
+        noteEnd: number;
+        volume: number;
+      }) => {
+        frequencies.forEach((frequency) => {
+          scheduleTone({
+            frequency,
+            type,
+            noteStart,
+            noteEnd,
+            volume,
+          });
+        });
+      };
+
+      const playCorrectFanfare = () => {
+        const fanfareNotes = [
+          { note: 523, bass: 262 },
+          { note: 659, bass: 330 },
+          { note: 784, bass: 392 },
+          { note: 1046, bass: 523 },
+        ];
+
+        fanfareNotes.forEach(({ note, bass }, index) => {
+          const noteStart = startAt + index * 0.075;
+          const noteEnd = noteStart + 0.19;
+          scheduleTone({
+            frequency: note,
+            frequencyEnd: note * 1.015,
+            type: 'triangle',
+            noteStart,
+            noteEnd,
+            volume: peakVolume,
+          });
+          scheduleTone({
+            frequency: bass,
+            type: 'sine',
+            noteStart,
+            noteEnd,
+            volume: peakVolume * 0.34,
+          });
+        });
+
+        const finaleStart = startAt + fanfareNotes.length * 0.078;
+        const finaleEnd = finaleStart + 0.42;
+        scheduleChord({
+          frequencies: [523, 659, 784, 1046],
+          type: 'triangle',
+          noteStart: finaleStart,
+          noteEnd: finaleEnd,
+          volume: peakVolume * 0.7,
+        });
+        scheduleChord({
+          frequencies: [262, 392, 523],
+          type: 'sine',
+          noteStart: finaleStart,
+          noteEnd: finaleEnd,
+          volume: peakVolume * 0.22,
+        });
+      };
+
+      const playWrongSting = () => {
+        const wahWahNotes = [349, 294, 247];
+
+        wahWahNotes.forEach((frequency, index) => {
+          const noteStart = startAt + index * 0.18;
+          const noteEnd = noteStart + 0.2;
+          scheduleTone({
+            frequency: frequency * 1.05,
+            frequencyEnd: frequency * 0.62,
+            type: 'sawtooth',
+            noteStart,
+            noteEnd,
+            volume: peakVolume * 0.95,
+          });
+          scheduleTone({
+            frequency: frequency / 2,
+            frequencyEnd: frequency / 2.7,
+            type: 'square',
+            noteStart,
+            noteEnd,
+            volume: peakVolume * 0.48,
+          });
+        });
+      };
+
+      if (event === 'correctAnswer') {
+        playCorrectFanfare();
+        return;
+      }
+
+      if (event === 'wrongAnswer') {
+        playWrongSting();
+        return;
+      }
+
       manifest.frequencies.forEach((frequency, index) => {
         const noteStart = startAt + index * noteGap;
         const noteEnd = noteStart + manifest.duration;
@@ -83,26 +193,6 @@ export function createSoundController(): SoundController {
           noteEnd,
           volume: peakVolume,
         });
-
-        if (event === 'correctAnswer') {
-          scheduleTone({
-            frequency: frequency / 2,
-            type: 'sine',
-            noteStart,
-            noteEnd,
-            volume: peakVolume * 0.4,
-          });
-        }
-
-        if (event === 'wrongAnswer') {
-          scheduleTone({
-            frequency: Math.max(frequency / 2, 98),
-            type: 'square',
-            noteStart,
-            noteEnd,
-            volume: peakVolume * 0.45,
-          });
-        }
       });
     },
     dispose() {

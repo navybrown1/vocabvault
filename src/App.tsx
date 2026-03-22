@@ -21,7 +21,11 @@ export default function App() {
 
   const countdown = useCountdown({
     deadlineAt: state.currentQuestion?.deadlineAt ?? null,
-    active: state.gamePhase === 'gameplay' && Boolean(state.currentQuestion) && !state.currentQuestion?.resolution,
+    active:
+      state.gamePhase === 'gameplay' &&
+      Boolean(state.currentQuestion) &&
+      !state.currentQuestion?.resolution &&
+      state.currentQuestion?.pausedRemainingMs === null,
     turnToken: state.currentQuestion?.turnToken ?? null,
     turnKind: state.currentQuestion?.turnKind ?? null,
   });
@@ -163,11 +167,14 @@ export default function App() {
           soundEnabled={state.soundEnabled}
           onToggleSound={actions.toggleSound}
           playerCount={state.playerCount}
+          selectedPlayerIds={state.selectedPlayerIds}
+          selectedCount={derived.activePlayers.length}
           maxPlayerCount={state.players.length}
-          players={derived.activePlayers}
+          players={state.players}
           validation={validation}
           uploadIssues={uploadIssues}
           onPlayerCountChange={actions.setPlayerCount}
+          onPlayerSelectionToggle={actions.togglePlayerSelection}
           onNameChange={actions.updatePlayerName}
           onAvatarSelect={handleAvatarSelect}
           onStartGame={actions.startGame}
@@ -210,6 +217,8 @@ export default function App() {
           soundEnabled={state.soundEnabled}
           onToggleSound={actions.toggleSound}
           onReset={handleReset}
+          isPaused={state.currentQuestion.pausedRemainingMs !== null}
+          onTogglePause={actions.togglePause}
           roundLabel={ROUND_CONFIG[state.round].title}
           scoreLabel={`Top score ${topScore}`}
           questionIndexLabel={`Q${state.currentQuestionCursor + 1} of ${state.questionPlan.length}`}

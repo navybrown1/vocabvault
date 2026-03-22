@@ -63,6 +63,7 @@ export function useGameSession() {
       state.gamePhase !== 'gameplay' ||
       !activeQuestion ||
       activeQuestion.resolution ||
+      activeQuestion.pausedRemainingMs !== null ||
       !activeQuestion.turnToken
     ) {
       countdownSecondRef.current = null;
@@ -142,7 +143,8 @@ export function useGameSession() {
     if (
       state.gamePhase !== 'gameplay' ||
       !state.currentQuestion ||
-      state.currentQuestion.resolution
+      state.currentQuestion.resolution ||
+      state.currentQuestion.pausedRemainingMs !== null
     ) {
       return;
     }
@@ -156,7 +158,7 @@ export function useGameSession() {
   }, [state.gamePhase, state.currentQuestion]);
 
   const derived = useMemo(() => {
-    const activePlayers = getActivePlayers(state.players, state.playerCount);
+    const activePlayers = getActivePlayers(state.players, state.selectedPlayerIds);
     const currentQuestion = getCurrentQuestion(state);
     return {
       activePlayers,
@@ -165,7 +167,7 @@ export function useGameSession() {
       roundProgress: getRoundProgress(state),
       activePlayer: getActivePlayer(state),
       eligibleStealPlayers: getEligibleStealPlayers(state),
-      canStartGame: validatePlayersForStart(state.players, state.playerCount),
+      canStartGame: validatePlayersForStart(state.players, state.playerCount, state.selectedPlayerIds),
       playerIdentityLabels: activePlayers.reduce<Record<string, string>>((labels, player) => {
         labels[player.id] = getPlayerIdentityLabel(player);
         return labels;
@@ -182,6 +184,10 @@ export function useGameSession() {
       soundControllerRef.current.play('buttonClick', state.soundEnabled);
       dispatch({ type: 'SET_PLAYER_COUNT', count });
     },
+    togglePlayerSelection: (playerId: string) => {
+      soundControllerRef.current.play('buttonClick', state.soundEnabled);
+      dispatch({ type: 'TOGGLE_PLAYER_SELECTION', playerId });
+    },
     updatePlayerName: (playerId: string, name: string) => {
       dispatch({ type: 'UPDATE_PLAYER_NAME', playerId, name });
     },
@@ -195,6 +201,10 @@ export function useGameSession() {
     beginRound: () => {
       soundControllerRef.current.play('buttonClick', state.soundEnabled);
       dispatch({ type: 'BEGIN_ROUND' });
+    },
+    togglePause: () => {
+      soundControllerRef.current.play('buttonClick', state.soundEnabled);
+      dispatch({ type: 'TOGGLE_PAUSE' });
     },
     submitAnswer: (choice: string) => {
       soundControllerRef.current.play('answerSelect', state.soundEnabled);
@@ -223,7 +233,8 @@ export function useGameSession() {
     },
   };
 
-  const validation = buildSetupValidation(state.players, state.playerCount);
+  const validation = buildSetupValidation(state.players, state.selectedPlayerIds);
+  const selectedCount = derived.activePlayers.length;
 
   return {
     state,
@@ -233,12 +244,16 @@ export function useGameSession() {
     storageIssue,
     isReady,
     playerCount: state.playerCount,
+    selectedCount,
     seatCount: PLAYER_COUNT,
   };
 }
 
-function buildSetupValidation(players: GameState['players'], playerCount: GameState['playerCount']) {
-  const activePlayers = getActivePlayers(players, playerCount);
+function buildSetupValidation(
+  players: GameState['players'],
+  selectedPlayerIds: GameState['selectedPlayerIds'],
+) {
+  const activePlayers = getActivePlayers(players, selectedPlayerIds);
   const normalizedNames = activePlayers.map((player) => player.name.trim().toLowerCase());
   const activePlayerIds = new Set(activePlayers.map((player) => player.id));
 
@@ -251,7 +266,7 @@ function buildSetupValidation(players: GameState['players'], playerCount: GameSt
         isComplete: boolean;
       }
     >
-  >((result, player, index) => {
+  >((result, player) => {
     const isSelected = activePlayerIds.has(player.id);
     if (!isSelected) {
       result[player.id] = {

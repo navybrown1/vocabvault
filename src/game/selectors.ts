@@ -3,15 +3,15 @@ import { QUESTION_LOOKUP } from './questions';
 import type {
   GameState,
   Player,
-  PlayerCount,
   Question,
   QuestionPlanItem,
   RankedPlayer,
   RoundNumber,
 } from './types';
 
-export function getActivePlayers(players: Player[], playerCount: PlayerCount) {
-  return players.slice(0, playerCount);
+export function getActivePlayers(players: Player[], selectedPlayerIds: string[]) {
+  const selectedSet = new Set(selectedPlayerIds);
+  return players.filter((player) => selectedSet.has(player.id));
 }
 
 export function getQuestionByPlanItem(planItem: QuestionPlanItem): Question {
@@ -54,7 +54,7 @@ export function getEligibleStealPlayers(state: GameState) {
   }
 
   const failedIds = new Set(state.currentQuestion.failedPlayerIds);
-  return getActivePlayers(state.players, state.playerCount).filter((player) => !failedIds.has(player.id));
+  return getActivePlayers(state.players, state.selectedPlayerIds).filter((player) => !failedIds.has(player.id));
 }
 
 export function getActivePlayer(state: GameState) {
@@ -62,7 +62,7 @@ export function getActivePlayer(state: GameState) {
     return null;
   }
 
-  return getActivePlayers(state.players, state.playerCount)[state.currentQuestion.currentResponderIndex] ?? null;
+  return getActivePlayers(state.players, state.selectedPlayerIds)[state.currentQuestion.currentResponderIndex] ?? null;
 }
 
 export function getStarterForCurrentQuestion(state: GameState) {
@@ -70,7 +70,7 @@ export function getStarterForCurrentQuestion(state: GameState) {
     return null;
   }
 
-  return getActivePlayers(state.players, state.playerCount)[state.currentQuestion.starterIndex] ?? null;
+  return getActivePlayers(state.players, state.selectedPlayerIds)[state.currentQuestion.starterIndex] ?? null;
 }
 
 export function getRoundPoints(round: RoundNumber, isSteal: boolean) {

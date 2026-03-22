@@ -130,3 +130,26 @@ Original prompt: Build a production-quality 4-player trivia party game as a poli
   - integrity check passed (`871` questions, `0` invalid rows)
   - `npm --workspaces=false test` passed
   - `npm --workspaces=false run build` passed
+
+2026-03-22 (custom family lineup, pause control, and clearer outcome audio)
+- Reworked player selection so lineup choice is explicit instead of auto-filling the first family members:
+  - `selectedPlayerIds` now starts empty on a fresh session
+  - changing the player count trims invalid selections but does not silently add Edwin/Dayanna back in
+  - setup now blocks over-selection and makes the user bench someone before adding another player
+- Added gameplay pause/resume with persisted timer state:
+  - `QuestionState` now stores `pausedRemainingMs`
+  - pausing freezes countdown display, disables answer submission, and prevents timeout processing
+  - resuming restores the remaining time cleanly without restarting the turn
+- Retuned outcome sounds to be more obviously different:
+  - correct answers now use a brighter major-key arcade fanfare
+  - wrong answers now use a descending three-hit `wah-wah-wah` sting
+- QA harness updates:
+  - `scripts/qa_smoke.mjs` now selects a custom three-player lineup (`Edwin`, `Ethan`, `Valentino`)
+  - added a pause/resume assertion during live gameplay
+  - final standings check now verifies inactive players do not leak into gameplay results
+- Persistence update:
+  - session storage bumped to `session:v5` to invalidate older auto-selected sessions and add pause-state compatibility
+- Validation results after the lineup/pause/audio update:
+  - `npm --workspaces=false test` passed (`14` tests)
+  - `npm --workspaces=false run build` passed
+  - `QA_BASE_URL='http://127.0.0.1:3003' npm --workspaces=false exec -- node ./scripts/qa_smoke.mjs` passed

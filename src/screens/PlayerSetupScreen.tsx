@@ -1,4 +1,4 @@
-import { AlertTriangle, ArrowRight, RefreshCcw } from 'lucide-react';
+import { AlertTriangle, ArrowRight, CheckCircle2, Plus, RefreshCcw, XCircle } from 'lucide-react';
 import type { Player } from '@/game/types';
 import { GameShell } from '@/components/GameShell';
 import { GlassPanel } from '@/components/GlassPanel';
@@ -9,11 +9,14 @@ export interface PlayerSetupScreenProps {
   soundEnabled: boolean;
   onToggleSound: () => void;
   playerCount: 1 | 2 | 3 | 4;
+  selectedPlayerIds: string[];
+  selectedCount: number;
   maxPlayerCount: number;
   players: Player[];
   validation: Record<string, { nameError: string | null; avatarError: string | null; isComplete: boolean }>;
   uploadIssues: Record<string, string | null>;
   onPlayerCountChange: (count: 1 | 2 | 3 | 4) => void;
+  onPlayerSelectionToggle: (playerId: string) => void;
   onNameChange: (playerId: string, name: string) => void;
   onAvatarSelect: (playerId: string, file: File) => void;
   onStartGame: () => void;
@@ -26,11 +29,14 @@ export function PlayerSetupScreen({
   soundEnabled,
   onToggleSound,
   playerCount,
+  selectedPlayerIds,
+  selectedCount,
   maxPlayerCount,
   players,
   validation,
   uploadIssues,
   onPlayerCountChange,
+  onPlayerSelectionToggle,
   onNameChange,
   onAvatarSelect,
   onStartGame,
@@ -38,6 +44,11 @@ export function PlayerSetupScreen({
   canStart,
   storageIssue,
 }: PlayerSetupScreenProps) {
+  const selectedPlayerSet = new Set(selectedPlayerIds);
+  const selectedPlayers = players.filter((player) => selectedPlayerSet.has(player.id));
+  const needsSelectionAdjustment = selectedCount !== playerCount;
+  const selectionFull = selectedCount >= playerCount;
+
   return (
     <GameShell
       soundEnabled={soundEnabled}
@@ -78,17 +89,34 @@ export function PlayerSetupScreen({
                 );
               })}
             </div>
+            <div className="mt-4 flex items-start gap-3 rounded-[1.25rem] bg-[rgba(14,10,24,0.28)] px-4 py-3 text-sm text-on-surface">
+              {needsSelectionAdjustment ? (
+                <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#ff9baa]" />
+              ) : (
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#8dffbd]" />
+              )}
+              <p>
+                Pick exactly {playerCount} {playerCount === 1 ? 'player' : 'players'}.
+                {` Currently selected: ${selectedCount}.`}
+              </p>
+            </div>
           </div>
 
           <div className="mt-6 space-y-3">
-            {players.map((player) => (
-              <PlayerCard
-                key={player.id}
-                player={player}
-                compact
-                subtitle={validation[player.id]?.isComplete ? 'Seat locked and camera-ready' : 'Waiting on setup details'}
-              />
-            ))}
+            {selectedPlayers.length > 0 ? (
+              selectedPlayers.map((player) => (
+                <PlayerCard
+                  key={player.id}
+                  player={player}
+                  compact
+                  subtitle={validation[player.id]?.isComplete ? "In tonight's lineup" : 'Selected and waiting on setup'}
+                />
+              ))
+            ) : (
+              <div className="rounded-[1.5rem] bg-[rgba(255,255,255,0.06)] px-4 py-5 text-sm text-on-surface-variant shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
+                No players selected yet. Choose the family members who should join this round.
+              </div>
+            )}
           </div>
 
           {storageIssue ? (
@@ -127,45 +155,77 @@ export function PlayerSetupScreen({
         </GlassPanel>
 
         <div className="grid gap-5 md:grid-cols-2">
-          {players.map((player) => (
-            <GlassPanel key={player.id} tone="base" accent={player.color} className="p-5">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="font-label text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">Seat {player.seat}</p>
-                  <h3 className="mt-2 font-headline text-2xl font-extrabold tracking-[-0.04em] text-on-surface">
-                    {player.name.trim() || `Player ${player.seat}`}
-                  </h3>
+          {players.map((player) => {
+            const isSelected = selectedPlayerSet.has(player.id);
+            const joinDisabled = !isSelected && selectionFull;
+            return (
+              <GlassPanel
+                key={player.id}
+                tone="base"
+                accent={player.color}
+                className={['p-5 transition', !isSelected ? 'opacity-75 saturate-[0.8]' : ''].join(' ')}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="font-label text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">Seat {player.seat}</p>
+                    <h3 className="mt-2 font-headline text-2xl font-extrabold tracking-[-0.04em] text-on-surface">
+                      {player.name.trim() || `Player ${player.seat}`}
+                    </h3>
+                  </div>
+                  <button
+                    type="button"
+                    disabled={joinDisabled}
+                    onClick={() => onPlayerSelectionToggle(player.id)}
+                    className={[
+                      'arcade-button inline-flex gap-2 px-4 py-2.5 text-[0.68rem]',
+                      isSelected
+                        ? 'arcade-button--secondary text-[#07131d]'
+                        : joinDisabled
+                          ? 'cursor-not-allowed bg-white/8 text-on-surface-variant'
+                          : 'arcade-button--neutral text-on-surface',
+                    ].join(' ')}
+                  >
+                    {isSelected ? <XCircle className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+                    {isSelected ? 'Sit out' : joinDisabled ? 'Bench one first' : 'Join game'}
+                  </button>
                 </div>
-                <span className="arcade-pill bg-[rgba(255,255,255,0.14)] text-on-surface">
-                  {validation[player.id]?.isComplete ? 'Ready' : 'Needs setup'}
-                </span>
-              </div>
 
-              <div className="mt-5 space-y-5">
-                <div className="space-y-2">
-                  <label htmlFor={`${player.id}-name`} className="font-label text-[0.72rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant">
-                    Player name
-                  </label>
-                  <input
-                    id={`${player.id}-name`}
-                    value={player.name}
-                    onChange={(event) => onNameChange(player.id, event.target.value)}
-                    placeholder={`Brown contender ${player.seat}`}
-                    className="arcade-input"
+                <div className="mt-4">
+                  <span className="arcade-pill bg-[rgba(255,255,255,0.14)] text-on-surface">
+                    {isSelected
+                      ? validation[player.id]?.isComplete
+                        ? 'Selected and ready'
+                        : 'Selected'
+                      : 'On standby'}
+                  </span>
+                </div>
+
+                <div className="mt-5 space-y-5">
+                  <div className="space-y-2">
+                    <label htmlFor={`${player.id}-name`} className="font-label text-[0.72rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant">
+                      Player name
+                    </label>
+                    <input
+                      id={`${player.id}-name`}
+                      value={player.name}
+                      onChange={(event) => onNameChange(player.id, event.target.value)}
+                      placeholder={`Brown contender ${player.seat}`}
+                      className="arcade-input"
+                    />
+                    {validation[player.id]?.nameError ? (
+                      <p className="text-sm text-[#ff9baa]">{validation[player.id]?.nameError}</p>
+                    ) : null}
+                  </div>
+
+                  <AvatarUploader
+                    player={player}
+                    error={isSelected ? uploadIssues[player.id] ?? validation[player.id]?.avatarError ?? null : null}
+                    onSelect={(file) => onAvatarSelect(player.id, file)}
                   />
-                  {validation[player.id]?.nameError ? (
-                    <p className="text-sm text-[#ff9baa]">{validation[player.id]?.nameError}</p>
-                  ) : null}
                 </div>
-
-                <AvatarUploader
-                  player={player}
-                  error={uploadIssues[player.id] ?? validation[player.id]?.avatarError ?? null}
-                  onSelect={(file) => onAvatarSelect(player.id, file)}
-                />
-              </div>
-            </GlassPanel>
-          ))}
+              </GlassPanel>
+            );
+          })}
         </div>
       </div>
     </GameShell>

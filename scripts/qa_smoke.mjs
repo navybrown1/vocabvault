@@ -14,6 +14,11 @@ const answerMap = JSON.parse(
   question.choices.find((choice) => choice !== question.correctAnswer),
 ]);
 
+function readTimerSeconds(text) {
+  const match = text.match(/Time Remaining\s*(\d{2})/);
+  return match?.[1] ?? null;
+}
+
 function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -47,6 +52,17 @@ for (const name of ['Edwin Brown', 'Dayanna Brown', 'Ethan Brown', 'Valentino Br
   }
 }
 
+await page.getByRole('button', { name: /3\s+players/i }).click();
+const joinButtons = page.getByRole('button', { name: /^Join game$/i });
+await joinButtons.nth(0).click();
+await joinButtons.nth(1).click();
+await joinButtons.nth(1).click();
+
+const selectedSetupText = (await page.textContent('body')) ?? '';
+if (!selectedSetupText.includes('Currently selected: 3.')) {
+  throw new Error('Custom three-player lineup was not selected.');
+}
+
 await page.getByRole('button', { name: /Launch round one/i }).click();
 await page.waitForTimeout(250);
 await page.screenshot({ path: fileURLToPath(new URL('03-round-start.png', outDir)), fullPage: true });
@@ -54,6 +70,26 @@ await page.screenshot({ path: fileURLToPath(new URL('03-round-start.png', outDir
 await page.getByRole('button', { name: /Enter the arena/i }).click();
 await page.waitForTimeout(450);
 await page.screenshot({ path: fileURLToPath(new URL('04-gameplay.png', outDir)), fullPage: true });
+
+const gameplayTextBeforePause = (await page.textContent('body')) ?? '';
+if (!readTimerSeconds(gameplayTextBeforePause)) {
+  throw new Error('Could not read the live timer before pausing.');
+}
+
+await page.getByRole('button', { name: /^Pause$/i }).click();
+await page.waitForTimeout(250);
+
+const pausedSnapshotA = (await page.textContent('body')) ?? '';
+const pausedSecondsA = readTimerSeconds(pausedSnapshotA);
+await page.waitForTimeout(1200);
+const pausedSnapshotB = (await page.textContent('body')) ?? '';
+const pausedSecondsB = readTimerSeconds(pausedSnapshotB);
+if (!pausedSecondsA || pausedSecondsA !== pausedSecondsB || !pausedSnapshotB.includes('Paused')) {
+  throw new Error('Pause mode did not freeze the timer display.');
+}
+
+await page.getByRole('button', { name: /^Resume$/i }).click();
+await page.waitForTimeout(300);
 
 let didStealDemo = false;
 
@@ -102,6 +138,10 @@ await page.screenshot({ path: fileURLToPath(new URL('05-winner.png', outDir)), f
 const finalText = (await page.textContent('body')) ?? '';
 if (!/Final rankings/i.test(finalText) || !/Start a new game/i.test(finalText)) {
   throw new Error('Winner screen not reached.');
+}
+
+if (finalText.includes('Dayanna Brown')) {
+  throw new Error('Inactive player leaked into the final standings.');
 }
 
 if (!didStealDemo) {

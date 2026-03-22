@@ -83,6 +83,7 @@ export interface QuestionState {
   turnToken: string;
   turnStartedAt: number;
   deadlineAt: number;
+  pausedRemainingMs: number | null;
   resolution: QuestionResolution | null;
   latestFailure: FailureSnapshot | null;
 }
@@ -116,6 +117,7 @@ export interface GameState {
   gamePhase: GamePhase;
   players: Player[];
   playerCount: PlayerCount;
+  selectedPlayerIds: string[];
   soundEnabled: boolean;
   round: RoundNumber;
   questionPlan: QuestionPlanItem[];
@@ -134,6 +136,7 @@ export interface PersistedSession {
   gamePhase: GamePhase;
   players: Player[];
   playerCount: PlayerCount;
+  selectedPlayerIds: string[];
   soundEnabled: boolean;
   round: RoundNumber;
   questionPlan: QuestionPlanItem[];
@@ -148,10 +151,12 @@ export interface PersistedSession {
 export type GameAction =
   | { type: 'GO_TO_SETUP' }
   | { type: 'SET_PLAYER_COUNT'; count: PlayerCount }
+  | { type: 'TOGGLE_PLAYER_SELECTION'; playerId: string }
   | { type: 'UPDATE_PLAYER_NAME'; playerId: string; name: string }
   | { type: 'UPDATE_PLAYER_AVATAR'; playerId: string; avatarDataUrl: string | null; hasUploadedImage: boolean }
   | { type: 'START_GAME'; seed?: number }
   | { type: 'BEGIN_ROUND' }
+  | { type: 'TOGGLE_PAUSE' }
   | { type: 'SUBMIT_ANSWER'; choice: string }
   | { type: 'TIME_EXPIRED'; turnToken: string }
   | { type: 'CONTINUE_AFTER_QUESTION' }
