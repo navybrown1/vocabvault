@@ -66,8 +66,8 @@ export function CategoryOrStartScreen({
                 <p className="font-label text-[0.7rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant">Upcoming categories</p>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
-                {upcomingCategories.map((category) => (
-                  <RoundBadge key={category} label={category} tone="neutral" />
+                {upcomingCategories.map((category, index) => (
+                  <RoundBadge key={`${category}-${index}`} label={category} tone="neutral" />
                 ))}
               </div>
             </div>
