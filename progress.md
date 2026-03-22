@@ -168,3 +168,14 @@ Original prompt: Build a production-quality 4-player trivia party game as a poli
   - `npm --workspaces=false run build` passed
   - `QA_BASE_URL='http://127.0.0.1:3003' npm --workspaces=false exec -- node ./scripts/qa_smoke.mjs` passed
   - visually reviewed `tmp-qa/05-winner.png` to confirm the winner hero dominates the screen
+
+2026-03-22 (winner redundancy cleanup)
+- Removed duplicate winner presentation from the lower sections of the winner screen:
+  - the hero champion card remains the only place where 1st place is spotlighted
+  - the podium and standings beneath now show only the remaining finishers
+  - solo wins now end cleanly without repeating the champion in extra sections
+- Validation results after the cleanup:
+  - `npm --workspaces=false test` passed
+  - `npm --workspaces=false run build` passed
+  - `QA_BASE_URL='http://127.0.0.1:3003' npm --workspaces=false exec -- node ./scripts/qa_smoke.mjs` passed
+  - visually reviewed `tmp-qa/05-winner.png` to confirm the lower section no longer repeats the winner

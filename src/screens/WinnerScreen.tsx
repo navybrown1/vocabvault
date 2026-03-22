@@ -28,6 +28,7 @@ export function WinnerScreen({
   const leadWinner = winners[0] ?? rankings[0];
   const leadTheme = leadWinner ? getPlayerTheme(leadWinner.color) : null;
   const topScore = winners[0]?.score ?? rankings[0]?.score ?? 0;
+  const remainingRankings = rankings.filter((player) => !winnerIds.includes(player.id));
   const headline =
     winners.length > 1 ? 'Tie for 1st in the Brown family arena.' : `${winners[0]?.name ?? 'Winner'} takes the crown.`;
 
@@ -178,36 +179,40 @@ export function WinnerScreen({
           </div>
         </GlassPanel>
 
-        <WinnerPodium rankings={rankings} winnerIds={winnerIds} />
+        {remainingRankings.length > 0 ? (
+          <>
+            <WinnerPodium rankings={rankings} featuredPlayerIds={winnerIds} />
 
-        <GlassPanel tone="base" accent="secondary" className="p-6">
-          <div className="flex items-center gap-3">
-            <Sparkles className="h-5 w-5 text-secondary" />
-            <div>
-              <p className="font-label text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">Full standings</p>
-              <h3 className="font-headline text-2xl font-extrabold tracking-[-0.04em] text-on-surface">
-                {rankings.length === 1 ? 'Solo result' : `${rankings.length}-player finish`}
-              </h3>
-            </div>
-          </div>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            {rankings.map((player) => (
-              <div
-                key={player.id}
-                className="arcade-well rounded-[2rem] p-4"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className="font-label text-[0.7rem] font-bold uppercase tracking-[0.18em] text-on-surface-variant">{player.rankLabel}</p>
-                    <h4 className="mt-2 font-headline text-2xl font-extrabold tracking-[-0.04em] text-on-surface">{player.name}</h4>
-                  </div>
-                  <p className="font-headline text-3xl font-extrabold tracking-[-0.05em] text-[var(--arcade-yellow)]">{player.score}</p>
+            <GlassPanel tone="base" accent="secondary" className="p-6">
+              <div className="flex items-center gap-3">
+                <Sparkles className="h-5 w-5 text-secondary" />
+                <div>
+                  <p className="font-label text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">Rest of standings</p>
+                  <h3 className="font-headline text-2xl font-extrabold tracking-[-0.04em] text-on-surface">
+                    {remainingRankings.length === 1 ? 'Next finisher' : `${remainingRankings.length} other finishers`}
+                  </h3>
                 </div>
               </div>
-            ))}
-          </div>
-        </GlassPanel>
+
+              <div className="mt-6 grid gap-4 md:grid-cols-2">
+                {remainingRankings.map((player) => (
+                  <div
+                    key={player.id}
+                    className="arcade-well rounded-[2rem] p-4"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="font-label text-[0.7rem] font-bold uppercase tracking-[0.18em] text-on-surface-variant">{player.rankLabel}</p>
+                        <h4 className="mt-2 font-headline text-2xl font-extrabold tracking-[-0.04em] text-on-surface">{player.name}</h4>
+                      </div>
+                      <p className="font-headline text-3xl font-extrabold tracking-[-0.05em] text-[var(--arcade-yellow)]">{player.score}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </GlassPanel>
+          </>
+        ) : null}
       </div>
     </GameShell>
   );
