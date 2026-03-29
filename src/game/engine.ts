@@ -1,14 +1,15 @@
 import {
   BRAND_NAME,
+  DEFAULT_LANGUAGE,
   DEFAULT_PLAYER_COUNT,
   FAMILY_PLAYER_PRESETS,
   ORIGINAL_TURN_MS,
   PLAYER_COUNT,
   PLAYER_IDENTITIES,
-  QUESTIONS_PER_ROUND,
-  REVEAL_COPY,
   ROUND_CONFIG,
+  ROUND_SEQUENCE,
   SESSION_VERSION,
+  SPEED_BONUS_TIERS,
   STEAL_TURN_MS,
   TOTAL_QUESTIONS,
 } from './constants';
@@ -19,15 +20,16 @@ import type {
   FailureReason,
   GameAction,
   GameState,
-  PlayerCount,
   PersistedSession,
   Player,
+  PlayerCount,
+  PlayerProfileSnapshot,
+  PlayerSetupSnapshot,
   Question,
   QuestionPlanItem,
-  QuestionResult,
   QuestionState,
   RoundNumber,
-  TurnKind,
+  SpeedTier,
   WinnerSnapshot,
 } from './types';
 
@@ -39,17 +41,20 @@ function makeId(prefix: string) {
   return `${prefix}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
-export function createInitialState(soundEnabled = true): GameState {
-  const players = createEmptyPlayers();
+export function createInitialState(soundEnabled = true, setupSnapshot?: Partial<PlayerSetupSnapshot>): GameState {
+  const normalizedSetup = normalizeSetupSnapshot(setupSnapshot);
+  const players = createEmptyPlayers(normalizedSetup.players);
+
   return {
     version: SESSION_VERSION,
     brand: BRAND_NAME,
+    language: normalizedSetup.language,
     gamePhase: 'welcome',
     players,
-    playerCount: DEFAULT_PLAYER_COUNT,
-    selectedPlayerIds: [],
+    playerCount: normalizedSetup.playerCount,
+    selectedPlayerIds: syncSelectedPlayerIds(players, normalizedSetup.selectedPlayerIds, normalizedSetup.playerCount),
     soundEnabled,
-    round: 1,
+    round: ROUND_SEQUENCE[0],
     questionPlan: [],
     currentQuestionCursor: 0,
     usedQuestionIds: [],
@@ -132,7 +137,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
           ...state,
           players: state.players.map((player) => ({ ...player, score: 0 })),
           gamePhase: 'categoryOrStart',
-          round: 1,
+          round: ROUND_SEQUENCE[0],
           questionPlan,
           currentQuestionCursor: 0,
           usedQuestionIds: [],
@@ -198,20 +203,19 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         return state;
       }
 
-      const choice = action.choice;
       const lockedState = {
         ...state,
         currentQuestion: {
           ...state.currentQuestion,
-          lockedChoice: choice,
+          lockedChoice: action.choice,
         },
       };
 
-      if (choice === question.correctAnswer) {
+      if (action.choice === question.correctAnswer) {
         return resolveCorrectAnswer(lockedState, question);
       }
 
-      return resolveFailedAttempt(lockedState, 'wrong', choice);
+      return resolveFailedAttempt(lockedState, 'wrong', action.choice);
     }
 
     case 'TIME_EXPIRED': {
@@ -260,11 +264,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         };
       }
 
-      const resetState = {
-        ...state,
-        currentQuestionCursor: nextCursor,
-      };
-      return startQuestionAtCursor(resetState, nextCursor);
+      return startQuestionAtCursor({ ...state, currentQuestionCursor: nextCursor }, nextCursor);
     }
 
     case 'TOGGLE_SOUND':
@@ -273,9 +273,16 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         soundEnabled: !state.soundEnabled,
       };
 
+    case 'TOGGLE_LANGUAGE':
+      return {
+        ...state,
+        language: state.language === 'en' ? 'es' : 'en',
+      };
+
     case 'HYDRATE_SESSION':
       return {
         ...action.session,
+        language: action.session.language ?? DEFAULT_LANGUAGE,
         selectedPlayerIds: syncSelectedPlayerIds(
           action.session.players,
           action.session.selectedPlayerIds,
@@ -291,7 +298,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       };
 
     case 'RESET_SESSION':
-      return createInitialState(state.soundEnabled);
+      return createInitialState(state.soundEnabled, action.setupSnapshot ?? buildSetupSnapshot(state));
 
     default:
       return state;
@@ -317,6 +324,29 @@ export function reconcileExpiredTurns(state: GameState, now = Date.now()): GameS
   }
 
   return nextState;
+}
+
+export function restorePersistedState(session: PersistedSession) {
+  return reconcileExpiredTurns({
+    ...session,
+    language: session.language ?? DEFAULT_LANGUAGE,
+    selectedPlayerIds: syncSelectedPlayerIds(session.players, session.selectedPlayerIds, session.playerCount),
+    fatalError: null,
+  });
+}
+
+export function buildSetupSnapshot(state: Pick<GameState, 'language' | 'playerCount' | 'players' | 'selectedPlayerIds'>): PlayerSetupSnapshot {
+  return {
+    language: state.language,
+    playerCount: state.playerCount,
+    selectedPlayerIds: state.selectedPlayerIds,
+    players: state.players.map((player) => ({
+      id: player.id,
+      name: player.name,
+      avatarDataUrl: player.avatarDataUrl,
+      hasUploadedImage: player.hasUploadedImage,
+    })),
+  };
 }
 
 export function validatePlayersForStart(
@@ -345,10 +375,7 @@ export function validatePlayersForStart(
   return activePlayers.every((player) => player.hasUploadedImage && Boolean(player.avatarDataUrl));
 }
 
-export function buildQuestionPlan(
-  seed = createSessionSeed(),
-  playerCount: PlayerCount = DEFAULT_PLAYER_COUNT,
-): QuestionPlanItem[] {
+export function buildQuestionPlan(seed = createSessionSeed(), playerCount: PlayerCount = DEFAULT_PLAYER_COUNT): QuestionPlanItem[] {
   if (playerCount < 1 || playerCount > PLAYER_COUNT) {
     throw new Error('The selected player count is outside the supported range.');
   }
@@ -356,19 +383,18 @@ export function buildQuestionPlan(
   const rng = mulberry32(seed);
   const plan: QuestionPlanItem[] = [];
   const usedQuestionIds = new Set<string>();
-
   let globalIndex = 0;
-  const roundSelections: Record<RoundNumber, Question[]> = {
-    1: selectQuestionsForRound(['easy'], QUESTIONS_PER_ROUND, usedQuestionIds, rng),
-    2: selectQuestionsForRound(['medium'], QUESTIONS_PER_ROUND, usedQuestionIds, rng),
-    // The imported bank only ships with five `hard` questions, so the final round
-    // guarantees two hard prompts and fills the rest from unused medium/hard prompts
-    // to keep sessions feeling varied instead of nearly identical.
-    3: selectFinalRoundQuestions(usedQuestionIds, rng),
-  };
 
-  ([1, 2, 3] as const).forEach((round) => {
-    roundSelections[round].forEach((question) => {
+  ROUND_SEQUENCE.forEach((round) => {
+    const roundConfig = ROUND_CONFIG[round];
+    const selectedQuestions = selectQuestionsForRound(
+      roundConfig.difficultyPool,
+      roundConfig.questionCount,
+      usedQuestionIds,
+      rng,
+    );
+
+    selectedQuestions.forEach((question) => {
       plan.push({
         questionId: question.id,
         round,
@@ -386,16 +412,34 @@ export function buildQuestionPlan(
   return plan;
 }
 
-export function createEmptyPlayers(): Player[] {
-  return PLAYER_IDENTITIES.map((identity, index) => ({
-    id: `player-${index + 1}`,
-    seat: identity.seat,
-    color: identity.color,
-    name: FAMILY_PLAYER_PRESETS[index]?.name ?? '',
-    avatarDataUrl: FAMILY_PLAYER_PRESETS[index]?.avatarSrc ?? null,
-    hasUploadedImage: Boolean(FAMILY_PLAYER_PRESETS[index]?.avatarSrc),
-    score: 0,
-  }));
+export function createEmptyPlayers(playerProfiles: PlayerProfileSnapshot[] = []): Player[] {
+  const playerProfileLookup = Object.fromEntries(
+    playerProfiles.map((profile) => [profile.id, profile]),
+  ) as Record<string, PlayerProfileSnapshot>;
+
+  return PLAYER_IDENTITIES.map((identity, index) => {
+    const playerId = `player-${index + 1}`;
+    const savedProfile = playerProfileLookup[playerId];
+
+    return {
+      id: playerId,
+      seat: identity.seat,
+      color: identity.color,
+      name: savedProfile?.name ?? FAMILY_PLAYER_PRESETS[index]?.name ?? '',
+      avatarDataUrl: savedProfile?.avatarDataUrl ?? FAMILY_PLAYER_PRESETS[index]?.avatarSrc ?? null,
+      hasUploadedImage: savedProfile?.hasUploadedImage ?? Boolean(FAMILY_PLAYER_PRESETS[index]?.avatarSrc),
+      score: 0,
+    };
+  });
+}
+
+function normalizeSetupSnapshot(setupSnapshot?: Partial<PlayerSetupSnapshot>): PlayerSetupSnapshot {
+  return {
+    players: setupSnapshot?.players ?? [],
+    playerCount: setupSnapshot?.playerCount ?? DEFAULT_PLAYER_COUNT,
+    selectedPlayerIds: setupSnapshot?.selectedPlayerIds ?? [],
+    language: setupSnapshot?.language ?? DEFAULT_LANGUAGE,
+  };
 }
 
 function syncSelectedPlayerIds(players: Player[], selectedPlayerIds: string[], playerCount: PlayerCount) {
@@ -407,7 +451,7 @@ function syncSelectedPlayerIds(players: Player[], selectedPlayerIds: string[], p
 
 function startQuestionAtCursor(state: GameState, cursor: number): GameState {
   const planItem = state.questionPlan[cursor];
-  const question = QUESTION_LOOKUP[planItem.questionId];
+  const question = QUESTION_LOOKUP[planItem?.questionId];
 
   if (!planItem || !question) {
     return {
@@ -459,19 +503,25 @@ function resolveCorrectAnswer(state: GameState, question: Question): GameState {
       fatalError: 'The active responder could not be resolved for this session.',
     };
   }
-  const points =
-    currentQuestion.turnKind === 'original'
-      ? ROUND_CONFIG[currentQuestion.round].originalPoints
-      : ROUND_CONFIG[currentQuestion.round].stealPoints;
+
+  const roundConfig = ROUND_CONFIG[currentQuestion.round];
+  const basePoints =
+    currentQuestion.turnKind === 'original' ? roundConfig.originalPoints : roundConfig.stealPoints;
+  const remainingMs = Math.max(currentQuestion.deadlineAt - Date.now(), 0);
+  const { bonus: speedBonus, tier: speedTier } = getSpeedBonus(currentQuestion.turnKind, remainingMs);
+  const awardedPoints = basePoints + speedBonus;
 
   const updatedPlayers = state.players.map((player) =>
-    player.id === responder.id ? { ...player, score: player.score + points } : player,
+    player.id === responder.id ? { ...player, score: player.score + awardedPoints } : player,
   );
 
   const resolution = {
     outcome: 'correct' as const,
     correctAnswer: question.correctAnswer,
-    awardedPoints: points,
+    basePoints,
+    speedBonus,
+    speedTier,
+    awardedPoints,
     resolvedByPlayerId: responder.id,
     turnKind: currentQuestion.turnKind,
     resolvedAt: Date.now(),
@@ -491,7 +541,9 @@ function resolveCorrectAnswer(state: GameState, question: Question): GameState {
         round: currentQuestion.round,
         category: question.category,
         correctAnswer: question.correctAnswer,
-        awardedPoints: points,
+        basePoints,
+        speedBonus,
+        awardedPoints,
         resolvedByPlayerId: responder.id,
         turnKind: currentQuestion.turnKind,
         outcome: 'correct',
@@ -514,10 +566,10 @@ function resolveFailedAttempt(state: GameState, reason: FailureReason, choice: s
       fatalError: 'The active responder could not be resolved for this session.',
     };
   }
+
   const nextFailedIds = currentQuestion.failedPlayerIds.includes(currentPlayer.id)
     ? currentQuestion.failedPlayerIds
     : [...currentQuestion.failedPlayerIds, currentPlayer.id];
-
   const nextResponderIndex = findNextEligibleResponder(activePlayers, currentQuestion.currentResponderIndex, nextFailedIds);
   const now = Date.now();
 
@@ -545,6 +597,9 @@ function resolveFailedAttempt(state: GameState, reason: FailureReason, choice: s
         resolution: {
           outcome: 'allFailed',
           correctAnswer: question.correctAnswer,
+          basePoints: 0,
+          speedBonus: 0,
+          speedTier: 'none',
           awardedPoints: 0,
           resolvedByPlayerId: null,
           turnKind: null,
@@ -558,6 +613,8 @@ function resolveFailedAttempt(state: GameState, reason: FailureReason, choice: s
           round: currentQuestion.round,
           category: question.category,
           correctAnswer: question.correctAnswer,
+          basePoints: 0,
+          speedBonus: 0,
           awardedPoints: 0,
           resolvedByPlayerId: null,
           turnKind: null,
@@ -586,6 +643,19 @@ function resolveFailedAttempt(state: GameState, reason: FailureReason, choice: s
         occurredAt: now,
       },
     },
+  };
+}
+
+function getSpeedBonus(turnKind: QuestionState['turnKind'], remainingMs: number): { bonus: number; tier: SpeedTier } {
+  const totalMs = turnKind === 'original' ? ORIGINAL_TURN_MS : STEAL_TURN_MS;
+  const ratio = remainingMs / totalMs;
+  const tierConfig =
+    SPEED_BONUS_TIERS.find((candidate) => ratio >= candidate.threshold) ??
+    SPEED_BONUS_TIERS[SPEED_BONUS_TIERS.length - 1];
+
+  return {
+    bonus: turnKind === 'original' ? tierConfig.originalBonus : tierConfig.stealBonus,
+    tier: tierConfig.tier,
   };
 }
 
@@ -630,52 +700,4 @@ function selectQuestionsForRound(
   const selected = shuffle(available, random).slice(0, count);
   selected.forEach((question) => usedQuestionIds.add(question.id));
   return selected;
-}
-
-function selectFinalRoundQuestions(usedQuestionIds: Set<string>, random: () => number) {
-  const availableHardCount = QUESTION_POOL.filter(
-    (question) => question.difficulty === 'hard' && !usedQuestionIds.has(question.id),
-  ).length;
-
-  if (availableHardCount >= QUESTIONS_PER_ROUND * 2) {
-    return selectQuestionsForRound(['hard'], QUESTIONS_PER_ROUND, usedQuestionIds, random);
-  }
-
-  const guaranteedHard = selectQuestionsForRound(['hard'], Math.min(2, QUESTIONS_PER_ROUND), usedQuestionIds, random);
-  const remainingCount = QUESTIONS_PER_ROUND - guaranteedHard.length;
-
-  if (remainingCount <= 0) {
-    return guaranteedHard;
-  }
-
-  const bonusPool = QUESTION_POOL.filter(
-    (question) =>
-      !usedQuestionIds.has(question.id) &&
-      (question.difficulty === 'hard' || question.difficulty === 'medium'),
-  );
-
-  if (bonusPool.length < remainingCount) {
-    throw new Error('Not enough medium/hard questions are available to build the final round.');
-  }
-
-  const bonusSelection = shuffle(bonusPool, random).slice(0, remainingCount);
-  bonusSelection.forEach((question) => usedQuestionIds.add(question.id));
-
-  return shuffle([...guaranteedHard, ...bonusSelection], random);
-}
-
-export function getQuestionFeedbackLabel(state: GameState) {
-  if (!state.currentQuestion?.resolution) {
-    return null;
-  }
-
-  return state.currentQuestion.resolution.outcome === 'allFailed' ? REVEAL_COPY.allFailed : REVEAL_COPY.correct;
-}
-
-export function restorePersistedState(session: PersistedSession) {
-  return reconcileExpiredTurns({
-    ...session,
-    selectedPlayerIds: syncSelectedPlayerIds(session.players, session.selectedPlayerIds, session.playerCount),
-    fatalError: null,
-  });
 }

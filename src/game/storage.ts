@@ -1,5 +1,13 @@
-import { BRAND_NAME, SESSION_VERSION, STORAGE_KEY } from './constants';
-import type { GameState, PersistedSession } from './types';
+import {
+  BRAND_NAME,
+  DEFAULT_LANGUAGE,
+  DEFAULT_PLAYER_COUNT,
+  PLAYER_COUNT,
+  PLAYER_SETUP_STORAGE_KEY,
+  SESSION_VERSION,
+  STORAGE_KEY,
+} from './constants';
+import type { GameState, PersistedSession, PlayerProfileSnapshot, PlayerSetupSnapshot } from './types';
 
 export function loadPersistedSession(): PersistedSession | null {
   if (typeof window === 'undefined') {
@@ -28,8 +36,7 @@ export function savePersistedSession(state: GameState) {
     return;
   }
 
-  const payload = toPersistedSession(state);
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(toPersistedSession(state)));
 }
 
 export function clearPersistedSession() {
@@ -40,10 +47,41 @@ export function clearPersistedSession() {
   window.localStorage.removeItem(STORAGE_KEY);
 }
 
+export function loadPersistedPlayerSetup(): PlayerSetupSnapshot | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const raw = window.localStorage.getItem(PLAYER_SETUP_STORAGE_KEY);
+  if (!raw) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!isPlayerSetupSnapshot(parsed)) {
+      return null;
+    }
+
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+export function savePersistedPlayerSetup(snapshot: PlayerSetupSnapshot) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  window.localStorage.setItem(PLAYER_SETUP_STORAGE_KEY, JSON.stringify(snapshot));
+}
+
 export function toPersistedSession(state: GameState): PersistedSession {
   return {
     version: SESSION_VERSION,
     brand: BRAND_NAME,
+    language: state.language,
     gamePhase: state.gamePhase,
     players: state.players,
     playerCount: state.playerCount,
@@ -73,9 +111,10 @@ function isPersistedSession(value: unknown): value is PersistedSession {
     Array.isArray(candidate.players) &&
     typeof candidate.playerCount === 'number' &&
     candidate.playerCount >= 1 &&
-    candidate.playerCount <= 4 &&
+    candidate.playerCount <= PLAYER_COUNT &&
     Array.isArray(candidate.selectedPlayerIds) &&
     candidate.selectedPlayerIds.every((playerId) => typeof playerId === 'string') &&
+    (candidate.language === 'en' || candidate.language === 'es') &&
     typeof candidate.gamePhase === 'string' &&
     typeof candidate.soundEnabled === 'boolean' &&
     Array.isArray(candidate.questionPlan) &&
@@ -101,4 +140,46 @@ function isQuestionPlanItem(value: unknown) {
     candidate.choiceOrder.length === 4 &&
     candidate.choiceOrder.every((choice) => typeof choice === 'string')
   );
+}
+
+function isPlayerProfileSnapshot(value: unknown): value is PlayerProfileSnapshot {
+  if (!value || typeof value !== 'object') {
+    return false;
+  }
+
+  const candidate = value as Record<string, unknown>;
+  return (
+    typeof candidate.id === 'string' &&
+    typeof candidate.name === 'string' &&
+    (typeof candidate.avatarDataUrl === 'string' || candidate.avatarDataUrl === null) &&
+    typeof candidate.hasUploadedImage === 'boolean'
+  );
+}
+
+function isPlayerSetupSnapshot(value: unknown): value is PlayerSetupSnapshot {
+  if (!value || typeof value !== 'object') {
+    return false;
+  }
+
+  const candidate = value as Record<string, unknown>;
+
+  return (
+    Array.isArray(candidate.players) &&
+    candidate.players.every(isPlayerProfileSnapshot) &&
+    typeof candidate.playerCount === 'number' &&
+    candidate.playerCount >= 1 &&
+    candidate.playerCount <= PLAYER_COUNT &&
+    Array.isArray(candidate.selectedPlayerIds) &&
+    candidate.selectedPlayerIds.every((playerId) => typeof playerId === 'string') &&
+    (candidate.language === 'en' || candidate.language === 'es')
+  );
+}
+
+export function getFallbackPlayerSetup(): PlayerSetupSnapshot {
+  return {
+    players: [],
+    playerCount: DEFAULT_PLAYER_COUNT,
+    selectedPlayerIds: [],
+    language: DEFAULT_LANGUAGE,
+  };
 }

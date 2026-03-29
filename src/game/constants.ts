@@ -1,12 +1,14 @@
-import type { PlayerColor, QuestionDifficulty, RoundNumber, SoundEvent } from './types';
+import type { Language, PlayerColor, RoundConfig, RoundNumber, SoundEvent, SpeedTier } from './types';
 
 export const BRAND_NAME = 'The Brown Family Trivia Super Game';
-export const SESSION_VERSION = 5;
-export const STORAGE_KEY = 'brown-family-trivia-super-game/session:v5';
+export const SESSION_VERSION = 6;
+export const STORAGE_KEY = 'brown-family-trivia-super-game/session:v6';
+export const PLAYER_SETUP_STORAGE_KEY = 'brown-family-trivia-super-game/setup:v2';
+
 export const PLAYER_COUNT = 4;
 export const DEFAULT_PLAYER_COUNT = 4;
-export const QUESTIONS_PER_ROUND = 4;
-export const TOTAL_QUESTIONS = QUESTIONS_PER_ROUND * 3;
+export const DEFAULT_LANGUAGE: Language = 'en';
+
 export const ORIGINAL_TURN_MS = 40_000;
 export const STEAL_TURN_MS = 30_000;
 export const ORIGINAL_WARNING_MS = 10_000;
@@ -51,63 +53,63 @@ export const ENZO_MASCOT = {
   avatarSrc: '/family/enzo-brown.png',
 };
 
-export const ROUND_CONFIG: Record<
-  RoundNumber,
-  {
-    round: RoundNumber;
-    difficulty: QuestionDifficulty;
-    originalPoints: number;
-    stealPoints: number;
-    title: string;
-    subtitle: string;
-  }
-> = {
+export const ROUND_CONFIG: Record<RoundNumber, RoundConfig> = {
   1: {
     round: 1,
-    difficulty: 'easy',
+    type: 'classic',
+    difficultyPool: ['easy'],
+    questionCount: 3,
     originalPoints: 100,
     stealPoints: 50,
-    title: 'Round 1',
-    subtitle: 'Opening sparks and crowd-pleasers',
   },
   2: {
     round: 2,
-    difficulty: 'medium',
-    originalPoints: 100,
-    stealPoints: 50,
-    title: 'Round 2',
-    subtitle: 'Deeper cuts with sharper steals',
+    type: 'portrait',
+    difficultyPool: ['easy', 'medium'],
+    questionCount: 3,
+    originalPoints: 120,
+    stealPoints: 70,
   },
   3: {
     round: 3,
-    difficulty: 'hard',
-    originalPoints: 200,
-    stealPoints: 100,
-    title: 'Round 3',
-    subtitle: 'High-stakes finish under the bright lights',
+    type: 'rapid',
+    difficultyPool: ['medium'],
+    questionCount: 3,
+    originalPoints: 140,
+    stealPoints: 80,
+  },
+  4: {
+    round: 4,
+    type: 'steal',
+    difficultyPool: ['medium', 'hard'],
+    questionCount: 3,
+    originalPoints: 160,
+    stealPoints: 110,
+  },
+  5: {
+    round: 5,
+    type: 'finale',
+    difficultyPool: ['hard', 'medium'],
+    questionCount: 3,
+    originalPoints: 220,
+    stealPoints: 140,
   },
 };
 
-export const ROUND_THEME_COPY: Record<
-  RoundNumber,
-  {
-    eyebrow: string;
-    callout: string;
-  }
-> = {
-  1: {
-    eyebrow: 'Family warm-up',
-    callout: 'Fast answers, clean starts, and first blood on the board.',
-  },
-  2: {
-    eyebrow: 'Pressure rising',
-    callout: 'The easy wins are gone. One bad answer opens the door to a steal.',
-  },
-  3: {
-    eyebrow: 'Final showdown',
-    callout: 'Double-value originals. Every answer can rewrite the podium.',
-  },
-};
+export const ROUND_SEQUENCE = [1, 2, 3, 4, 5] as const;
+export const TOTAL_QUESTIONS = ROUND_SEQUENCE.reduce((total, round) => total + ROUND_CONFIG[round].questionCount, 0);
+
+export const SPEED_BONUS_TIERS: Array<{
+  tier: SpeedTier;
+  threshold: number;
+  originalBonus: number;
+  stealBonus: number;
+}> = [
+  { tier: 'blazing', threshold: 0.75, originalBonus: 60, stealBonus: 40 },
+  { tier: 'swift', threshold: 0.5, originalBonus: 40, stealBonus: 25 },
+  { tier: 'steady', threshold: 0.25, originalBonus: 20, stealBonus: 10 },
+  { tier: 'none', threshold: 0, originalBonus: 0, stealBonus: 0 },
+];
 
 export const SOUND_MANIFEST: Record<
   SoundEvent,
@@ -129,11 +131,6 @@ export const SOUND_MANIFEST: Record<
   stealActivation: { frequencies: [440, 587, 784, 988], duration: 0.16, gap: 0.05, type: 'sawtooth', volume: 0.09 },
   roundTransition: { frequencies: [392, 523, 659, 784], duration: 0.24, gap: 0.055, type: 'triangle', volume: 0.055 },
   winnerCelebration: { frequencies: [523, 659, 784, 988, 1175, 1568], duration: 0.34, gap: 0.055, type: 'triangle', volume: 0.095 },
-};
-
-export const REVEAL_COPY = {
-  allFailed: 'No one cracked it this time.',
-  correct: 'That answer lights up the board.',
 };
 
 export const MOTION_TIMINGS = {

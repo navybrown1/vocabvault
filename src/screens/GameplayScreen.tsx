@@ -1,5 +1,6 @@
 import { Pause, Play } from 'lucide-react';
-import type { FailureReason, Player, Question, QuestionResolution, TurnKind } from '@/game/types';
+import { getSpeedTierLabel, getUiCopy, interpolate } from '@/game/i18n';
+import type { FailureReason, Language, LocalizedQuestion, Player, QuestionResolution, TurnKind } from '@/game/types';
 import { GameShell } from '@/components/GameShell';
 import { GlassPanel } from '@/components/GlassPanel';
 import { Scoreboard } from '@/components/Scoreboard';
@@ -10,6 +11,8 @@ import { StealBanner } from '@/components/StealBanner';
 import { RoundBadge } from '@/components/RoundBadge';
 
 export interface GameplayScreenProps {
+  language: Language;
+  onToggleLanguage: () => void;
   soundEnabled: boolean;
   onToggleSound: () => void;
   onReset?: () => void;
@@ -22,7 +25,7 @@ export interface GameplayScreenProps {
   activePlayer: Player;
   starterPlayerId: string | null;
   failedPlayerIds: string[];
-  question: Question;
+  question: LocalizedQuestion;
   turnKind: TurnKind;
   lockedChoice: string | null;
   latestFailureChoice: string | null;
@@ -39,6 +42,8 @@ export interface GameplayScreenProps {
 }
 
 export function GameplayScreen({
+  language,
+  onToggleLanguage,
   soundEnabled,
   onToggleSound,
   onReset,
@@ -61,20 +66,24 @@ export function GameplayScreen({
   onAnswer,
   onContinue,
 }: GameplayScreenProps) {
+  const copy = getUiCopy(language).gameplay;
   const winnerIds = resolution?.resolvedByPlayerId ? [resolution.resolvedByPlayerId] : [];
 
   return (
     <GameShell
+      language={language}
+      onToggleLanguage={onToggleLanguage}
       soundEnabled={soundEnabled}
       onToggleSound={onToggleSound}
       onReset={onReset}
-      title="Brown Family Arcade Night"
-      subtitle={isPaused ? 'Game paused' : `${activePlayer.name} has the active turn`}
+      title={copy.title}
+      subtitle={isPaused ? copy.pausedSubtitle : interpolate(copy.liveSubtitle, { player: activePlayer.name })}
       roundLabel={roundLabel}
       scoreLabel={scoreLabel}
       rightSlot={
         <>
           <RoundBadge label={questionIndexLabel} tone="neutral" />
+          <RoundBadge label={getUiCopy(language).controls.gameplay} tone="neutral" className="hidden xl:flex" />
           <button
             type="button"
             onClick={onTogglePause}
@@ -85,7 +94,7 @@ export function GameplayScreen({
             ].join(' ')}
           >
             {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
-            {isPaused ? 'Resume' : 'Pause'}
+            {isPaused ? getUiCopy(language).resume : getUiCopy(language).pause}
           </button>
         </>
       }
@@ -93,26 +102,30 @@ export function GameplayScreen({
       <div className="grid gap-6 xl:grid-cols-[290px_minmax(0,1fr)]">
         <GlassPanel tone="base" accent={activePlayer.color} className="h-full p-5 xl:min-h-[760px]">
           <Scoreboard
+            language={language}
             players={players}
             activePlayerId={activePlayer.id}
             failedPlayerIds={failedPlayerIds}
             starterPlayerId={starterPlayerId}
             winnerIds={winnerIds}
+            title={copy.familyScoreboard}
           />
         </GlassPanel>
 
         <div className="space-y-5">
-          <TimerBar {...timer} isPaused={isPaused} turnKind={turnKind} />
+          <TimerBar language={language} {...timer} isPaused={isPaused} turnKind={turnKind} />
 
           <QuestionCard
+            language={language}
             question={question}
             roundLabel={roundLabel}
-            activePlayerName={activePlayer.name}
+            activePlayer={activePlayer}
             turnKind={turnKind}
           />
 
           {turnKind === 'steal' && latestFailureReason ? (
             <StealBanner
+              language={language}
               activePlayerName={activePlayer.name}
               failedCount={failedPlayerIds.length}
               failureReason={latestFailureReason}
@@ -120,6 +133,7 @@ export function GameplayScreen({
           ) : null}
 
           <AnswerGrid
+            language={language}
             choices={question.choices}
             correctAnswer={question.correctAnswer}
             lockedChoice={lockedChoice}
@@ -134,14 +148,29 @@ export function GameplayScreen({
               <GlassPanel tone="tight" accent={resolution.outcome === 'correct' ? 'green' : 'tertiary'} className="rounded-[2rem] p-5">
                 <div className="flex h-full flex-col justify-between gap-4">
                   <div>
-                    <p className="font-label text-[0.72rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">Answer reveal</p>
+                    <p className="font-label text-[0.72rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">{copy.answerReveal}</p>
                     <h3 className="mt-2 font-headline text-[2rem] font-extrabold tracking-[-0.04em] text-on-surface drop-shadow-[3px_3px_0_rgba(0,0,0,0.58)]">
-                      {resolution.outcome === 'correct' ? 'Correct answer locked.' : 'OOF! Nobody got it.'}
+                      {resolution.outcome === 'correct' ? copy.revealCorrect : copy.revealMiss}
                     </h3>
                     <p className="mt-3 max-w-2xl text-sm leading-6 text-on-surface">
-                      Correct answer: <span className="font-bold">{resolution.correctAnswer}</span>
-                      {resolution.awardedPoints > 0 ? ` · ${resolution.awardedPoints} points awarded.` : ' · No points awarded.'}
+                      {interpolate(copy.correctAnswerLine, { answer: question.correctAnswerLabel })}
+                      {' · '}
+                      {resolution.awardedPoints > 0
+                        ? interpolate(copy.pointsAwarded, { points: resolution.awardedPoints })
+                        : copy.noPoints}
                     </p>
+                    {resolution.speedBonus > 0 ? (
+                      <div className="mt-4 flex flex-wrap gap-3">
+                        <RoundBadge
+                          label={`${copy.speedBonus} +${resolution.speedBonus}`}
+                          tone="secondary"
+                        />
+                        <RoundBadge
+                          label={getSpeedTierLabel(language, resolution.speedTier)}
+                          tone="tertiary"
+                        />
+                      </div>
+                    ) : null}
                     {question.explanation ? (
                       <p className="mt-3 max-w-2xl text-sm leading-6 text-on-surface-variant">{question.explanation}</p>
                     ) : null}
@@ -153,47 +182,43 @@ export function GameplayScreen({
                       onClick={onContinue}
                       className="arcade-button arcade-button--primary px-6 py-4 text-[0.82rem] text-white"
                     >
-                      Continue
+                      {getUiCopy(language).continue}
                     </button>
                   </div>
                 </div>
               </GlassPanel>
             ) : (
               <GlassPanel tone="tight" accent={activePlayer.color} className="rounded-[2rem] p-5">
-                <p className="font-label text-[0.72rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">Live turn</p>
+                <p className="font-label text-[0.72rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">{copy.liveTurn}</p>
                 <h3 className="mt-2 font-headline text-[2rem] font-extrabold tracking-[-0.04em] text-on-surface drop-shadow-[3px_3px_0_rgba(0,0,0,0.58)]">
                   {activePlayer.name}
                 </h3>
                 <p className="mt-3 text-sm leading-6 text-on-surface-variant">
-                  {isPaused
-                    ? 'Clock is frozen. Resume whenever everyone is ready to jump back in.'
-                    : turnKind === 'original'
-                    ? 'Original turn for full-value points. Take the full clock and lock it in.'
-                    : 'Steal chance is live. Quick hit, reduced points, same pressure.'}
+                  {isPaused ? copy.pausedBody : turnKind === 'original' ? copy.originalBody : copy.stealBody}
                 </p>
               </GlassPanel>
             )}
 
             <GlassPanel tone="tight" accent={activePlayer.color} className="rounded-[2rem] p-5">
-              <p className="font-label text-[0.72rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">Board status</p>
+              <p className="font-label text-[0.72rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">{copy.roundStatus}</p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div className="arcade-well rounded-[1.8rem] p-4">
-                  <p className="font-label text-[0.66rem] font-bold uppercase tracking-[0.16em] text-on-surface-variant">Failed players</p>
+                  <p className="font-label text-[0.66rem] font-bold uppercase tracking-[0.16em] text-on-surface-variant">{copy.failedPlayers}</p>
                   <p className="mt-2 font-headline text-[2rem] font-black tracking-[-0.04em] text-on-surface">
                     {failedPlayerIds.length}
                   </p>
                 </div>
                 <div className="arcade-well rounded-[1.8rem] p-4">
-                  <p className="font-label text-[0.66rem] font-bold uppercase tracking-[0.16em] text-on-surface-variant">Points in play</p>
+                  <p className="font-label text-[0.66rem] font-bold uppercase tracking-[0.16em] text-on-surface-variant">{copy.pointsInPlay}</p>
                   <p className="mt-2 font-headline text-[2rem] font-black tracking-[-0.04em] text-[var(--arcade-yellow)]">
-                    {turnKind === 'original' ? 'Full' : 'Steal'}
+                    {turnKind === 'original' ? copy.fullPoints : copy.stealPoints}
                   </p>
                 </div>
               </div>
               <p className="mt-4 text-sm leading-6 text-on-surface-variant">
                 {starterPlayerId === activePlayer.id
-                  ? `${activePlayer.name} opened this question.`
-                  : `${activePlayer.name} is answering after the pass.`}
+                  ? interpolate(copy.startedQuestion, { player: activePlayer.name })
+                  : interpolate(copy.answeringAfterPass, { player: activePlayer.name })}
               </p>
             </GlassPanel>
           </div>

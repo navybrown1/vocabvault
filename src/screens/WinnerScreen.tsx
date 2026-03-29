@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Crown, RefreshCcw, Sparkles, Trophy } from 'lucide-react';
-import type { RankedPlayer } from '@/game/types';
+import { getUiCopy, interpolate } from '@/game/i18n';
+import type { Language, RankedPlayer } from '@/game/types';
 import { GameShell } from '@/components/GameShell';
 import { GlassPanel } from '@/components/GlassPanel';
 import { WinnerPodium } from '@/components/WinnerPodium';
@@ -10,6 +11,8 @@ import { RoundBadge } from '@/components/RoundBadge';
 import { getPlayerTheme } from '@/components/player-theme';
 
 export interface WinnerScreenProps {
+  language: Language;
+  onToggleLanguage: () => void;
   soundEnabled: boolean;
   onToggleSound: () => void;
   rankings: RankedPlayer[];
@@ -18,27 +21,32 @@ export interface WinnerScreenProps {
 }
 
 export function WinnerScreen({
+  language,
+  onToggleLanguage,
   soundEnabled,
   onToggleSound,
   rankings,
   winnerIds,
   onReset,
 }: WinnerScreenProps) {
+  const copy = getUiCopy(language).winner;
   const winners = rankings.filter((player) => winnerIds.includes(player.id));
   const leadWinner = winners[0] ?? rankings[0];
   const leadTheme = leadWinner ? getPlayerTheme(leadWinner.color) : null;
   const topScore = winners[0]?.score ?? rankings[0]?.score ?? 0;
   const remainingRankings = rankings.filter((player) => !winnerIds.includes(player.id));
   const headline =
-    winners.length > 1 ? 'Tie for 1st in the Brown family arena.' : `${winners[0]?.name ?? 'Winner'} takes the crown.`;
+    winners.length > 1 ? copy.tieHeadline : interpolate(copy.soloHeadline, { winner: winners[0]?.name ?? 'Winner' });
 
   return (
     <GameShell
+      language={language}
+      onToggleLanguage={onToggleLanguage}
       soundEnabled={soundEnabled}
       onToggleSound={onToggleSound}
-      title="Game Over!"
-      subtitle="Final rankings"
-      roundLabel="Winner"
+      title={copy.title}
+      subtitle={copy.subtitle}
+      roundLabel={copy.badge}
     >
       <div className="space-y-6">
         <GlassPanel tone="hero" accent={leadWinner?.color ?? 'primary'} className="relative overflow-hidden rounded-[2.75rem] px-6 py-8 sm:px-8 lg:px-10">
@@ -55,9 +63,13 @@ export function WinnerScreen({
           <div className="relative z-10 grid items-center gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(340px,0.85fr)]">
             <div className="text-center lg:text-left">
               <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-                <RoundBadge label="Winner locked" tone="tertiary" icon={<Sparkles className="h-3.5 w-3.5" />} />
                 <RoundBadge
-                  label={winners.length > 1 ? `${winners.length} champions` : 'Family champion'}
+                  label={language === 'en' ? 'Winner locked' : 'Ganador definido'}
+                  tone="tertiary"
+                  icon={<Sparkles className="h-3.5 w-3.5" />}
+                />
+                <RoundBadge
+                  label={winners.length > 1 ? interpolate(copy.champions, { count: winners.length }) : copy.familyChampion}
                   tone={leadWinner?.color ?? 'primary'}
                   icon={<Crown className="h-3.5 w-3.5" />}
                 />
@@ -68,18 +80,18 @@ export function WinnerScreen({
               </h2>
               <p className="mt-4 max-w-3xl text-base leading-7 text-on-surface-variant sm:text-lg sm:leading-8">
                 {winners.length > 1
-                  ? 'The night ends in a shared family title, with the final score line dead even at the top.'
-                  : `${leadWinner?.name ?? 'The winner'} closes the night on top with the biggest score on the board and the final fanfare all to themselves.`}
+                  ? copy.tieBody
+                  : interpolate(copy.soloBody, { winner: leadWinner?.name ?? 'The winner' })}
               </p>
 
               <div className="mt-6 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
                 <div className="arcade-pill bg-[rgba(255,255,255,0.14)] text-on-surface shadow-[0_6px_0_rgba(15,7,24,0.88)]">
                   <Trophy className="h-4 w-4 text-[var(--arcade-yellow)]" />
-                  {topScore.toLocaleString()} points
+                  {interpolate(copy.points, { points: topScore.toLocaleString() })}
                 </div>
                 <div className="arcade-pill bg-[rgba(255,255,255,0.1)] text-on-surface shadow-[0_6px_0_rgba(15,7,24,0.88)]">
                   <Sparkles className="h-4 w-4 text-secondary" />
-                  Final podium locked
+                  {copy.finalPodium}
                 </div>
               </div>
 
@@ -89,7 +101,7 @@ export function WinnerScreen({
                 className="arcade-button arcade-button--primary mt-8 inline-flex px-6 py-4 text-[0.82rem] text-white"
               >
                 <RefreshCcw className="h-4 w-4" />
-                Start a new game
+                {copy.startNewGame}
               </button>
             </div>
 
@@ -135,13 +147,13 @@ export function WinnerScreen({
 
                       <div className="mt-6">
                         <p className="font-label text-[0.76rem] font-bold uppercase tracking-[0.22em] text-[var(--arcade-yellow)]">
-                          Champion of the night
+                          {copy.championOfNight}
                         </p>
                         <h3 className="mt-3 font-headline text-[2.6rem] font-extrabold tracking-[-0.06em] text-on-surface drop-shadow-[4px_4px_0_rgba(0,0,0,0.58)] sm:text-[3.2rem]">
                           {leadWinner.name}
                         </h3>
                         <p className="mt-3 font-headline text-[2.1rem] font-black tracking-[-0.05em] text-[var(--arcade-yellow)]">
-                          {leadWinner.score.toLocaleString()} PTS
+                          {leadWinner.score.toLocaleString()} {language === 'en' ? 'PTS' : 'PTS'}
                         </p>
                       </div>
                     </div>
@@ -167,7 +179,7 @@ export function WinnerScreen({
                             {winner.name}
                           </h3>
                           <p className="mt-2 font-headline text-[1.8rem] font-black tracking-[-0.05em] text-[var(--arcade-yellow)]">
-                            {winner.score.toLocaleString()} PTS
+                            {winner.score.toLocaleString()} {language === 'en' ? 'PTS' : 'PTS'}
                           </p>
                         </div>
                       ))}
@@ -181,15 +193,18 @@ export function WinnerScreen({
 
         {remainingRankings.length > 0 ? (
           <>
-            <WinnerPodium rankings={rankings} featuredPlayerIds={winnerIds} />
+            <WinnerPodium language={language} rankings={rankings} featuredPlayerIds={winnerIds} />
+            
 
             <GlassPanel tone="base" accent="secondary" className="p-6">
               <div className="flex items-center gap-3">
                 <Sparkles className="h-5 w-5 text-secondary" />
                 <div>
-                  <p className="font-label text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">Rest of standings</p>
+                  <p className="font-label text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[var(--arcade-yellow)]">{copy.restStandings}</p>
                   <h3 className="font-headline text-2xl font-extrabold tracking-[-0.04em] text-on-surface">
-                    {remainingRankings.length === 1 ? 'Next finisher' : `${remainingRankings.length} other finishers`}
+                    {remainingRankings.length === 1
+                      ? copy.nextFinisher
+                      : interpolate(copy.otherFinishers, { count: remainingRankings.length })}
                   </h3>
                 </div>
               </div>

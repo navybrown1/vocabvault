@@ -4,12 +4,27 @@ import {
   ORIGINAL_TICK_FROM_SECONDS,
   ORIGINAL_WARNING_MS,
   PLAYER_COUNT,
+  ROUND_CONFIG,
   STEAL_TICK_FROM_SECONDS,
   STEAL_WARNING_MS,
 } from '@/game/constants';
-import { createInitialState, gameReducer, reconcileExpiredTurns, restorePersistedState, validatePlayersForStart } from '@/game/engine';
+import {
+  buildSetupSnapshot,
+  createInitialState,
+  gameReducer,
+  reconcileExpiredTurns,
+  restorePersistedState,
+  validatePlayersForStart,
+} from '@/game/engine';
+import { getUiCopy } from '@/game/i18n';
 import { createSoundController } from '@/game/sound';
-import { clearPersistedSession, loadPersistedSession, savePersistedSession } from '@/game/storage';
+import {
+  clearPersistedSession,
+  loadPersistedPlayerSetup,
+  loadPersistedSession,
+  savePersistedPlayerSetup,
+  savePersistedSession,
+} from '@/game/storage';
 import {
   getActivePlayer,
   getActivePlayers,
@@ -19,12 +34,16 @@ import {
   getRoundProgress,
   rankPlayers,
 } from '@/game/selectors';
-import type { GameAction, GameState } from '@/game/types';
+import type { GameState, MusicScene } from '@/game/types';
 
 export function useGameSession() {
   const initializer = () => {
     const session = loadPersistedSession();
-    return session ? restorePersistedState(session) : createInitialState(true);
+    if (session) {
+      return restorePersistedState(session);
+    }
+
+    return createInitialState(true, loadPersistedPlayerSetup() ?? undefined);
   };
 
   const [state, dispatch] = useReducer(gameReducer, undefined, initializer);
@@ -58,6 +77,14 @@ export function useGameSession() {
   }, [state]);
 
   useEffect(() => {
+    try {
+      savePersistedPlayerSetup(buildSetupSnapshot(state));
+    } catch (error) {
+      setStorageIssue(error instanceof Error ? error.message : 'Unable to save the player setup.');
+    }
+  }, [state.language, state.playerCount, state.players, state.selectedPlayerIds]);
+
+  useEffect(() => {
     const activeQuestion = state.currentQuestion;
     if (
       state.gamePhase !== 'gameplay' ||
@@ -70,10 +97,13 @@ export function useGameSession() {
       return;
     }
 
-    const warningThresholdSeconds = activeQuestion.turnKind === 'original'
-      ? Math.ceil(ORIGINAL_WARNING_MS / 1_000)
-      : Math.ceil(STEAL_WARNING_MS / 1_000);
-    const countdownTickFrom = activeQuestion.turnKind === 'original' ? ORIGINAL_TICK_FROM_SECONDS : STEAL_TICK_FROM_SECONDS;
+    const warningThresholdSeconds =
+      activeQuestion.turnKind === 'original'
+        ? Math.ceil(ORIGINAL_WARNING_MS / 1_000)
+        : Math.ceil(STEAL_WARNING_MS / 1_000);
+    const countdownTickFrom =
+      activeQuestion.turnKind === 'original' ? ORIGINAL_TICK_FROM_SECONDS : STEAL_TICK_FROM_SECONDS;
+
     const interval = window.setInterval(() => {
       const remainingMs = Math.max(activeQuestion.deadlineAt - Date.now(), 0);
       const remainingSeconds = Math.ceil(remainingMs / 1_000);
@@ -158,6 +188,10 @@ export function useGameSession() {
     return () => window.clearTimeout(timeout);
   }, [state.gamePhase, state.currentQuestion]);
 
+  useEffect(() => {
+    soundControllerRef.current.syncMusic(getMusicConfig(state), state.soundEnabled);
+  }, [state]);
+
   const derived = useMemo(() => {
     const activePlayers = getActivePlayers(state.players, state.selectedPlayerIds);
     const currentQuestion = getCurrentQuestion(state);
@@ -173,6 +207,7 @@ export function useGameSession() {
         labels[player.id] = getPlayerIdentityLabel(player);
         return labels;
       }, {}),
+      currentRoundConfig: ROUND_CONFIG[state.round],
     };
   }, [state]);
 
@@ -221,10 +256,14 @@ export function useGameSession() {
       }
       dispatch({ type: 'TOGGLE_SOUND' });
     },
+    toggleLanguage: () => {
+      soundControllerRef.current.play('buttonClick', state.soundEnabled);
+      dispatch({ type: 'TOGGLE_LANGUAGE' });
+    },
     resetSession: () => {
       soundControllerRef.current.play('buttonClick', state.soundEnabled);
       clearPersistedSession();
-      dispatch({ type: 'RESET_SESSION' });
+      dispatch({ type: 'RESET_SESSION', setupSnapshot: buildSetupSnapshot(state) });
     },
     hydrateSession: (session: GameState) => {
       dispatch({ type: 'HYDRATE_SESSION', session });
@@ -234,7 +273,7 @@ export function useGameSession() {
     },
   };
 
-  const validation = buildSetupValidation(state.players, state.selectedPlayerIds);
+  const validation = buildSetupValidation(state.players, state.selectedPlayerIds, state.language);
   const selectedCount = derived.activePlayers.length;
 
   return {
@@ -253,7 +292,9 @@ export function useGameSession() {
 function buildSetupValidation(
   players: GameState['players'],
   selectedPlayerIds: GameState['selectedPlayerIds'],
+  language: GameState['language'],
 ) {
+  const copy = getUiCopy(language).setup;
   const activePlayers = getActivePlayers(players, selectedPlayerIds);
   const normalizedNames = activePlayers.map((player) => player.name.trim().toLowerCase());
   const activePlayerIds = new Set(activePlayers.map((player) => player.id));
@@ -286,11 +327,8 @@ function buildSetupValidation(
           activePlayers[candidateIndex]?.id !== player.id && candidate === trimmedName.toLowerCase(),
       );
 
-    const nameError = !trimmedName ? 'Add a name for this player.' : duplicate ? 'Each player needs a unique name.' : null;
-    const avatarError =
-      player.hasUploadedImage && player.avatarDataUrl
-        ? null
-        : 'Upload a photo before starting the show.';
+    const nameError = !trimmedName ? copy.addNameError : duplicate ? copy.uniqueNameError : null;
+    const avatarError = player.hasUploadedImage && player.avatarDataUrl ? null : copy.uploadPhotoError;
 
     result[player.id] = {
       nameError,
@@ -300,4 +338,51 @@ function buildSetupValidation(
 
     return result;
   }, {});
+}
+
+function getMusicConfig(state: GameState): { scene: MusicScene; intensity: number } | null {
+  if (!state.soundEnabled) {
+    return null;
+  }
+
+  if (state.gamePhase === 'welcome') {
+    return { scene: 'menu', intensity: 1 };
+  }
+
+  if (state.gamePhase === 'playerSetup') {
+    return { scene: 'setup', intensity: Math.max(state.selectedPlayerIds.length, 1) };
+  }
+
+  if (state.gamePhase === 'categoryOrStart' || state.gamePhase === 'roundTransition') {
+    return { scene: 'staging', intensity: Math.min(state.round, 3) };
+  }
+
+  if (state.gamePhase === 'winner') {
+    return { scene: 'winner', intensity: 3 };
+  }
+
+  if (state.gamePhase !== 'gameplay' || !state.currentQuestion) {
+    return null;
+  }
+
+  if (state.currentQuestion.pausedRemainingMs !== null) {
+    return { scene: 'paused', intensity: 1 };
+  }
+
+  if (state.currentQuestion.resolution) {
+    return {
+      scene: 'result',
+      intensity: state.currentQuestion.resolution.outcome === 'correct' ? 2 : 1,
+    };
+  }
+
+  const remainingMs = Math.max(state.currentQuestion.deadlineAt - Date.now(), 0);
+  const warningThreshold =
+    state.currentQuestion.turnKind === 'original' ? ORIGINAL_WARNING_MS : STEAL_WARNING_MS;
+
+  if (state.currentQuestion.turnKind === 'steal' || remainingMs <= warningThreshold) {
+    return { scene: 'clutch', intensity: Math.min(state.round, 3) };
+  }
+
+  return { scene: 'question', intensity: Math.min(state.round, 3) };
 }

@@ -15,7 +15,7 @@ const answerMap = JSON.parse(
 ]);
 
 function readTimerSeconds(text) {
-  const match = text.match(/Time Remaining\s*(\d{2})/);
+  const match = text.match(/(?:Time Remaining|Tiempo restante)\s*(\d{2})/i);
   return match?.[1] ?? null;
 }
 
@@ -29,13 +29,45 @@ function answerButtonPattern(answer) {
 
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1600, height: 1280 } });
+await page.addInitScript(() => {
+  window.localStorage.clear();
+});
 
 await page.goto(baseUrl, { waitUntil: 'networkidle' });
 await page.screenshot({ path: fileURLToPath(new URL('01-welcome.png', outDir)), fullPage: true });
+await page.locator('body').click({ position: { x: 24, y: 24 } });
 
 const welcomeText = (await page.textContent('body')) ?? '';
 if (!welcomeText.includes('The Brown Family Trivia Super Game')) {
   throw new Error('Welcome screen missing expected branding.');
+}
+
+await page.keyboard.press('KeyM');
+await page.waitForFunction(() => document.body.innerText.includes('SOUND OFF'), null, { timeout: 1500 });
+const mutedWelcomeText = (await page.textContent('body')) ?? '';
+if (!/SOUND OFF/i.test(mutedWelcomeText)) {
+  throw new Error('Keyboard shortcut M did not mute sound on the welcome screen.');
+}
+
+await page.keyboard.press('KeyM');
+await page.waitForFunction(() => document.body.innerText.includes('SOUND ON'), null, { timeout: 1500 });
+const unmutedWelcomeText = (await page.textContent('body')) ?? '';
+if (!/SOUND ON/i.test(unmutedWelcomeText)) {
+  throw new Error('Keyboard shortcut M did not restore sound on the welcome screen.');
+}
+
+await page.keyboard.press('KeyL');
+await page.waitForTimeout(500);
+const spanishWelcomeText = (await page.textContent('body')) ?? '';
+if (!spanishWelcomeText.includes('Ir a la selección')) {
+  throw new Error('Spanish welcome copy did not appear after toggling languages.');
+}
+
+await page.getByRole('button', { name: 'Cambiar a inglés' }).click();
+await page.waitForTimeout(500);
+const restoredEnglishText = (await page.textContent('body')) ?? '';
+if (!restoredEnglishText.includes('Start player setup')) {
+  throw new Error('English copy did not return after toggling languages back.');
 }
 
 await page.getByRole('button', { name: /Start player setup/i }).click();
@@ -55,12 +87,16 @@ for (const name of ['Edwin Brown', 'Dayanna Brown', 'Ethan Brown', 'Valentino Br
 await page.getByRole('button', { name: /3\s+players/i }).click();
 const joinButtons = page.getByRole('button', { name: /^Join game$/i });
 await joinButtons.nth(0).click();
-await joinButtons.nth(1).click();
-await joinButtons.nth(1).click();
+await joinButtons.nth(0).click();
+await joinButtons.nth(0).click();
+await page.getByLabel(/Player name/i).nth(0).fill('Captain Edwin');
 
 const selectedSetupText = (await page.textContent('body')) ?? '';
 if (!selectedSetupText.includes('Currently selected: 3.')) {
   throw new Error('Custom three-player lineup was not selected.');
+}
+if (!selectedSetupText.includes('Captain Edwin')) {
+  throw new Error('Updated player name did not render during setup.');
 }
 
 await page.getByRole('button', { name: /Launch round one/i }).click();
@@ -91,9 +127,46 @@ if (!pausedSecondsA || pausedSecondsA !== pausedSecondsB || !pausedSnapshotB.inc
 await page.getByRole('button', { name: /^Resume$/i }).click();
 await page.waitForTimeout(300);
 
+await page.keyboard.press('KeyL');
+await page.waitForTimeout(500);
+const spanishGameplayText = (await page.textContent('body')) ?? '';
+if (!spanishGameplayText.includes('Tiempo restante')) {
+  throw new Error('Dynamic gameplay language switch did not update the timer copy.');
+}
+
+await page.locator('body').click({ position: { x: 24, y: 24 } });
+await page.keyboard.press('KeyL');
+await page.waitForTimeout(500);
+const restoredGameplayText = (await page.textContent('body')) ?? '';
+if (!restoredGameplayText.includes('Time Remaining')) {
+  throw new Error('Gameplay language did not switch back to English.');
+}
+
+await page.getByRole('button', { name: /^Reset$/i }).click();
+await page.waitForTimeout(300);
+const afterResetWelcomeText = (await page.textContent('body')) ?? '';
+if (!afterResetWelcomeText.includes('Start player setup')) {
+  throw new Error('Reset did not return the game to the welcome screen.');
+}
+
+await page.getByRole('button', { name: /Start player setup/i }).click();
+await page.waitForTimeout(250);
+const restoredSetupText = (await page.textContent('body')) ?? '';
+if (!restoredSetupText.includes('Captain Edwin')) {
+  throw new Error('Reset did not preserve the customized player name.');
+}
+if (!restoredSetupText.includes('Currently selected: 3.')) {
+  throw new Error('Reset did not preserve the selected player lineup.');
+}
+
+await page.getByRole('button', { name: /Launch round one/i }).click();
+await page.waitForTimeout(250);
+await page.getByRole('button', { name: /Enter the arena/i }).click();
+await page.waitForTimeout(450);
+
 let didStealDemo = false;
 
-for (let step = 0; step < 60; step += 1) {
+for (let step = 0; step < 90; step += 1) {
   await page.waitForTimeout(220);
   const text = (await page.textContent('body')) ?? '';
 
@@ -101,13 +174,8 @@ for (let step = 0; step < 60; step += 1) {
     break;
   }
 
-  if (/Start round 2/i.test(text)) {
-    await page.getByRole('button', { name: /Start round 2/i }).click();
-    continue;
-  }
-
-  if (/Start round 3/i.test(text)) {
-    await page.getByRole('button', { name: /Start round 3/i }).click();
+  if (/(Start|Iniciar)\s+(Round|Ronda)/i.test(text)) {
+    await page.getByRole('button', { name: /^(Start|Iniciar)\s+(Round|Ronda)/i }).click();
     continue;
   }
 
@@ -140,7 +208,7 @@ if (!/Final rankings/i.test(finalText) || !/Start a new game/i.test(finalText)) 
   throw new Error('Winner screen not reached.');
 }
 
-if (finalText.includes('Dayanna Brown')) {
+if (finalText.includes('Valentino Brown')) {
   throw new Error('Inactive player leaked into the final standings.');
 }
 

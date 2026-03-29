@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { AlertTriangle, LoaderCircle, RefreshCcw } from 'lucide-react';
 import { normalizeAvatarFile } from '@/game/avatar';
 import { ROUND_CONFIG } from '@/game/constants';
-import { QUESTION_LOOKUP } from '@/game/questions';
+import { getLocalizedCategory } from '@/game/questions';
+import { getQuestionIndexLabel, getRoundPresentation, getTopScoreLabel, getUiCopy } from '@/game/i18n';
 import { rankPlayers } from '@/game/selectors';
 import { useCountdown } from '@/hooks/useCountdown';
 import { useGameSession } from '@/hooks/useGameSession';
@@ -18,6 +19,7 @@ import { WinnerScreen } from '@/screens/WinnerScreen';
 export default function App() {
   const { state, actions, derived, validation, storageIssue, isReady } = useGameSession();
   const [uploadIssues, setUploadIssues] = useState<Record<string, string | null>>({});
+  const copy = getUiCopy(state.language);
 
   const countdown = useCountdown({
     deadlineAt: state.currentQuestion?.deadlineAt ?? null,
@@ -39,48 +41,103 @@ export default function App() {
   const upcomingCategories = useMemo(() => {
     return state.questionPlan
       .filter((item) => item.round === state.round)
-      .map((item) => QUESTION_LOOKUP[item.questionId]?.category)
+      .map((item) => getLocalizedCategory(item.questionId, state.language))
       .filter((category): category is string => Boolean(category));
-  }, [state.questionPlan, state.round]);
+  }, [state.language, state.questionPlan, state.round]);
 
   const currentQuestion = derived.currentQuestion;
   const activePlayer = derived.activePlayer;
   const rankings = state.winnerSnapshot?.rankings ?? rankPlayers(derived.activePlayers);
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.defaultPrevented) {
-        return;
-      }
+  const handleGlobalKeyDown = useEffectEvent((event: KeyboardEvent) => {
+    if (event.defaultPrevented || isEditableTarget(event.target)) {
+      return;
+    }
 
-      if (event.key.toLowerCase() === 'm') {
+    const key = event.key.toLowerCase();
+
+    if (key === 'm') {
+      event.preventDefault();
+      actions.toggleSound();
+      return;
+    }
+
+    if (key === 'l') {
+      event.preventDefault();
+      actions.toggleLanguage();
+      return;
+    }
+
+    if (state.gamePhase === 'welcome' && (event.key === 'Enter' || event.code === 'Space')) {
+      event.preventDefault();
+      actions.goToSetup();
+      return;
+    }
+
+    if (state.gamePhase === 'playerSetup' && event.key === 'Enter' && derived.canStartGame) {
+      event.preventDefault();
+      actions.startGame();
+      return;
+    }
+
+    if ((state.gamePhase === 'categoryOrStart' || state.gamePhase === 'roundTransition') && event.key === 'Enter') {
+      event.preventDefault();
+      actions.beginRound();
+      return;
+    }
+
+    if (state.gamePhase === 'winner' && event.key === 'Enter') {
+      event.preventDefault();
+      handleReset();
+      return;
+    }
+
+    if (
+      state.gamePhase !== 'gameplay' ||
+      !currentQuestion ||
+      !state.currentQuestion ||
+      !activePlayer
+    ) {
+      return;
+    }
+
+    if ((key === 'p' || event.code === 'Space') && !state.currentQuestion.resolution) {
+      event.preventDefault();
+      actions.togglePause();
+      return;
+    }
+
+    if (event.key === 'Escape' && state.currentQuestion.pausedRemainingMs !== null) {
+      event.preventDefault();
+      actions.togglePause();
+      return;
+    }
+
+    if (event.key === 'Enter' && state.currentQuestion.resolution) {
+      event.preventDefault();
+      actions.continueAfterQuestion();
+      return;
+    }
+
+    if (state.currentQuestion.resolution || state.currentQuestion.pausedRemainingMs !== null) {
+      return;
+    }
+
+    const keyIndex = ['1', '2', '3', '4'].indexOf(event.key);
+    if (keyIndex >= 0) {
+      const choice = currentQuestion.choices[keyIndex];
+      if (choice) {
         event.preventDefault();
-        actions.toggleSound();
-        return;
+        actions.submitAnswer(choice.value);
       }
+    }
+  });
 
-      if (
-        state.gamePhase !== 'gameplay' ||
-        !currentQuestion ||
-        state.currentQuestion?.resolution ||
-        !activePlayer
-      ) {
-        return;
-      }
-
-      const keyIndex = ['1', '2', '3', '4'].indexOf(event.key);
-      if (keyIndex >= 0) {
-        const choice = currentQuestion.choices[keyIndex];
-        if (choice) {
-          event.preventDefault();
-          actions.submitAnswer(choice);
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [actions, activePlayer, currentQuestion, state.currentQuestion?.resolution, state.gamePhase]);
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => handleGlobalKeyDown(event);
+    window.addEventListener('keydown', listener);
+    return () => window.removeEventListener('keydown', listener);
+  }, [handleGlobalKeyDown]);
 
   async function handleAvatarSelect(playerId: string, file: File) {
     setUploadIssues((current) => ({ ...current, [playerId]: null }));
@@ -102,14 +159,19 @@ export default function App() {
 
   if (!isReady) {
     return (
-      <GameShell soundEnabled={state.soundEnabled} onToggleSound={actions.toggleSound} onReset={handleReset} subtitle="Booting the stage lights">
+      <GameShell
+        language={state.language}
+        onToggleLanguage={actions.toggleLanguage}
+        soundEnabled={state.soundEnabled}
+        onToggleSound={actions.toggleSound}
+        onReset={handleReset}
+        subtitle={copy.brandSubtitle}
+      >
         <div className="flex min-h-[70vh] items-center justify-center">
           <GlassPanel tone="hero" accent="primary" className="max-w-xl p-10 text-center">
             <LoaderCircle className="mx-auto h-10 w-10 animate-spin text-secondary" />
-            <h2 className="mt-5 font-headline text-4xl font-semibold tracking-[-0.05em] text-on-surface">Loading the family arena</h2>
-            <p className="mt-3 text-sm leading-6 text-on-surface-variant">
-              Restoring the local show state and checking the next live turn.
-            </p>
+            <h2 className="mt-5 font-headline text-4xl font-semibold tracking-[-0.05em] text-on-surface">{copy.loading.title}</h2>
+            <p className="mt-3 text-sm leading-6 text-on-surface-variant">{copy.loading.body}</p>
           </GlassPanel>
         </div>
       </GameShell>
@@ -119,11 +181,13 @@ export default function App() {
   if (state.fatalError) {
     return (
       <GameShell
+        language={state.language}
+        onToggleLanguage={actions.toggleLanguage}
         soundEnabled={state.soundEnabled}
         onToggleSound={actions.toggleSound}
         onReset={handleReset}
-        title="Session recovery error"
-        subtitle="The local show state needs a clean reset"
+        title={copy.fatal.subtitle}
+        subtitle={copy.brandSubtitle}
       >
         <div className="flex min-h-[70vh] items-center justify-center">
           <GlassPanel tone="hero" accent="tertiary" className="max-w-2xl p-10">
@@ -132,7 +196,7 @@ export default function App() {
                 <AlertTriangle className="h-5 w-5" />
               </span>
               <div>
-                <h2 className="font-headline text-4xl font-semibold tracking-[-0.05em] text-on-surface">The local question plan could not be restored.</h2>
+                <h2 className="font-headline text-4xl font-semibold tracking-[-0.05em] text-on-surface">{copy.fatal.title}</h2>
                 <p className="mt-3 text-sm leading-7 text-on-surface-variant">{state.fatalError}</p>
                 <button
                   type="button"
@@ -140,7 +204,7 @@ export default function App() {
                   className="arcade-button arcade-button--tertiary mt-8 px-6 py-4 text-[0.82rem]"
                 >
                   <RefreshCcw className="h-4 w-4" />
-                  Start a clean game
+                  {copy.fatal.cta}
                 </button>
               </div>
             </div>
@@ -154,6 +218,8 @@ export default function App() {
     case 'welcome':
       return (
         <WelcomeScreen
+          language={state.language}
+          onToggleLanguage={actions.toggleLanguage}
           soundEnabled={state.soundEnabled}
           onToggleSound={actions.toggleSound}
           onReset={handleReset}
@@ -164,6 +230,8 @@ export default function App() {
     case 'playerSetup':
       return (
         <PlayerSetupScreen
+          language={state.language}
+          onToggleLanguage={actions.toggleLanguage}
           soundEnabled={state.soundEnabled}
           onToggleSound={actions.toggleSound}
           playerCount={state.playerCount}
@@ -187,6 +255,8 @@ export default function App() {
     case 'categoryOrStart':
       return (
         <CategoryOrStartScreen
+          language={state.language}
+          onToggleLanguage={actions.toggleLanguage}
           soundEnabled={state.soundEnabled}
           onToggleSound={actions.toggleSound}
           onReset={handleReset}
@@ -201,11 +271,18 @@ export default function App() {
     case 'gameplay':
       if (!currentQuestion || !state.currentQuestion || !activePlayer) {
         return (
-          <GameShell soundEnabled={state.soundEnabled} onToggleSound={actions.toggleSound} onReset={handleReset} subtitle="Preparing the next question">
+          <GameShell
+            language={state.language}
+            onToggleLanguage={actions.toggleLanguage}
+            soundEnabled={state.soundEnabled}
+            onToggleSound={actions.toggleSound}
+            onReset={handleReset}
+            subtitle={copy.brandSubtitle}
+          >
             <div className="flex min-h-[60vh] items-center justify-center">
               <GlassPanel tone="hero" accent="secondary" className="max-w-xl p-10 text-center">
                 <LoaderCircle className="mx-auto h-10 w-10 animate-spin text-secondary" />
-                <h2 className="mt-5 font-headline text-4xl font-semibold tracking-[-0.05em] text-on-surface">Loading the question stage</h2>
+                <h2 className="mt-5 font-headline text-4xl font-semibold tracking-[-0.05em] text-on-surface">{copy.gameplay.loadingStage}</h2>
               </GlassPanel>
             </div>
           </GameShell>
@@ -214,14 +291,16 @@ export default function App() {
 
       return (
         <GameplayScreen
+          language={state.language}
+          onToggleLanguage={actions.toggleLanguage}
           soundEnabled={state.soundEnabled}
           onToggleSound={actions.toggleSound}
           onReset={handleReset}
           isPaused={state.currentQuestion.pausedRemainingMs !== null}
           onTogglePause={actions.togglePause}
-          roundLabel={ROUND_CONFIG[state.round].title}
-          scoreLabel={`Top score ${topScore}`}
-          questionIndexLabel={`Q${state.currentQuestionCursor + 1} of ${state.questionPlan.length}`}
+          roundLabel={getRoundPresentation(state.language, state.round).title}
+          scoreLabel={getTopScoreLabel(state.language, topScore)}
+          questionIndexLabel={getQuestionIndexLabel(state.language, state.currentQuestionCursor + 1, state.questionPlan.length)}
           players={derived.activePlayers}
           activePlayer={activePlayer}
           starterPlayerId={derived.activePlayers[state.currentQuestion.starterIndex]?.id ?? null}
@@ -241,6 +320,8 @@ export default function App() {
     case 'roundTransition':
       return (
         <RoundTransitionScreen
+          language={state.language}
+          onToggleLanguage={actions.toggleLanguage}
           soundEnabled={state.soundEnabled}
           onToggleSound={actions.toggleSound}
           onReset={handleReset}
@@ -253,6 +334,8 @@ export default function App() {
     case 'winner':
       return (
         <WinnerScreen
+          language={state.language}
+          onToggleLanguage={actions.toggleLanguage}
           soundEnabled={state.soundEnabled}
           onToggleSound={actions.toggleSound}
           rankings={rankings}
@@ -264,4 +347,17 @@ export default function App() {
     default:
       return null;
   }
+}
+
+function isEditableTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+
+  return (
+    target instanceof HTMLInputElement ||
+    target instanceof HTMLTextAreaElement ||
+    target.isContentEditable ||
+    target.getAttribute('role') === 'textbox'
+  );
 }

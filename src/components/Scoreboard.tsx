@@ -1,4 +1,5 @@
-import type { Player } from '@/game/types';
+import { getUiCopy } from '@/game/i18n';
+import type { Language, Player } from '@/game/types';
 import { PlayerCard } from './PlayerCard';
 
 export interface ScoreboardProps {
@@ -8,6 +9,7 @@ export interface ScoreboardProps {
   starterPlayerId?: string | null;
   winnerIds?: string[];
   title?: string;
+  language?: Language;
 }
 
 export function Scoreboard({
@@ -17,11 +19,13 @@ export function Scoreboard({
   starterPlayerId,
   winnerIds = [],
   title = 'Family Scoreboard',
+  language = 'en',
 }: ScoreboardProps) {
+  const copy = getUiCopy(language).gameplay;
   return (
     <div className="space-y-4">
       <div className="pb-3">
-        <p className="font-label text-[0.72rem] font-bold uppercase tracking-[0.22em] text-[var(--arcade-yellow)]">Score Rail</p>
+        <p className="font-label text-[0.72rem] font-bold uppercase tracking-[0.22em] text-[var(--arcade-yellow)]">{copy.scoreRail}</p>
         <h2 className="mt-1 font-headline text-3xl font-extrabold tracking-[-0.04em] text-on-surface drop-shadow-[2px_2px_0_rgba(0,0,0,0.7)]">
           {title}
         </h2>
@@ -36,6 +40,7 @@ export function Scoreboard({
             isStarter={player.id === starterPlayerId}
             isWinner={winnerIds.includes(player.id)}
             compact
+            language={language}
           />
         ))}
       </div>

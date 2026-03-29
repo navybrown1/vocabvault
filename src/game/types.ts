@@ -1,5 +1,6 @@
 export type PlayerColor = 'blue' | 'purple' | 'green' | 'orange';
 export type PlayerCount = 1 | 2 | 3 | 4;
+export type Language = 'en' | 'es';
 
 export type GamePhase =
   | 'welcome'
@@ -10,10 +11,20 @@ export type GamePhase =
   | 'winner';
 
 export type QuestionDifficulty = 'easy' | 'medium' | 'hard';
-
 export type TurnKind = 'original' | 'steal';
-
 export type FailureReason = 'wrong' | 'timeout';
+export type RoundNumber = 1 | 2 | 3 | 4 | 5;
+export type RoundType = 'classic' | 'portrait' | 'rapid' | 'steal' | 'finale';
+export type SpeedTier = 'blazing' | 'swift' | 'steady' | 'none';
+export type MusicScene =
+  | 'menu'
+  | 'setup'
+  | 'staging'
+  | 'question'
+  | 'clutch'
+  | 'paused'
+  | 'result'
+  | 'winner';
 
 export type SoundEvent =
   | 'buttonClick'
@@ -27,7 +38,14 @@ export type SoundEvent =
   | 'roundTransition'
   | 'winnerCelebration';
 
-export type RoundNumber = 1 | 2 | 3;
+export interface RoundConfig {
+  round: RoundNumber;
+  type: RoundType;
+  difficultyPool: QuestionDifficulty[];
+  questionCount: number;
+  originalPoints: number;
+  stealPoints: number;
+}
 
 export interface Player {
   id: string;
@@ -39,12 +57,42 @@ export interface Player {
   score: number;
 }
 
+export interface PlayerProfileSnapshot {
+  id: string;
+  name: string;
+  avatarDataUrl: string | null;
+  hasUploadedImage: boolean;
+}
+
+export interface PlayerSetupSnapshot {
+  players: PlayerProfileSnapshot[];
+  playerCount: PlayerCount;
+  selectedPlayerIds: string[];
+  language: Language;
+}
+
 export interface Question {
   id: string;
   category: string;
   question: string;
   choices: string[];
   correctAnswer: string;
+  difficulty: QuestionDifficulty;
+  explanation?: string;
+}
+
+export interface LocalizedChoice {
+  value: string;
+  label: string;
+}
+
+export interface LocalizedQuestion {
+  id: string;
+  category: string;
+  question: string;
+  choices: LocalizedChoice[];
+  correctAnswer: string;
+  correctAnswerLabel: string;
   difficulty: QuestionDifficulty;
   explanation?: string;
 }
@@ -66,6 +114,9 @@ export interface FailureSnapshot {
 export interface QuestionResolution {
   outcome: 'correct' | 'allFailed';
   correctAnswer: string;
+  basePoints: number;
+  speedBonus: number;
+  speedTier: SpeedTier;
   awardedPoints: number;
   resolvedByPlayerId: string | null;
   turnKind: TurnKind | null;
@@ -93,6 +144,8 @@ export interface QuestionResult {
   round: RoundNumber;
   category: string;
   correctAnswer: string;
+  basePoints: number;
+  speedBonus: number;
   awardedPoints: number;
   resolvedByPlayerId: string | null;
   turnKind: TurnKind | null;
@@ -114,6 +167,7 @@ export interface WinnerSnapshot {
 export interface GameState {
   version: number;
   brand: string;
+  language: Language;
   gamePhase: GamePhase;
   players: Player[];
   playerCount: PlayerCount;
@@ -133,6 +187,7 @@ export interface GameState {
 export interface PersistedSession {
   version: number;
   brand: string;
+  language: Language;
   gamePhase: GamePhase;
   players: Player[];
   playerCount: PlayerCount;
@@ -161,6 +216,7 @@ export type GameAction =
   | { type: 'TIME_EXPIRED'; turnToken: string }
   | { type: 'CONTINUE_AFTER_QUESTION' }
   | { type: 'TOGGLE_SOUND' }
+  | { type: 'TOGGLE_LANGUAGE' }
   | { type: 'HYDRATE_SESSION'; session: PersistedSession }
   | { type: 'SET_FATAL_ERROR'; message: string | null }
-  | { type: 'RESET_SESSION' };
+  | { type: 'RESET_SESSION'; setupSnapshot?: PlayerSetupSnapshot };

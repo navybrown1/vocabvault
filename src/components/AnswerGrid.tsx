@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
-import type { QuestionResolution } from '@/game/types';
+import type { Language, LocalizedChoice, QuestionResolution } from '@/game/types';
 import { ANSWER_HOTKEYS } from '@/game/constants';
 
 export interface AnswerGridProps {
-  choices: string[];
+  language: Language;
+  choices: LocalizedChoice[];
   correctAnswer: string;
   lockedChoice: string | null;
   latestFailureChoice?: string | null;
@@ -13,6 +14,7 @@ export interface AnswerGridProps {
 }
 
 export function AnswerGrid({
+  language,
   choices,
   correctAnswer,
   lockedChoice,
@@ -31,13 +33,13 @@ export function AnswerGrid({
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {choices.map((choice, index) => {
-        const isCorrect = resolution ? choice === correctAnswer : false;
-        const isWrongReveal = resolution?.outcome === 'allFailed' ? choice === latestFailureChoice : false;
-        const isLocked = lockedChoice === choice;
+        const isCorrect = resolution ? choice.value === correctAnswer : false;
+        const isWrongReveal = resolution?.outcome === 'allFailed' ? choice.value === latestFailureChoice : false;
+        const isLocked = lockedChoice === choice.value;
 
         const tone = isCorrect
           ? 'bg-[var(--arcade-green)] text-white'
-          : isWrongReveal || (resolution && isLocked && choice !== correctAnswer)
+          : isWrongReveal || (resolution && isLocked && choice.value !== correctAnswer)
             ? 'bg-[rgba(255,255,255,0.14)] text-on-surface'
             : resolution
               ? 'bg-[rgba(255,255,255,0.1)] text-on-surface-variant'
@@ -45,12 +47,12 @@ export function AnswerGrid({
 
         return (
           <motion.button
-            key={choice}
+            key={choice.value}
             whileHover={disabled ? undefined : { y: -2, scale: 1.01 }}
             whileTap={disabled ? undefined : { scale: 0.99 }}
             type="button"
             disabled={disabled}
-            onClick={() => onSelect(choice)}
+            onClick={() => onSelect(choice.value)}
             className={[
               'group arcade-button relative min-h-[122px] w-full justify-start rounded-[2rem] border-[4px] p-5 text-left normal-case tracking-normal',
               'shadow-[0_10px_0_rgba(15,7,24,0.95),0_18px_32px_rgba(0,0,0,0.18)] focus:outline-none focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-secondary',
@@ -67,12 +69,12 @@ export function AnswerGrid({
                 {ANSWER_HOTKEYS[index]}
               </div>
               <p className="pr-10 font-headline text-[1.4rem] font-extrabold leading-tight drop-shadow-[2px_2px_0_rgba(0,0,0,0.34)] sm:text-[1.7rem]">
-                {choice}
+                {choice.label}
               </p>
             </div>
             {isLocked ? (
               <span className="absolute right-4 top-4 rounded-full border-[3px] border-white bg-white/18 px-3 py-1 font-label text-[0.66rem] font-black uppercase tracking-[0.14em] text-white">
-                {resolution ? (isCorrect ? 'Correct' : 'Locked') : 'Locked'}
+                {resolution ? (isCorrect ? (language === 'en' ? 'Correct' : 'Correcta') : (language === 'en' ? 'Locked' : 'Bloqueada')) : language === 'en' ? 'Locked' : 'Bloqueada'}
               </span>
             ) : null}
             {isCorrect && resolution ? (

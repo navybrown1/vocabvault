@@ -8,6 +8,8 @@ export interface GameShellProps {
   subtitle?: string;
   roundLabel?: string;
   scoreLabel?: string;
+  language: 'en' | 'es';
+  onToggleLanguage?: () => void;
   soundEnabled: boolean;
   onToggleSound?: () => void;
   onReset?: () => void;
@@ -21,6 +23,8 @@ export function GameShell({
   subtitle,
   roundLabel,
   scoreLabel,
+  language,
+  onToggleLanguage,
   soundEnabled,
   onToggleSound,
   onReset,
@@ -36,6 +40,8 @@ export function GameShell({
           subtitle={subtitle}
           roundLabel={roundLabel}
           scoreLabel={scoreLabel}
+          language={language}
+          onToggleLanguage={onToggleLanguage}
           soundEnabled={soundEnabled}
           onToggleSound={onToggleSound}
           onReset={onReset}

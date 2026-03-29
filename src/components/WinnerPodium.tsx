@@ -1,14 +1,15 @@
 import { Medal } from 'lucide-react';
-import type { RankedPlayer } from '@/game/types';
+import type { Language, RankedPlayer } from '@/game/types';
 import { GlassPanel } from './GlassPanel';
 import { FallbackAvatar } from './FallbackAvatar';
 
 export interface WinnerPodiumProps {
   rankings: RankedPlayer[];
   featuredPlayerIds?: string[];
+  language?: Language;
 }
 
-export function WinnerPodium({ rankings, featuredPlayerIds = [] }: WinnerPodiumProps) {
+export function WinnerPodium({ rankings, featuredPlayerIds = [], language = 'en' }: WinnerPodiumProps) {
   const featuredSet = new Set(featuredPlayerIds);
   const visibleRankings = rankings.filter((player) => !featuredSet.has(player.id)).slice(0, 3);
 
@@ -69,7 +70,7 @@ export function WinnerPodium({ rankings, featuredPlayerIds = [] }: WinnerPodiumP
 
               <div className="mx-auto mt-3 w-fit rounded-full border-[3px] border-white bg-[rgba(26,16,37,0.42)] px-5 py-2">
                 <p className="font-headline text-[1.8rem] font-black tracking-[-0.05em] text-[var(--arcade-yellow)]">
-                  {player.score.toLocaleString()} PTS
+                  {player.score.toLocaleString()} {language === 'en' ? 'PTS' : 'PTS'}
                 </p>
               </div>
             </GlassPanel>

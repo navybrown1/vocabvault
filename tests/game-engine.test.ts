@@ -30,14 +30,16 @@ function createReadyState(playerCount: 1 | 2 | 3 | 4 = 4) {
 }
 
 describe('game engine', () => {
-  it('builds a 12-question plan with unique questions and rotating starters', () => {
+  it('builds a 15-question plan with unique questions and rotating starters', () => {
     const plan = buildQuestionPlan(7);
-    expect(plan).toHaveLength(12);
-    expect(new Set(plan.map((item) => item.questionId)).size).toBe(12);
-    expect(plan.map((item) => item.starterIndex)).toEqual([0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3]);
-    expect(plan.filter((item) => item.round === 1)).toHaveLength(4);
-    expect(plan.filter((item) => item.round === 2)).toHaveLength(4);
-    expect(plan.filter((item) => item.round === 3)).toHaveLength(4);
+    expect(plan).toHaveLength(15);
+    expect(new Set(plan.map((item) => item.questionId)).size).toBe(15);
+    expect(plan.map((item) => item.starterIndex)).toEqual([0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2]);
+    expect(plan.filter((item) => item.round === 1)).toHaveLength(3);
+    expect(plan.filter((item) => item.round === 2)).toHaveLength(3);
+    expect(plan.filter((item) => item.round === 3)).toHaveLength(3);
+    expect(plan.filter((item) => item.round === 4)).toHaveLength(3);
+    expect(plan.filter((item) => item.round === 5)).toHaveLength(3);
     expect(plan.every((item) => item.choiceOrder.length === 4)).toBe(true);
     expect(
       plan.some((item) => item.choiceOrder.indexOf(QUESTION_LOOKUP[item.questionId].correctAnswer) !== 0),
@@ -54,7 +56,7 @@ describe('game engine', () => {
 
   it('rotates starters only across the selected player count', () => {
     const plan = buildQuestionPlan(11, 3);
-    expect(plan.map((item) => item.starterIndex)).toEqual([0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2]);
+    expect(plan.map((item) => item.starterIndex)).toEqual([0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2]);
   });
 
   it('does not auto-select family members when the player count changes', () => {
@@ -65,7 +67,7 @@ describe('game engine', () => {
     expect(state.selectedPlayerIds).toEqual([]);
   });
 
-  it('awards full points for a correct original answer', () => {
+  it('awards base points plus a speed bonus for a quick original answer', () => {
     let state = createReadyState();
     state = gameReducer(state, { type: 'START_GAME', seed: 2 });
     state = gameReducer(state, { type: 'BEGIN_ROUND' });
@@ -75,8 +77,10 @@ describe('game engine', () => {
     state = gameReducer(state, { type: 'SUBMIT_ANSWER', choice: question.correctAnswer });
 
     expect(state.currentQuestion?.resolution?.outcome).toBe('correct');
-    expect(state.players[0].score).toBe(100);
-    expect(state.currentQuestion?.resolution?.awardedPoints).toBe(100);
+    expect(state.currentQuestion?.resolution?.basePoints).toBe(100);
+    expect(state.currentQuestion?.resolution?.speedBonus).toBe(60);
+    expect(state.players[0].score).toBe(160);
+    expect(state.currentQuestion?.resolution?.awardedPoints).toBe(160);
   });
 
   it('passes steals clockwise and resolves all-fail with zero points', () => {
@@ -164,10 +168,10 @@ describe('game engine', () => {
     state = gameReducer(state, { type: 'START_GAME', seed: 9 });
 
     const planItem = state.questionPlan[0];
-    const viewQuestion = getQuestionByPlanItem(planItem);
+    const viewQuestion = getQuestionByPlanItem(planItem, 'en');
     const bankQuestion = QUESTION_LOOKUP[planItem.questionId];
 
-    expect(viewQuestion.choices).toEqual(planItem.choiceOrder);
+    expect(viewQuestion.choices.map((choice) => choice.value)).toEqual(planItem.choiceOrder);
     expect(viewQuestion.correctAnswer).toBe(bankQuestion.correctAnswer);
     expect(state.questionPlan.some((item) => item.choiceOrder.join('|') !== QUESTION_LOOKUP[item.questionId].choices.join('|'))).toBe(true);
   });

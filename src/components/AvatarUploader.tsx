@@ -1,24 +1,25 @@
 import { Camera, UploadCloud } from 'lucide-react';
 import { motion } from 'framer-motion';
-import type { Player } from '@/game/types';
+import type { Language, Player } from '@/game/types';
 import { FallbackAvatar } from './FallbackAvatar';
 import { getPlayerTheme } from './player-theme';
 
 export interface AvatarUploaderProps {
+  language?: Language;
   player: Player;
   error?: string | null;
   helperText?: string;
   onSelect: (file: File) => void;
 }
 
-export function AvatarUploader({ player, error, helperText, onSelect }: AvatarUploaderProps) {
+export function AvatarUploader({ language = 'en', player, error, helperText, onSelect }: AvatarUploaderProps) {
   const theme = getPlayerTheme(player.color);
   const inputId = `${player.id}-avatar-input`;
 
   return (
     <div className="space-y-3">
       <label htmlFor={inputId} className="font-label text-[0.72rem] font-bold uppercase tracking-[0.2em] text-on-surface-variant">
-        Photo Upload
+        {language === 'en' ? 'Photo Upload' : 'Foto del jugador'}
       </label>
       <div className="flex items-center gap-4">
         {player.avatarDataUrl ? (
@@ -53,11 +54,17 @@ export function AvatarUploader({ player, error, helperText, onSelect }: AvatarUp
             style={{ background: `linear-gradient(135deg, ${theme.hex}, rgba(45,27,66,0.96))` }}
           >
             <UploadCloud className="h-4 w-4 text-white" />
-            {player.hasUploadedImage ? 'Swap Photo' : 'Upload Photo'}
+            {player.hasUploadedImage
+              ? language === 'en'
+                ? 'Swap Photo'
+                : 'Cambiar foto'
+              : language === 'en'
+                ? 'Upload Photo'
+                : 'Subir foto'}
           </motion.label>
           <div className="mt-2 flex items-center gap-2 text-xs text-on-surface-variant">
             <Camera className="h-3.5 w-3.5" />
-            <span>{helperText ?? 'Square crops look best on the scoreboard.'}</span>
+            <span>{helperText ?? (language === 'en' ? 'Square crops look best on the scoreboard.' : 'Los recortes cuadrados se ven mejor en el marcador.')}</span>
           </div>
         </div>
       </div>

@@ -1,9 +1,9 @@
 import { ANSWER_HOTKEYS, PLAYER_IDENTITIES, ROUND_CONFIG } from './constants';
-import { QUESTION_LOOKUP } from './questions';
+import { getLocalizedQuestion, QUESTION_LOOKUP } from './questions';
 import type {
   GameState,
+  LocalizedQuestion,
   Player,
-  Question,
   QuestionPlanItem,
   RankedPlayer,
   RoundNumber,
@@ -14,15 +14,13 @@ export function getActivePlayers(players: Player[], selectedPlayerIds: string[])
   return players.filter((player) => selectedSet.has(player.id));
 }
 
-export function getQuestionByPlanItem(planItem: QuestionPlanItem): Question {
+export function getQuestionByPlanItem(planItem: QuestionPlanItem, language: GameState['language']): LocalizedQuestion {
   const question = QUESTION_LOOKUP[planItem.questionId];
   if (!question) {
     throw new Error(`Question ${planItem.questionId} is missing from the local dataset.`);
   }
-  return {
-    ...question,
-    choices: planItem.choiceOrder,
-  };
+
+  return getLocalizedQuestion(question, planItem.choiceOrder, language);
 }
 
 export function getCurrentPlanItem(state: GameState) {
@@ -31,7 +29,7 @@ export function getCurrentPlanItem(state: GameState) {
 
 export function getCurrentQuestion(state: GameState) {
   const planItem = getCurrentPlanItem(state);
-  return planItem ? getQuestionByPlanItem(planItem) : null;
+  return planItem ? getQuestionByPlanItem(planItem, state.language) : null;
 }
 
 export function getUpcomingRoundPlan(state: GameState, round = state.round) {
@@ -82,10 +80,11 @@ export function getPlayerIdentityLabel(player: Player) {
   return PLAYER_IDENTITIES.find((identity) => identity.seat === player.seat)?.label ?? `Player ${player.seat}`;
 }
 
-export function getAnswerChoicesWithHotkeys(question: Question) {
+export function getAnswerChoicesWithHotkeys(question: LocalizedQuestion) {
   return question.choices.map((choice, index) => ({
     id: `${question.id}-${index}`,
-    label: choice,
+    value: choice.value,
+    label: choice.label,
     hotkey: ANSWER_HOTKEYS[index],
   }));
 }

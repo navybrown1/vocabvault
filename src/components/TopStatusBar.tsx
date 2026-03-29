@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { RefreshCcw, Trophy, Zap } from 'lucide-react';
+import { Languages, RefreshCcw, Trophy, Zap } from 'lucide-react';
 import { ENZO_MASCOT } from '@/game/constants';
+import { getUiCopy } from '@/game/i18n';
 import { RoundBadge } from './RoundBadge';
 import { SoundToggle } from './SoundToggle';
 
@@ -10,6 +11,8 @@ export interface TopStatusBarProps {
   subtitle?: string;
   roundLabel?: string;
   scoreLabel?: string;
+  language: 'en' | 'es';
+  onToggleLanguage?: () => void;
   soundEnabled: boolean;
   onToggleSound?: () => void;
   onReset?: () => void;
@@ -21,11 +24,15 @@ export function TopStatusBar({
   subtitle = 'Family arcade night',
   roundLabel,
   scoreLabel,
+  language,
+  onToggleLanguage,
   soundEnabled,
   onToggleSound,
   onReset,
   rightSlot,
 }: TopStatusBarProps) {
+  const copy = getUiCopy(language);
+
   return (
     <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
       <div className="relative flex items-start gap-4 pr-16 sm:pr-24">
@@ -76,13 +83,24 @@ export function TopStatusBar({
           </div>
         </motion.div>
         {rightSlot}
+        {onToggleLanguage ? (
+          <button
+            type="button"
+            onClick={onToggleLanguage}
+            className="arcade-button arcade-button--neutral px-4 py-3 text-[0.74rem] text-on-surface"
+            aria-label={language === 'en' ? 'Switch to Spanish' : 'Cambiar a inglés'}
+          >
+            <Languages className="h-4 w-4" />
+            <span>{language === 'en' ? 'ES' : 'EN'}</span>
+          </button>
+        ) : null}
         {onReset ? (
           <button type="button" onClick={onReset} className="arcade-button arcade-button--neutral px-4 py-3 text-[0.72rem] text-on-surface">
             <RefreshCcw className="h-4 w-4" />
-            Reset
+            {copy.reset}
           </button>
         ) : null}
-        <SoundToggle enabled={soundEnabled} onClick={onToggleSound} />
+        <SoundToggle enabled={soundEnabled} onClick={onToggleSound} labelOn={copy.soundOn} labelOff={copy.soundOff} />
       </div>
     </div>
   );

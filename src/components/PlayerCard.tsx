@@ -1,6 +1,7 @@
 import { Crown, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
-import type { Player } from '@/game/types';
+import { getUiCopy, interpolate } from '@/game/i18n';
+import type { Language, Player } from '@/game/types';
 import { GlassPanel } from './GlassPanel';
 import { FallbackAvatar } from './FallbackAvatar';
 import { getPlayerTheme } from './player-theme';
@@ -14,6 +15,7 @@ export interface PlayerCardProps {
   isWinner?: boolean;
   subtitle?: string;
   compact?: boolean;
+  language?: Language;
 }
 
 export function PlayerCard({
@@ -24,7 +26,9 @@ export function PlayerCard({
   isWinner = false,
   subtitle,
   compact = false,
+  language = 'en',
 }: PlayerCardProps) {
+  const copy = getUiCopy(language).gameplay;
   const theme = getPlayerTheme(player.color);
   const surfaceStyle = {
     background: isActive
@@ -76,10 +80,10 @@ export function PlayerCard({
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <h3 className="truncate font-headline text-lg font-extrabold tracking-[-0.03em] text-on-surface drop-shadow-[2px_2px_0_rgba(0,0,0,0.6)]">
-                  {player.name || `Player ${player.seat}`}
+                  {player.name || interpolate(language === 'en' ? 'Player {seat}' : 'Jugador {seat}', { seat: player.seat })}
                 </h3>
                 <p className="mt-1 truncate font-label text-[0.68rem] font-bold uppercase tracking-[0.18em] text-on-surface-variant">
-                  {subtitle ?? (isActive ? 'Active turn' : isFailed ? 'Missed this question' : 'Ready to play')}
+                  {subtitle ?? (isActive ? copy.activeTurn : isFailed ? copy.missedQuestion : copy.readyToPlay)}
                 </p>
               </div>
 
@@ -87,17 +91,24 @@ export function PlayerCard({
                 <p className="font-headline text-[1.45rem] font-black leading-none" style={{ color: 'var(--arcade-yellow)' }}>
                   {player.score.toLocaleString()}
                 </p>
-                <p className="font-label text-[0.6rem] font-bold uppercase tracking-[0.16em] text-on-surface-variant">pts</p>
+                <p className="font-label text-[0.6rem] font-bold uppercase tracking-[0.16em] text-on-surface-variant">
+                  {language === 'en' ? 'pts' : 'pts'}
+                </p>
               </div>
             </div>
 
             <div className="mt-3 flex flex-wrap items-center gap-2">
-              {!compact ? <RoundBadge label={`Seat ${player.seat}`} tone={player.color} /> : null}
-              {isStarter ? <RoundBadge label="Start" tone="secondary" /> : null}
+              {!compact ? (
+                <RoundBadge
+                  label={interpolate(language === 'en' ? 'Seat {seat}' : 'Asiento {seat}', { seat: player.seat })}
+                  tone={player.color}
+                />
+              ) : null}
+              {isStarter ? <RoundBadge label={copy.start} tone="secondary" /> : null}
               {isActive ? (
                 <span className="arcade-pill bg-[var(--arcade-yellow)] text-[#2c1800] shadow-[0_5px_0_rgba(15,7,24,0.88)]">
                   <Star className="h-3.5 w-3.5" />
-                  Live
+                  {copy.live}
                 </span>
               ) : null}
             </div>

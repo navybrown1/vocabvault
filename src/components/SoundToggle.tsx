@@ -10,9 +10,18 @@ type SafeButtonAttributes = Omit<
 export interface SoundToggleProps extends SafeButtonAttributes {
   enabled: boolean;
   compact?: boolean;
+  labelOn?: string;
+  labelOff?: string;
 }
 
-export function SoundToggle({ enabled, compact = false, className = '', ...props }: SoundToggleProps) {
+export function SoundToggle({
+  enabled,
+  compact = false,
+  className = '',
+  labelOn = 'Sound On',
+  labelOff = 'Sound Off',
+  ...props
+}: SoundToggleProps) {
   return (
     <motion.button
       whileHover={{ scale: 1.03 }}
@@ -29,7 +38,7 @@ export function SoundToggle({ enabled, compact = false, className = '', ...props
       {...props}
     >
       {enabled ? <Volume2 className="h-4 w-4 text-secondary" /> : <VolumeX className="h-4 w-4 text-[var(--arcade-yellow)]" />}
-      <span>{enabled ? 'Sound On' : 'Sound Off'}</span>
+      <span>{enabled ? labelOn : labelOff}</span>
     </motion.button>
   );
 }
